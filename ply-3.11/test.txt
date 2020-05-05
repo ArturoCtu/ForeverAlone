@@ -1,0 +1,41 @@
+program alone;
+var int i; 
+var float a,c,d;
+var char b;
+
+function int fact(int i){
+var int i;
+var float k;
+i = 10;
+j = 11;
+
+return i;
+}
+
+function float factorial(){
+var int i;
+var float k;
+
+return k;
+}
+
+function void abc(int a){
+var int i;
+var float k;
+}
+
+main(int baboso, float alv){
+var int j, k, l;
+var float x[10], c, y[8];
+
+print(14,12,"Hola",1.12,'C');
+
+if(a < b) then{
+factorial(12);
+} else {
+print(1,2,3);
+}
+for(from i = 0, to 10){
+print(14,12,"Hola",1.12,'C');
+}
+}

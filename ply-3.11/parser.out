@@ -1,0 +1,3730 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COLON
+    QUOTE
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> PROGRAM ID SEMICOLON programa1
+Rule 2     programa1 -> decvars bloque programa2
+Rule 3     programa1 -> decvars bloque
+Rule 4     programa1 -> programa2
+Rule 5     programa2 -> principal
+Rule 6     principal -> MAIN LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET END
+Rule 7     decvars -> multivars
+Rule 8     decvars -> empty
+Rule 9     multivars -> vars
+Rule 10    multivars -> vars multivars
+Rule 11    vars -> VAR tipo ID SEMICOLON
+Rule 12    vars -> VAR tipo ID vars1
+Rule 13    vars -> VAR tipo ID arr SEMICOLON
+Rule 14    vars -> VAR tipo ID arr vars1
+Rule 15    vars1 -> COMMA ID vars1
+Rule 16    vars1 -> COMMA ID SEMICOLON
+Rule 17    vars1 -> COMMA ID arr vars1
+Rule 18    vars1 -> COMMA ID arr SEMICOLON
+Rule 19    tipo -> INT
+Rule 20    tipo -> FLOAT
+Rule 21    tipo -> CHAR
+Rule 22    tipo -> STRING
+Rule 23    arr -> LSQRBRACKET CTEI RSQRBRACKET
+Rule 24    parameters -> parameters2
+Rule 25    parameters -> empty
+Rule 26    parameters2 -> tipo ID
+Rule 27    parameters2 -> tipo ID parameters3
+Rule 28    parameters3 -> COMMA ID parameters3
+Rule 29    parameters3 -> COMMA tipo ID parameters3
+Rule 30    parameters3 -> COMMA ID
+Rule 31    parameters3 -> COMMA tipo ID
+Rule 32    bloque -> funcion
+Rule 33    bloque -> funcion bloque
+Rule 34    bloque -> empty
+Rule 35    funcion -> FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET
+Rule 36    funcion -> FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET
+Rule 37    retorno -> RETURN ID SEMICOLON
+Rule 38    estatuto -> estatuto2
+Rule 39    estatuto -> empty
+Rule 40    estatuto2 -> estatuto3
+Rule 41    estatuto2 -> estatuto3 estatuto2
+Rule 42    estatuto3 -> asignacion SEMICOLON
+Rule 43    estatuto3 -> llamada SEMICOLON
+Rule 44    estatuto3 -> lectura SEMICOLON
+Rule 45    estatuto3 -> escritura SEMICOLON
+Rule 46    estatuto3 -> for
+Rule 47    estatuto3 -> if
+Rule 48    estatuto3 -> while
+Rule 49    asignacion -> ID EQUALS expresion
+Rule 50    asignacion -> ID arr EQUALS expresion
+Rule 51    llamada -> ID LPARENTHESIS expresion RPARENTHESIS
+Rule 52    lectura -> READ LPARENTHESIS leevars RPARENTHESIS
+Rule 53    leevars -> ID
+Rule 54    leevars -> ID COMMA leevars
+Rule 55    leevars -> ID arr
+Rule 56    leevars -> ID arr COMMA leevars
+Rule 57    escritura -> PRINT LPARENTHESIS escritura1 RPARENTHESIS
+Rule 58    escritura1 -> escritura2
+Rule 59    escritura1 -> escritura2 COMMA escritura1
+Rule 60    escritura2 -> CTEI
+Rule 61    escritura2 -> CTEF
+Rule 62    escritura2 -> CTESTRING
+Rule 63    escritura2 -> CTEC
+Rule 64    escritura2 -> expresion
+Rule 65    for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+Rule 66    if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+Rule 67    if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+Rule 68    else -> ELSE LBRACKET estatuto RBRACKET
+Rule 69    else -> empty
+Rule 70    while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+Rule 71    expresion -> expresion1
+Rule 72    expresion -> expresion1 OR expresion1
+Rule 73    expresion1 -> expresion2
+Rule 74    expresion1 -> expresion2 AND expresion2
+Rule 75    expresion2 -> suma
+Rule 76    expresion2 -> suma expresioncomp suma
+Rule 77    expresioncomp -> suma GTHAN suma
+Rule 78    expresioncomp -> suma LTHAN suma
+Rule 79    expresioncomp -> suma GTHANEQ suma
+Rule 80    expresioncomp -> suma LTHANEQ suma
+Rule 81    expresioncomp -> suma DIFFERENT suma
+Rule 82    suma -> multiplicacion
+Rule 83    suma -> multiplicacion PLUS multiplicacion
+Rule 84    suma -> multiplicacion MINUS multiplicacion
+Rule 85    multiplicacion -> expresion3
+Rule 86    multiplicacion -> expresion3 MULTIPLICATION expresion3
+Rule 87    multiplicacion -> expresion3 DIVISION expresion3
+Rule 88    expresion3 -> CTEI
+Rule 89    expresion3 -> CTEF
+Rule 90    expresion3 -> CTEC
+Rule 91    expresion3 -> CTESTRING
+Rule 92    expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS
+Rule 93    expresion3 -> llamada
+Rule 94    expresion3 -> leevars
+Rule 95    empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 74
+CHAR                 : 21
+COLON                : 
+COMMA                : 15 16 17 18 28 29 30 31 54 56 59 65
+CTEC                 : 63 90
+CTEF                 : 61 89
+CTEI                 : 23 60 88
+CTESTRING            : 62 91
+DIFFERENT            : 81
+DIVISION             : 87
+ELSE                 : 68
+END                  : 6
+EQUALS               : 49 50
+FLOAT                : 20
+FOR                  : 65
+FROM                 : 65
+FUNCTION             : 35 36
+GTHAN                : 77
+GTHANEQ              : 79
+ID                   : 1 11 12 13 14 15 16 17 18 26 27 28 29 30 31 35 36 37 49 50 51 53 54 55 56
+IF                   : 66 67
+INT                  : 19
+LBRACKET             : 6 35 36 65 66 67 68 70
+LPARENTHESIS         : 6 35 36 51 52 57 65 66 67 70 92
+LSQRBRACKET          : 23
+LTHAN                : 78
+LTHANEQ              : 80
+MAIN                 : 6
+MINUS                : 84
+MULTIPLICATION       : 86
+OR                   : 72
+PLUS                 : 83
+PRINT                : 57
+PROGRAM              : 1
+QUOTE                : 
+RBRACKET             : 6 35 36 65 66 67 68 70
+READ                 : 52
+RETURN               : 37
+RPARENTHESIS         : 6 35 36 51 52 57 65 66 67 70 92
+RSQRBRACKET          : 23
+SEMICOLON            : 1 11 13 16 18 37 42 43 44 45
+STRING               : 22
+THEN                 : 66 67
+TO                   : 65
+VAR                  : 11 12 13 14
+VOID                 : 36
+WHILE                : 70
+error                : 
+
+Nonterminals, with rules where they appear
+
+arr                  : 13 14 17 18 50 55 56
+asignacion           : 42 65
+bloque               : 2 3 33
+decvars              : 2 3 6 35 36
+else                 : 67
+empty                : 8 25 34 39 69
+escritura            : 45
+escritura1           : 57 59
+escritura2           : 58 59
+estatuto             : 6 35 36 65 66 67 68 70
+estatuto2            : 38 41
+estatuto3            : 40 41
+expresion            : 49 50 51 64 65 66 67 70
+expresion1           : 71 72 72
+expresion2           : 73 74 74
+expresion3           : 85 86 86 87 87 92
+expresioncomp        : 76
+for                  : 46
+funcion              : 32 33
+if                   : 47
+lectura              : 44
+leevars              : 52 54 56 94
+llamada              : 43 93
+multiplicacion       : 82 83 83 84 84
+multivars            : 7 10
+parameters           : 6 35 36
+parameters2          : 24
+parameters3          : 27 28 29
+principal            : 5
+programa             : 0
+programa1            : 1
+programa2            : 2 4
+retorno              : 35
+suma                 : 75 76 76 77 77 78 78 79 79 80 80 81 81
+tipo                 : 11 12 13 14 26 27 29 31 35
+vars                 : 9 10
+vars1                : 12 14 15 17
+while                : 48
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . PROGRAM ID SEMICOLON programa1
+
+    PROGRAM         shift and go to state 2
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> PROGRAM . ID SEMICOLON programa1
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) programa -> PROGRAM ID . SEMICOLON programa1
+
+    SEMICOLON       shift and go to state 4
+
+
+state 4
+
+    (1) programa -> PROGRAM ID SEMICOLON . programa1
+    (2) programa1 -> . decvars bloque programa2
+    (3) programa1 -> . decvars bloque
+    (4) programa1 -> . programa2
+    (7) decvars -> . multivars
+    (8) decvars -> . empty
+    (5) programa2 -> . principal
+    (9) multivars -> . vars
+    (10) multivars -> . vars multivars
+    (95) empty -> .
+    (6) principal -> . MAIN LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET END
+    (11) vars -> . VAR tipo ID SEMICOLON
+    (12) vars -> . VAR tipo ID vars1
+    (13) vars -> . VAR tipo ID arr SEMICOLON
+    (14) vars -> . VAR tipo ID arr vars1
+
+  ! shift/reduce conflict for MAIN resolved as shift
+    FUNCTION        reduce using rule 95 (empty -> .)
+    $end            reduce using rule 95 (empty -> .)
+    MAIN            shift and go to state 12
+    VAR             shift and go to state 13
+
+  ! MAIN            [ reduce using rule 95 (empty -> .) ]
+
+    programa1                      shift and go to state 5
+    decvars                        shift and go to state 6
+    programa2                      shift and go to state 7
+    multivars                      shift and go to state 8
+    empty                          shift and go to state 9
+    principal                      shift and go to state 10
+    vars                           shift and go to state 11
+
+state 5
+
+    (1) programa -> PROGRAM ID SEMICOLON programa1 .
+
+    $end            reduce using rule 1 (programa -> PROGRAM ID SEMICOLON programa1 .)
+
+
+state 6
+
+    (2) programa1 -> decvars . bloque programa2
+    (3) programa1 -> decvars . bloque
+    (32) bloque -> . funcion
+    (33) bloque -> . funcion bloque
+    (34) bloque -> . empty
+    (35) funcion -> . FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET
+    (36) funcion -> . FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET
+    (95) empty -> .
+
+    FUNCTION        shift and go to state 17
+    MAIN            reduce using rule 95 (empty -> .)
+    $end            reduce using rule 95 (empty -> .)
+
+    bloque                         shift and go to state 14
+    funcion                        shift and go to state 15
+    empty                          shift and go to state 16
+
+state 7
+
+    (4) programa1 -> programa2 .
+
+    $end            reduce using rule 4 (programa1 -> programa2 .)
+
+
+state 8
+
+    (7) decvars -> multivars .
+
+    FUNCTION        reduce using rule 7 (decvars -> multivars .)
+    MAIN            reduce using rule 7 (decvars -> multivars .)
+    $end            reduce using rule 7 (decvars -> multivars .)
+    ID              reduce using rule 7 (decvars -> multivars .)
+    READ            reduce using rule 7 (decvars -> multivars .)
+    PRINT           reduce using rule 7 (decvars -> multivars .)
+    FOR             reduce using rule 7 (decvars -> multivars .)
+    IF              reduce using rule 7 (decvars -> multivars .)
+    WHILE           reduce using rule 7 (decvars -> multivars .)
+    RBRACKET        reduce using rule 7 (decvars -> multivars .)
+    RETURN          reduce using rule 7 (decvars -> multivars .)
+
+
+state 9
+
+    (8) decvars -> empty .
+
+    FUNCTION        reduce using rule 8 (decvars -> empty .)
+    MAIN            reduce using rule 8 (decvars -> empty .)
+    $end            reduce using rule 8 (decvars -> empty .)
+    ID              reduce using rule 8 (decvars -> empty .)
+    READ            reduce using rule 8 (decvars -> empty .)
+    PRINT           reduce using rule 8 (decvars -> empty .)
+    FOR             reduce using rule 8 (decvars -> empty .)
+    IF              reduce using rule 8 (decvars -> empty .)
+    WHILE           reduce using rule 8 (decvars -> empty .)
+    RBRACKET        reduce using rule 8 (decvars -> empty .)
+    RETURN          reduce using rule 8 (decvars -> empty .)
+
+
+state 10
+
+    (5) programa2 -> principal .
+
+    $end            reduce using rule 5 (programa2 -> principal .)
+
+
+state 11
+
+    (9) multivars -> vars .
+    (10) multivars -> vars . multivars
+    (9) multivars -> . vars
+    (10) multivars -> . vars multivars
+    (11) vars -> . VAR tipo ID SEMICOLON
+    (12) vars -> . VAR tipo ID vars1
+    (13) vars -> . VAR tipo ID arr SEMICOLON
+    (14) vars -> . VAR tipo ID arr vars1
+
+    FUNCTION        reduce using rule 9 (multivars -> vars .)
+    MAIN            reduce using rule 9 (multivars -> vars .)
+    $end            reduce using rule 9 (multivars -> vars .)
+    ID              reduce using rule 9 (multivars -> vars .)
+    READ            reduce using rule 9 (multivars -> vars .)
+    PRINT           reduce using rule 9 (multivars -> vars .)
+    FOR             reduce using rule 9 (multivars -> vars .)
+    IF              reduce using rule 9 (multivars -> vars .)
+    WHILE           reduce using rule 9 (multivars -> vars .)
+    RBRACKET        reduce using rule 9 (multivars -> vars .)
+    RETURN          reduce using rule 9 (multivars -> vars .)
+    VAR             shift and go to state 13
+
+    vars                           shift and go to state 11
+    multivars                      shift and go to state 18
+
+state 12
+
+    (6) principal -> MAIN . LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET END
+
+    LPARENTHESIS    shift and go to state 19
+
+
+state 13
+
+    (11) vars -> VAR . tipo ID SEMICOLON
+    (12) vars -> VAR . tipo ID vars1
+    (13) vars -> VAR . tipo ID arr SEMICOLON
+    (14) vars -> VAR . tipo ID arr vars1
+    (19) tipo -> . INT
+    (20) tipo -> . FLOAT
+    (21) tipo -> . CHAR
+    (22) tipo -> . STRING
+
+    INT             shift and go to state 21
+    FLOAT           shift and go to state 22
+    CHAR            shift and go to state 23
+    STRING          shift and go to state 24
+
+    tipo                           shift and go to state 20
+
+state 14
+
+    (2) programa1 -> decvars bloque . programa2
+    (3) programa1 -> decvars bloque .
+    (5) programa2 -> . principal
+    (6) principal -> . MAIN LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET END
+
+    $end            reduce using rule 3 (programa1 -> decvars bloque .)
+    MAIN            shift and go to state 12
+
+    programa2                      shift and go to state 25
+    principal                      shift and go to state 10
+
+state 15
+
+    (32) bloque -> funcion .
+    (33) bloque -> funcion . bloque
+    (32) bloque -> . funcion
+    (33) bloque -> . funcion bloque
+    (34) bloque -> . empty
+    (35) funcion -> . FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET
+    (36) funcion -> . FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET
+    (95) empty -> .
+
+  ! reduce/reduce conflict for MAIN resolved using rule 32 (bloque -> funcion .)
+  ! reduce/reduce conflict for $end resolved using rule 32 (bloque -> funcion .)
+    MAIN            reduce using rule 32 (bloque -> funcion .)
+    $end            reduce using rule 32 (bloque -> funcion .)
+    FUNCTION        shift and go to state 17
+
+  ! MAIN            [ reduce using rule 95 (empty -> .) ]
+  ! $end            [ reduce using rule 95 (empty -> .) ]
+
+    funcion                        shift and go to state 15
+    bloque                         shift and go to state 26
+    empty                          shift and go to state 16
+
+state 16
+
+    (34) bloque -> empty .
+
+    MAIN            reduce using rule 34 (bloque -> empty .)
+    $end            reduce using rule 34 (bloque -> empty .)
+
+
+state 17
+
+    (35) funcion -> FUNCTION . tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET
+    (36) funcion -> FUNCTION . VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET
+    (19) tipo -> . INT
+    (20) tipo -> . FLOAT
+    (21) tipo -> . CHAR
+    (22) tipo -> . STRING
+
+    VOID            shift and go to state 28
+    INT             shift and go to state 21
+    FLOAT           shift and go to state 22
+    CHAR            shift and go to state 23
+    STRING          shift and go to state 24
+
+    tipo                           shift and go to state 27
+
+state 18
+
+    (10) multivars -> vars multivars .
+
+    FUNCTION        reduce using rule 10 (multivars -> vars multivars .)
+    MAIN            reduce using rule 10 (multivars -> vars multivars .)
+    $end            reduce using rule 10 (multivars -> vars multivars .)
+    ID              reduce using rule 10 (multivars -> vars multivars .)
+    READ            reduce using rule 10 (multivars -> vars multivars .)
+    PRINT           reduce using rule 10 (multivars -> vars multivars .)
+    FOR             reduce using rule 10 (multivars -> vars multivars .)
+    IF              reduce using rule 10 (multivars -> vars multivars .)
+    WHILE           reduce using rule 10 (multivars -> vars multivars .)
+    RBRACKET        reduce using rule 10 (multivars -> vars multivars .)
+    RETURN          reduce using rule 10 (multivars -> vars multivars .)
+
+
+state 19
+
+    (6) principal -> MAIN LPARENTHESIS . parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET END
+    (24) parameters -> . parameters2
+    (25) parameters -> . empty
+    (26) parameters2 -> . tipo ID
+    (27) parameters2 -> . tipo ID parameters3
+    (95) empty -> .
+    (19) tipo -> . INT
+    (20) tipo -> . FLOAT
+    (21) tipo -> . CHAR
+    (22) tipo -> . STRING
+
+    RPARENTHESIS    reduce using rule 95 (empty -> .)
+    INT             shift and go to state 21
+    FLOAT           shift and go to state 22
+    CHAR            shift and go to state 23
+    STRING          shift and go to state 24
+
+    parameters                     shift and go to state 29
+    parameters2                    shift and go to state 30
+    empty                          shift and go to state 31
+    tipo                           shift and go to state 32
+
+state 20
+
+    (11) vars -> VAR tipo . ID SEMICOLON
+    (12) vars -> VAR tipo . ID vars1
+    (13) vars -> VAR tipo . ID arr SEMICOLON
+    (14) vars -> VAR tipo . ID arr vars1
+
+    ID              shift and go to state 33
+
+
+state 21
+
+    (19) tipo -> INT .
+
+    ID              reduce using rule 19 (tipo -> INT .)
+
+
+state 22
+
+    (20) tipo -> FLOAT .
+
+    ID              reduce using rule 20 (tipo -> FLOAT .)
+
+
+state 23
+
+    (21) tipo -> CHAR .
+
+    ID              reduce using rule 21 (tipo -> CHAR .)
+
+
+state 24
+
+    (22) tipo -> STRING .
+
+    ID              reduce using rule 22 (tipo -> STRING .)
+
+
+state 25
+
+    (2) programa1 -> decvars bloque programa2 .
+
+    $end            reduce using rule 2 (programa1 -> decvars bloque programa2 .)
+
+
+state 26
+
+    (33) bloque -> funcion bloque .
+
+    MAIN            reduce using rule 33 (bloque -> funcion bloque .)
+    $end            reduce using rule 33 (bloque -> funcion bloque .)
+
+
+state 27
+
+    (35) funcion -> FUNCTION tipo . ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET
+
+    ID              shift and go to state 34
+
+
+state 28
+
+    (36) funcion -> FUNCTION VOID . ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET
+
+    ID              shift and go to state 35
+
+
+state 29
+
+    (6) principal -> MAIN LPARENTHESIS parameters . RPARENTHESIS LBRACKET decvars estatuto RBRACKET END
+
+    RPARENTHESIS    shift and go to state 36
+
+
+state 30
+
+    (24) parameters -> parameters2 .
+
+    RPARENTHESIS    reduce using rule 24 (parameters -> parameters2 .)
+
+
+state 31
+
+    (25) parameters -> empty .
+
+    RPARENTHESIS    reduce using rule 25 (parameters -> empty .)
+
+
+state 32
+
+    (26) parameters2 -> tipo . ID
+    (27) parameters2 -> tipo . ID parameters3
+
+    ID              shift and go to state 37
+
+
+state 33
+
+    (11) vars -> VAR tipo ID . SEMICOLON
+    (12) vars -> VAR tipo ID . vars1
+    (13) vars -> VAR tipo ID . arr SEMICOLON
+    (14) vars -> VAR tipo ID . arr vars1
+    (15) vars1 -> . COMMA ID vars1
+    (16) vars1 -> . COMMA ID SEMICOLON
+    (17) vars1 -> . COMMA ID arr vars1
+    (18) vars1 -> . COMMA ID arr SEMICOLON
+    (23) arr -> . LSQRBRACKET CTEI RSQRBRACKET
+
+    SEMICOLON       shift and go to state 38
+    COMMA           shift and go to state 41
+    LSQRBRACKET     shift and go to state 42
+
+    vars1                          shift and go to state 39
+    arr                            shift and go to state 40
+
+state 34
+
+    (35) funcion -> FUNCTION tipo ID . LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET
+
+    LPARENTHESIS    shift and go to state 43
+
+
+state 35
+
+    (36) funcion -> FUNCTION VOID ID . LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET
+
+    LPARENTHESIS    shift and go to state 44
+
+
+state 36
+
+    (6) principal -> MAIN LPARENTHESIS parameters RPARENTHESIS . LBRACKET decvars estatuto RBRACKET END
+
+    LBRACKET        shift and go to state 45
+
+
+state 37
+
+    (26) parameters2 -> tipo ID .
+    (27) parameters2 -> tipo ID . parameters3
+    (28) parameters3 -> . COMMA ID parameters3
+    (29) parameters3 -> . COMMA tipo ID parameters3
+    (30) parameters3 -> . COMMA ID
+    (31) parameters3 -> . COMMA tipo ID
+
+    RPARENTHESIS    reduce using rule 26 (parameters2 -> tipo ID .)
+    COMMA           shift and go to state 47
+
+    parameters3                    shift and go to state 46
+
+state 38
+
+    (11) vars -> VAR tipo ID SEMICOLON .
+
+    VAR             reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    FUNCTION        reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    MAIN            reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    $end            reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    ID              reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    READ            reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    PRINT           reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    FOR             reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    IF              reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    WHILE           reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    RBRACKET        reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+    RETURN          reduce using rule 11 (vars -> VAR tipo ID SEMICOLON .)
+
+
+state 39
+
+    (12) vars -> VAR tipo ID vars1 .
+
+    VAR             reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    FUNCTION        reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    MAIN            reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    $end            reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    ID              reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    READ            reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    PRINT           reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    FOR             reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    IF              reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    WHILE           reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    RBRACKET        reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+    RETURN          reduce using rule 12 (vars -> VAR tipo ID vars1 .)
+
+
+state 40
+
+    (13) vars -> VAR tipo ID arr . SEMICOLON
+    (14) vars -> VAR tipo ID arr . vars1
+    (15) vars1 -> . COMMA ID vars1
+    (16) vars1 -> . COMMA ID SEMICOLON
+    (17) vars1 -> . COMMA ID arr vars1
+    (18) vars1 -> . COMMA ID arr SEMICOLON
+
+    SEMICOLON       shift and go to state 48
+    COMMA           shift and go to state 41
+
+    vars1                          shift and go to state 49
+
+state 41
+
+    (15) vars1 -> COMMA . ID vars1
+    (16) vars1 -> COMMA . ID SEMICOLON
+    (17) vars1 -> COMMA . ID arr vars1
+    (18) vars1 -> COMMA . ID arr SEMICOLON
+
+    ID              shift and go to state 50
+
+
+state 42
+
+    (23) arr -> LSQRBRACKET . CTEI RSQRBRACKET
+
+    CTEI            shift and go to state 51
+
+
+state 43
+
+    (35) funcion -> FUNCTION tipo ID LPARENTHESIS . parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET
+    (24) parameters -> . parameters2
+    (25) parameters -> . empty
+    (26) parameters2 -> . tipo ID
+    (27) parameters2 -> . tipo ID parameters3
+    (95) empty -> .
+    (19) tipo -> . INT
+    (20) tipo -> . FLOAT
+    (21) tipo -> . CHAR
+    (22) tipo -> . STRING
+
+    RPARENTHESIS    reduce using rule 95 (empty -> .)
+    INT             shift and go to state 21
+    FLOAT           shift and go to state 22
+    CHAR            shift and go to state 23
+    STRING          shift and go to state 24
+
+    tipo                           shift and go to state 32
+    parameters                     shift and go to state 52
+    parameters2                    shift and go to state 30
+    empty                          shift and go to state 31
+
+state 44
+
+    (36) funcion -> FUNCTION VOID ID LPARENTHESIS . parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET
+    (24) parameters -> . parameters2
+    (25) parameters -> . empty
+    (26) parameters2 -> . tipo ID
+    (27) parameters2 -> . tipo ID parameters3
+    (95) empty -> .
+    (19) tipo -> . INT
+    (20) tipo -> . FLOAT
+    (21) tipo -> . CHAR
+    (22) tipo -> . STRING
+
+    RPARENTHESIS    reduce using rule 95 (empty -> .)
+    INT             shift and go to state 21
+    FLOAT           shift and go to state 22
+    CHAR            shift and go to state 23
+    STRING          shift and go to state 24
+
+    parameters                     shift and go to state 53
+    parameters2                    shift and go to state 30
+    empty                          shift and go to state 31
+    tipo                           shift and go to state 32
+
+state 45
+
+    (6) principal -> MAIN LPARENTHESIS parameters RPARENTHESIS LBRACKET . decvars estatuto RBRACKET END
+    (7) decvars -> . multivars
+    (8) decvars -> . empty
+    (9) multivars -> . vars
+    (10) multivars -> . vars multivars
+    (95) empty -> .
+    (11) vars -> . VAR tipo ID SEMICOLON
+    (12) vars -> . VAR tipo ID vars1
+    (13) vars -> . VAR tipo ID arr SEMICOLON
+    (14) vars -> . VAR tipo ID arr vars1
+
+    ID              reduce using rule 95 (empty -> .)
+    READ            reduce using rule 95 (empty -> .)
+    PRINT           reduce using rule 95 (empty -> .)
+    FOR             reduce using rule 95 (empty -> .)
+    IF              reduce using rule 95 (empty -> .)
+    WHILE           reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    VAR             shift and go to state 13
+
+    decvars                        shift and go to state 54
+    multivars                      shift and go to state 8
+    empty                          shift and go to state 9
+    vars                           shift and go to state 11
+
+state 46
+
+    (27) parameters2 -> tipo ID parameters3 .
+
+    RPARENTHESIS    reduce using rule 27 (parameters2 -> tipo ID parameters3 .)
+
+
+state 47
+
+    (28) parameters3 -> COMMA . ID parameters3
+    (29) parameters3 -> COMMA . tipo ID parameters3
+    (30) parameters3 -> COMMA . ID
+    (31) parameters3 -> COMMA . tipo ID
+    (19) tipo -> . INT
+    (20) tipo -> . FLOAT
+    (21) tipo -> . CHAR
+    (22) tipo -> . STRING
+
+    ID              shift and go to state 55
+    INT             shift and go to state 21
+    FLOAT           shift and go to state 22
+    CHAR            shift and go to state 23
+    STRING          shift and go to state 24
+
+    tipo                           shift and go to state 56
+
+state 48
+
+    (13) vars -> VAR tipo ID arr SEMICOLON .
+
+    VAR             reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    FUNCTION        reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    MAIN            reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    $end            reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    ID              reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    READ            reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    PRINT           reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    FOR             reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    IF              reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    WHILE           reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    RBRACKET        reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+    RETURN          reduce using rule 13 (vars -> VAR tipo ID arr SEMICOLON .)
+
+
+state 49
+
+    (14) vars -> VAR tipo ID arr vars1 .
+
+    VAR             reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    FUNCTION        reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    MAIN            reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    $end            reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    ID              reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    READ            reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    PRINT           reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    FOR             reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    IF              reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    WHILE           reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    RBRACKET        reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+    RETURN          reduce using rule 14 (vars -> VAR tipo ID arr vars1 .)
+
+
+state 50
+
+    (15) vars1 -> COMMA ID . vars1
+    (16) vars1 -> COMMA ID . SEMICOLON
+    (17) vars1 -> COMMA ID . arr vars1
+    (18) vars1 -> COMMA ID . arr SEMICOLON
+    (15) vars1 -> . COMMA ID vars1
+    (16) vars1 -> . COMMA ID SEMICOLON
+    (17) vars1 -> . COMMA ID arr vars1
+    (18) vars1 -> . COMMA ID arr SEMICOLON
+    (23) arr -> . LSQRBRACKET CTEI RSQRBRACKET
+
+    SEMICOLON       shift and go to state 58
+    COMMA           shift and go to state 41
+    LSQRBRACKET     shift and go to state 42
+
+    vars1                          shift and go to state 57
+    arr                            shift and go to state 59
+
+state 51
+
+    (23) arr -> LSQRBRACKET CTEI . RSQRBRACKET
+
+    RSQRBRACKET     shift and go to state 60
+
+
+state 52
+
+    (35) funcion -> FUNCTION tipo ID LPARENTHESIS parameters . RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET
+
+    RPARENTHESIS    shift and go to state 61
+
+
+state 53
+
+    (36) funcion -> FUNCTION VOID ID LPARENTHESIS parameters . RPARENTHESIS LBRACKET decvars estatuto RBRACKET
+
+    RPARENTHESIS    shift and go to state 62
+
+
+state 54
+
+    (6) principal -> MAIN LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars . estatuto RBRACKET END
+    (38) estatuto -> . estatuto2
+    (39) estatuto -> . empty
+    (40) estatuto2 -> . estatuto3
+    (41) estatuto2 -> . estatuto3 estatuto2
+    (95) empty -> .
+    (42) estatuto3 -> . asignacion SEMICOLON
+    (43) estatuto3 -> . llamada SEMICOLON
+    (44) estatuto3 -> . lectura SEMICOLON
+    (45) estatuto3 -> . escritura SEMICOLON
+    (46) estatuto3 -> . for
+    (47) estatuto3 -> . if
+    (48) estatuto3 -> . while
+    (49) asignacion -> . ID EQUALS expresion
+    (50) asignacion -> . ID arr EQUALS expresion
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (52) lectura -> . READ LPARENTHESIS leevars RPARENTHESIS
+    (57) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (65) for -> . FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (66) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+    (70) while -> . WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    RBRACKET        reduce using rule 95 (empty -> .)
+    ID              shift and go to state 74
+    READ            shift and go to state 75
+    PRINT           shift and go to state 76
+    FOR             shift and go to state 77
+    IF              shift and go to state 78
+    WHILE           shift and go to state 79
+
+    estatuto                       shift and go to state 63
+    estatuto2                      shift and go to state 64
+    empty                          shift and go to state 65
+    estatuto3                      shift and go to state 66
+    asignacion                     shift and go to state 67
+    llamada                        shift and go to state 68
+    lectura                        shift and go to state 69
+    escritura                      shift and go to state 70
+    for                            shift and go to state 71
+    if                             shift and go to state 72
+    while                          shift and go to state 73
+
+state 55
+
+    (28) parameters3 -> COMMA ID . parameters3
+    (30) parameters3 -> COMMA ID .
+    (28) parameters3 -> . COMMA ID parameters3
+    (29) parameters3 -> . COMMA tipo ID parameters3
+    (30) parameters3 -> . COMMA ID
+    (31) parameters3 -> . COMMA tipo ID
+
+    RPARENTHESIS    reduce using rule 30 (parameters3 -> COMMA ID .)
+    COMMA           shift and go to state 47
+
+    parameters3                    shift and go to state 80
+
+state 56
+
+    (29) parameters3 -> COMMA tipo . ID parameters3
+    (31) parameters3 -> COMMA tipo . ID
+
+    ID              shift and go to state 81
+
+
+state 57
+
+    (15) vars1 -> COMMA ID vars1 .
+
+    VAR             reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    FUNCTION        reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    MAIN            reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    $end            reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    ID              reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    READ            reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    PRINT           reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    FOR             reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    IF              reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    WHILE           reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    RBRACKET        reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+    RETURN          reduce using rule 15 (vars1 -> COMMA ID vars1 .)
+
+
+state 58
+
+    (16) vars1 -> COMMA ID SEMICOLON .
+
+    VAR             reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    FUNCTION        reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    MAIN            reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    $end            reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    ID              reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    READ            reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    PRINT           reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    FOR             reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    IF              reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    WHILE           reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    RBRACKET        reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+    RETURN          reduce using rule 16 (vars1 -> COMMA ID SEMICOLON .)
+
+
+state 59
+
+    (17) vars1 -> COMMA ID arr . vars1
+    (18) vars1 -> COMMA ID arr . SEMICOLON
+    (15) vars1 -> . COMMA ID vars1
+    (16) vars1 -> . COMMA ID SEMICOLON
+    (17) vars1 -> . COMMA ID arr vars1
+    (18) vars1 -> . COMMA ID arr SEMICOLON
+
+    SEMICOLON       shift and go to state 83
+    COMMA           shift and go to state 41
+
+    vars1                          shift and go to state 82
+
+state 60
+
+    (23) arr -> LSQRBRACKET CTEI RSQRBRACKET .
+
+    SEMICOLON       reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    COMMA           reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    EQUALS          reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    MULTIPLICATION  reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    DIVISION        reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    PLUS            reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    MINUS           reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    CTEI            reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    CTEF            reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    CTEC            reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    CTESTRING       reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    LPARENTHESIS    reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    ID              reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    AND             reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    OR              reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    RPARENTHESIS    reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    GTHAN           reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    LTHAN           reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    GTHANEQ         reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    LTHANEQ         reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    DIFFERENT       reduce using rule 23 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+
+
+state 61
+
+    (35) funcion -> FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS . LBRACKET decvars estatuto retorno RBRACKET
+
+    LBRACKET        shift and go to state 84
+
+
+state 62
+
+    (36) funcion -> FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS . LBRACKET decvars estatuto RBRACKET
+
+    LBRACKET        shift and go to state 85
+
+
+state 63
+
+    (6) principal -> MAIN LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto . RBRACKET END
+
+    RBRACKET        shift and go to state 86
+
+
+state 64
+
+    (38) estatuto -> estatuto2 .
+
+    RBRACKET        reduce using rule 38 (estatuto -> estatuto2 .)
+    RETURN          reduce using rule 38 (estatuto -> estatuto2 .)
+
+
+state 65
+
+    (39) estatuto -> empty .
+
+    RBRACKET        reduce using rule 39 (estatuto -> empty .)
+    RETURN          reduce using rule 39 (estatuto -> empty .)
+
+
+state 66
+
+    (40) estatuto2 -> estatuto3 .
+    (41) estatuto2 -> estatuto3 . estatuto2
+    (40) estatuto2 -> . estatuto3
+    (41) estatuto2 -> . estatuto3 estatuto2
+    (42) estatuto3 -> . asignacion SEMICOLON
+    (43) estatuto3 -> . llamada SEMICOLON
+    (44) estatuto3 -> . lectura SEMICOLON
+    (45) estatuto3 -> . escritura SEMICOLON
+    (46) estatuto3 -> . for
+    (47) estatuto3 -> . if
+    (48) estatuto3 -> . while
+    (49) asignacion -> . ID EQUALS expresion
+    (50) asignacion -> . ID arr EQUALS expresion
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (52) lectura -> . READ LPARENTHESIS leevars RPARENTHESIS
+    (57) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (65) for -> . FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (66) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+    (70) while -> . WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    RBRACKET        reduce using rule 40 (estatuto2 -> estatuto3 .)
+    RETURN          reduce using rule 40 (estatuto2 -> estatuto3 .)
+    ID              shift and go to state 74
+    READ            shift and go to state 75
+    PRINT           shift and go to state 76
+    FOR             shift and go to state 77
+    IF              shift and go to state 78
+    WHILE           shift and go to state 79
+
+    estatuto3                      shift and go to state 66
+    estatuto2                      shift and go to state 87
+    asignacion                     shift and go to state 67
+    llamada                        shift and go to state 68
+    lectura                        shift and go to state 69
+    escritura                      shift and go to state 70
+    for                            shift and go to state 71
+    if                             shift and go to state 72
+    while                          shift and go to state 73
+
+state 67
+
+    (42) estatuto3 -> asignacion . SEMICOLON
+
+    SEMICOLON       shift and go to state 88
+
+
+state 68
+
+    (43) estatuto3 -> llamada . SEMICOLON
+
+    SEMICOLON       shift and go to state 89
+
+
+state 69
+
+    (44) estatuto3 -> lectura . SEMICOLON
+
+    SEMICOLON       shift and go to state 90
+
+
+state 70
+
+    (45) estatuto3 -> escritura . SEMICOLON
+
+    SEMICOLON       shift and go to state 91
+
+
+state 71
+
+    (46) estatuto3 -> for .
+
+    ID              reduce using rule 46 (estatuto3 -> for .)
+    READ            reduce using rule 46 (estatuto3 -> for .)
+    PRINT           reduce using rule 46 (estatuto3 -> for .)
+    FOR             reduce using rule 46 (estatuto3 -> for .)
+    IF              reduce using rule 46 (estatuto3 -> for .)
+    WHILE           reduce using rule 46 (estatuto3 -> for .)
+    RBRACKET        reduce using rule 46 (estatuto3 -> for .)
+    RETURN          reduce using rule 46 (estatuto3 -> for .)
+
+
+state 72
+
+    (47) estatuto3 -> if .
+
+    ID              reduce using rule 47 (estatuto3 -> if .)
+    READ            reduce using rule 47 (estatuto3 -> if .)
+    PRINT           reduce using rule 47 (estatuto3 -> if .)
+    FOR             reduce using rule 47 (estatuto3 -> if .)
+    IF              reduce using rule 47 (estatuto3 -> if .)
+    WHILE           reduce using rule 47 (estatuto3 -> if .)
+    RBRACKET        reduce using rule 47 (estatuto3 -> if .)
+    RETURN          reduce using rule 47 (estatuto3 -> if .)
+
+
+state 73
+
+    (48) estatuto3 -> while .
+
+    ID              reduce using rule 48 (estatuto3 -> while .)
+    READ            reduce using rule 48 (estatuto3 -> while .)
+    PRINT           reduce using rule 48 (estatuto3 -> while .)
+    FOR             reduce using rule 48 (estatuto3 -> while .)
+    IF              reduce using rule 48 (estatuto3 -> while .)
+    WHILE           reduce using rule 48 (estatuto3 -> while .)
+    RBRACKET        reduce using rule 48 (estatuto3 -> while .)
+    RETURN          reduce using rule 48 (estatuto3 -> while .)
+
+
+state 74
+
+    (49) asignacion -> ID . EQUALS expresion
+    (50) asignacion -> ID . arr EQUALS expresion
+    (51) llamada -> ID . LPARENTHESIS expresion RPARENTHESIS
+    (23) arr -> . LSQRBRACKET CTEI RSQRBRACKET
+
+    EQUALS          shift and go to state 92
+    LPARENTHESIS    shift and go to state 94
+    LSQRBRACKET     shift and go to state 42
+
+    arr                            shift and go to state 93
+
+state 75
+
+    (52) lectura -> READ . LPARENTHESIS leevars RPARENTHESIS
+
+    LPARENTHESIS    shift and go to state 95
+
+
+state 76
+
+    (57) escritura -> PRINT . LPARENTHESIS escritura1 RPARENTHESIS
+
+    LPARENTHESIS    shift and go to state 96
+
+
+state 77
+
+    (65) for -> FOR . LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    LPARENTHESIS    shift and go to state 97
+
+
+state 78
+
+    (66) if -> IF . LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> IF . LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+
+    LPARENTHESIS    shift and go to state 98
+
+
+state 79
+
+    (70) while -> WHILE . LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    LPARENTHESIS    shift and go to state 99
+
+
+state 80
+
+    (28) parameters3 -> COMMA ID parameters3 .
+
+    RPARENTHESIS    reduce using rule 28 (parameters3 -> COMMA ID parameters3 .)
+
+
+state 81
+
+    (29) parameters3 -> COMMA tipo ID . parameters3
+    (31) parameters3 -> COMMA tipo ID .
+    (28) parameters3 -> . COMMA ID parameters3
+    (29) parameters3 -> . COMMA tipo ID parameters3
+    (30) parameters3 -> . COMMA ID
+    (31) parameters3 -> . COMMA tipo ID
+
+    RPARENTHESIS    reduce using rule 31 (parameters3 -> COMMA tipo ID .)
+    COMMA           shift and go to state 47
+
+    parameters3                    shift and go to state 100
+
+state 82
+
+    (17) vars1 -> COMMA ID arr vars1 .
+
+    VAR             reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    FUNCTION        reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    MAIN            reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    $end            reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    ID              reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    READ            reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    PRINT           reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    FOR             reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    IF              reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    WHILE           reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    RBRACKET        reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+    RETURN          reduce using rule 17 (vars1 -> COMMA ID arr vars1 .)
+
+
+state 83
+
+    (18) vars1 -> COMMA ID arr SEMICOLON .
+
+    VAR             reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    FUNCTION        reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    MAIN            reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    $end            reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    ID              reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    READ            reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    PRINT           reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    FOR             reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    IF              reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    WHILE           reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    RBRACKET        reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+    RETURN          reduce using rule 18 (vars1 -> COMMA ID arr SEMICOLON .)
+
+
+state 84
+
+    (35) funcion -> FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET . decvars estatuto retorno RBRACKET
+    (7) decvars -> . multivars
+    (8) decvars -> . empty
+    (9) multivars -> . vars
+    (10) multivars -> . vars multivars
+    (95) empty -> .
+    (11) vars -> . VAR tipo ID SEMICOLON
+    (12) vars -> . VAR tipo ID vars1
+    (13) vars -> . VAR tipo ID arr SEMICOLON
+    (14) vars -> . VAR tipo ID arr vars1
+
+    ID              reduce using rule 95 (empty -> .)
+    READ            reduce using rule 95 (empty -> .)
+    PRINT           reduce using rule 95 (empty -> .)
+    FOR             reduce using rule 95 (empty -> .)
+    IF              reduce using rule 95 (empty -> .)
+    WHILE           reduce using rule 95 (empty -> .)
+    RETURN          reduce using rule 95 (empty -> .)
+    VAR             shift and go to state 13
+
+    decvars                        shift and go to state 101
+    multivars                      shift and go to state 8
+    empty                          shift and go to state 9
+    vars                           shift and go to state 11
+
+state 85
+
+    (36) funcion -> FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET . decvars estatuto RBRACKET
+    (7) decvars -> . multivars
+    (8) decvars -> . empty
+    (9) multivars -> . vars
+    (10) multivars -> . vars multivars
+    (95) empty -> .
+    (11) vars -> . VAR tipo ID SEMICOLON
+    (12) vars -> . VAR tipo ID vars1
+    (13) vars -> . VAR tipo ID arr SEMICOLON
+    (14) vars -> . VAR tipo ID arr vars1
+
+    ID              reduce using rule 95 (empty -> .)
+    READ            reduce using rule 95 (empty -> .)
+    PRINT           reduce using rule 95 (empty -> .)
+    FOR             reduce using rule 95 (empty -> .)
+    IF              reduce using rule 95 (empty -> .)
+    WHILE           reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    VAR             shift and go to state 13
+
+    decvars                        shift and go to state 102
+    multivars                      shift and go to state 8
+    empty                          shift and go to state 9
+    vars                           shift and go to state 11
+
+state 86
+
+    (6) principal -> MAIN LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET . END
+
+    END             shift and go to state 103
+
+
+state 87
+
+    (41) estatuto2 -> estatuto3 estatuto2 .
+
+    RBRACKET        reduce using rule 41 (estatuto2 -> estatuto3 estatuto2 .)
+    RETURN          reduce using rule 41 (estatuto2 -> estatuto3 estatuto2 .)
+
+
+state 88
+
+    (42) estatuto3 -> asignacion SEMICOLON .
+
+    ID              reduce using rule 42 (estatuto3 -> asignacion SEMICOLON .)
+    READ            reduce using rule 42 (estatuto3 -> asignacion SEMICOLON .)
+    PRINT           reduce using rule 42 (estatuto3 -> asignacion SEMICOLON .)
+    FOR             reduce using rule 42 (estatuto3 -> asignacion SEMICOLON .)
+    IF              reduce using rule 42 (estatuto3 -> asignacion SEMICOLON .)
+    WHILE           reduce using rule 42 (estatuto3 -> asignacion SEMICOLON .)
+    RBRACKET        reduce using rule 42 (estatuto3 -> asignacion SEMICOLON .)
+    RETURN          reduce using rule 42 (estatuto3 -> asignacion SEMICOLON .)
+
+
+state 89
+
+    (43) estatuto3 -> llamada SEMICOLON .
+
+    ID              reduce using rule 43 (estatuto3 -> llamada SEMICOLON .)
+    READ            reduce using rule 43 (estatuto3 -> llamada SEMICOLON .)
+    PRINT           reduce using rule 43 (estatuto3 -> llamada SEMICOLON .)
+    FOR             reduce using rule 43 (estatuto3 -> llamada SEMICOLON .)
+    IF              reduce using rule 43 (estatuto3 -> llamada SEMICOLON .)
+    WHILE           reduce using rule 43 (estatuto3 -> llamada SEMICOLON .)
+    RBRACKET        reduce using rule 43 (estatuto3 -> llamada SEMICOLON .)
+    RETURN          reduce using rule 43 (estatuto3 -> llamada SEMICOLON .)
+
+
+state 90
+
+    (44) estatuto3 -> lectura SEMICOLON .
+
+    ID              reduce using rule 44 (estatuto3 -> lectura SEMICOLON .)
+    READ            reduce using rule 44 (estatuto3 -> lectura SEMICOLON .)
+    PRINT           reduce using rule 44 (estatuto3 -> lectura SEMICOLON .)
+    FOR             reduce using rule 44 (estatuto3 -> lectura SEMICOLON .)
+    IF              reduce using rule 44 (estatuto3 -> lectura SEMICOLON .)
+    WHILE           reduce using rule 44 (estatuto3 -> lectura SEMICOLON .)
+    RBRACKET        reduce using rule 44 (estatuto3 -> lectura SEMICOLON .)
+    RETURN          reduce using rule 44 (estatuto3 -> lectura SEMICOLON .)
+
+
+state 91
+
+    (45) estatuto3 -> escritura SEMICOLON .
+
+    ID              reduce using rule 45 (estatuto3 -> escritura SEMICOLON .)
+    READ            reduce using rule 45 (estatuto3 -> escritura SEMICOLON .)
+    PRINT           reduce using rule 45 (estatuto3 -> escritura SEMICOLON .)
+    FOR             reduce using rule 45 (estatuto3 -> escritura SEMICOLON .)
+    IF              reduce using rule 45 (estatuto3 -> escritura SEMICOLON .)
+    WHILE           reduce using rule 45 (estatuto3 -> escritura SEMICOLON .)
+    RBRACKET        reduce using rule 45 (estatuto3 -> escritura SEMICOLON .)
+    RETURN          reduce using rule 45 (estatuto3 -> escritura SEMICOLON .)
+
+
+state 92
+
+    (49) asignacion -> ID EQUALS . expresion
+    (71) expresion -> . expresion1
+    (72) expresion -> . expresion1 OR expresion1
+    (73) expresion1 -> . expresion2
+    (74) expresion1 -> . expresion2 AND expresion2
+    (75) expresion2 -> . suma
+    (76) expresion2 -> . suma expresioncomp suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion                      shift and go to state 105
+    expresion1                     shift and go to state 106
+    expresion2                     shift and go to state 107
+    suma                           shift and go to state 108
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 93
+
+    (50) asignacion -> ID arr . EQUALS expresion
+
+    EQUALS          shift and go to state 118
+
+
+state 94
+
+    (51) llamada -> ID LPARENTHESIS . expresion RPARENTHESIS
+    (71) expresion -> . expresion1
+    (72) expresion -> . expresion1 OR expresion1
+    (73) expresion1 -> . expresion2
+    (74) expresion1 -> . expresion2 AND expresion2
+    (75) expresion2 -> . suma
+    (76) expresion2 -> . suma expresioncomp suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion                      shift and go to state 119
+    expresion1                     shift and go to state 106
+    expresion2                     shift and go to state 107
+    suma                           shift and go to state 108
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 95
+
+    (52) lectura -> READ LPARENTHESIS . leevars RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    ID              shift and go to state 121
+
+    leevars                        shift and go to state 120
+
+state 96
+
+    (57) escritura -> PRINT LPARENTHESIS . escritura1 RPARENTHESIS
+    (58) escritura1 -> . escritura2
+    (59) escritura1 -> . escritura2 COMMA escritura1
+    (60) escritura2 -> . CTEI
+    (61) escritura2 -> . CTEF
+    (62) escritura2 -> . CTESTRING
+    (63) escritura2 -> . CTEC
+    (64) escritura2 -> . expresion
+    (71) expresion -> . expresion1
+    (72) expresion -> . expresion1 OR expresion1
+    (73) expresion1 -> . expresion2
+    (74) expresion1 -> . expresion2 AND expresion2
+    (75) expresion2 -> . suma
+    (76) expresion2 -> . suma expresioncomp suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 124
+    CTEF            shift and go to state 125
+    CTESTRING       shift and go to state 126
+    CTEC            shift and go to state 127
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    escritura1                     shift and go to state 122
+    escritura2                     shift and go to state 123
+    expresion                      shift and go to state 128
+    expresion1                     shift and go to state 106
+    expresion2                     shift and go to state 107
+    suma                           shift and go to state 108
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 97
+
+    (65) for -> FOR LPARENTHESIS . FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    FROM            shift and go to state 129
+
+
+state 98
+
+    (66) if -> IF LPARENTHESIS . expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> IF LPARENTHESIS . expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+    (71) expresion -> . expresion1
+    (72) expresion -> . expresion1 OR expresion1
+    (73) expresion1 -> . expresion2
+    (74) expresion1 -> . expresion2 AND expresion2
+    (75) expresion2 -> . suma
+    (76) expresion2 -> . suma expresioncomp suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion                      shift and go to state 130
+    expresion1                     shift and go to state 106
+    expresion2                     shift and go to state 107
+    suma                           shift and go to state 108
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 99
+
+    (70) while -> WHILE LPARENTHESIS . expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (71) expresion -> . expresion1
+    (72) expresion -> . expresion1 OR expresion1
+    (73) expresion1 -> . expresion2
+    (74) expresion1 -> . expresion2 AND expresion2
+    (75) expresion2 -> . suma
+    (76) expresion2 -> . suma expresioncomp suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion                      shift and go to state 131
+    expresion1                     shift and go to state 106
+    expresion2                     shift and go to state 107
+    suma                           shift and go to state 108
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 100
+
+    (29) parameters3 -> COMMA tipo ID parameters3 .
+
+    RPARENTHESIS    reduce using rule 29 (parameters3 -> COMMA tipo ID parameters3 .)
+
+
+state 101
+
+    (35) funcion -> FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars . estatuto retorno RBRACKET
+    (38) estatuto -> . estatuto2
+    (39) estatuto -> . empty
+    (40) estatuto2 -> . estatuto3
+    (41) estatuto2 -> . estatuto3 estatuto2
+    (95) empty -> .
+    (42) estatuto3 -> . asignacion SEMICOLON
+    (43) estatuto3 -> . llamada SEMICOLON
+    (44) estatuto3 -> . lectura SEMICOLON
+    (45) estatuto3 -> . escritura SEMICOLON
+    (46) estatuto3 -> . for
+    (47) estatuto3 -> . if
+    (48) estatuto3 -> . while
+    (49) asignacion -> . ID EQUALS expresion
+    (50) asignacion -> . ID arr EQUALS expresion
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (52) lectura -> . READ LPARENTHESIS leevars RPARENTHESIS
+    (57) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (65) for -> . FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (66) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+    (70) while -> . WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    RETURN          reduce using rule 95 (empty -> .)
+    ID              shift and go to state 74
+    READ            shift and go to state 75
+    PRINT           shift and go to state 76
+    FOR             shift and go to state 77
+    IF              shift and go to state 78
+    WHILE           shift and go to state 79
+
+    estatuto                       shift and go to state 132
+    estatuto2                      shift and go to state 64
+    empty                          shift and go to state 65
+    estatuto3                      shift and go to state 66
+    asignacion                     shift and go to state 67
+    llamada                        shift and go to state 68
+    lectura                        shift and go to state 69
+    escritura                      shift and go to state 70
+    for                            shift and go to state 71
+    if                             shift and go to state 72
+    while                          shift and go to state 73
+
+state 102
+
+    (36) funcion -> FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars . estatuto RBRACKET
+    (38) estatuto -> . estatuto2
+    (39) estatuto -> . empty
+    (40) estatuto2 -> . estatuto3
+    (41) estatuto2 -> . estatuto3 estatuto2
+    (95) empty -> .
+    (42) estatuto3 -> . asignacion SEMICOLON
+    (43) estatuto3 -> . llamada SEMICOLON
+    (44) estatuto3 -> . lectura SEMICOLON
+    (45) estatuto3 -> . escritura SEMICOLON
+    (46) estatuto3 -> . for
+    (47) estatuto3 -> . if
+    (48) estatuto3 -> . while
+    (49) asignacion -> . ID EQUALS expresion
+    (50) asignacion -> . ID arr EQUALS expresion
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (52) lectura -> . READ LPARENTHESIS leevars RPARENTHESIS
+    (57) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (65) for -> . FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (66) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+    (70) while -> . WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    RBRACKET        reduce using rule 95 (empty -> .)
+    ID              shift and go to state 74
+    READ            shift and go to state 75
+    PRINT           shift and go to state 76
+    FOR             shift and go to state 77
+    IF              shift and go to state 78
+    WHILE           shift and go to state 79
+
+    estatuto                       shift and go to state 133
+    estatuto2                      shift and go to state 64
+    empty                          shift and go to state 65
+    estatuto3                      shift and go to state 66
+    asignacion                     shift and go to state 67
+    llamada                        shift and go to state 68
+    lectura                        shift and go to state 69
+    escritura                      shift and go to state 70
+    for                            shift and go to state 71
+    if                             shift and go to state 72
+    while                          shift and go to state 73
+
+state 103
+
+    (6) principal -> MAIN LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET END .
+
+    $end            reduce using rule 6 (principal -> MAIN LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET END .)
+
+
+state 104
+
+    (51) llamada -> ID . LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> ID .
+    (54) leevars -> ID . COMMA leevars
+    (55) leevars -> ID . arr
+    (56) leevars -> ID . arr COMMA leevars
+    (23) arr -> . LSQRBRACKET CTEI RSQRBRACKET
+
+  ! shift/reduce conflict for LPARENTHESIS resolved as shift
+  ! shift/reduce conflict for COMMA resolved as shift
+    LPARENTHESIS    shift and go to state 94
+    MULTIPLICATION  reduce using rule 53 (leevars -> ID .)
+    DIVISION        reduce using rule 53 (leevars -> ID .)
+    PLUS            reduce using rule 53 (leevars -> ID .)
+    MINUS           reduce using rule 53 (leevars -> ID .)
+    CTEI            reduce using rule 53 (leevars -> ID .)
+    CTEF            reduce using rule 53 (leevars -> ID .)
+    CTEC            reduce using rule 53 (leevars -> ID .)
+    CTESTRING       reduce using rule 53 (leevars -> ID .)
+    ID              reduce using rule 53 (leevars -> ID .)
+    AND             reduce using rule 53 (leevars -> ID .)
+    OR              reduce using rule 53 (leevars -> ID .)
+    SEMICOLON       reduce using rule 53 (leevars -> ID .)
+    RPARENTHESIS    reduce using rule 53 (leevars -> ID .)
+    GTHAN           reduce using rule 53 (leevars -> ID .)
+    LTHAN           reduce using rule 53 (leevars -> ID .)
+    GTHANEQ         reduce using rule 53 (leevars -> ID .)
+    LTHANEQ         reduce using rule 53 (leevars -> ID .)
+    DIFFERENT       reduce using rule 53 (leevars -> ID .)
+    COMMA           shift and go to state 134
+    LSQRBRACKET     shift and go to state 42
+
+  ! LPARENTHESIS    [ reduce using rule 53 (leevars -> ID .) ]
+  ! COMMA           [ reduce using rule 53 (leevars -> ID .) ]
+
+    arr                            shift and go to state 135
+
+state 105
+
+    (49) asignacion -> ID EQUALS expresion .
+
+    SEMICOLON       reduce using rule 49 (asignacion -> ID EQUALS expresion .)
+    COMMA           reduce using rule 49 (asignacion -> ID EQUALS expresion .)
+
+
+state 106
+
+    (71) expresion -> expresion1 .
+    (72) expresion -> expresion1 . OR expresion1
+
+    SEMICOLON       reduce using rule 71 (expresion -> expresion1 .)
+    COMMA           reduce using rule 71 (expresion -> expresion1 .)
+    RPARENTHESIS    reduce using rule 71 (expresion -> expresion1 .)
+    OR              shift and go to state 136
+
+
+state 107
+
+    (73) expresion1 -> expresion2 .
+    (74) expresion1 -> expresion2 . AND expresion2
+
+    OR              reduce using rule 73 (expresion1 -> expresion2 .)
+    SEMICOLON       reduce using rule 73 (expresion1 -> expresion2 .)
+    COMMA           reduce using rule 73 (expresion1 -> expresion2 .)
+    RPARENTHESIS    reduce using rule 73 (expresion1 -> expresion2 .)
+    AND             shift and go to state 137
+
+
+state 108
+
+    (75) expresion2 -> suma .
+    (76) expresion2 -> suma . expresioncomp suma
+    (77) expresioncomp -> . suma GTHAN suma
+    (78) expresioncomp -> . suma LTHAN suma
+    (79) expresioncomp -> . suma GTHANEQ suma
+    (80) expresioncomp -> . suma LTHANEQ suma
+    (81) expresioncomp -> . suma DIFFERENT suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    AND             reduce using rule 75 (expresion2 -> suma .)
+    OR              reduce using rule 75 (expresion2 -> suma .)
+    SEMICOLON       reduce using rule 75 (expresion2 -> suma .)
+    COMMA           reduce using rule 75 (expresion2 -> suma .)
+    RPARENTHESIS    reduce using rule 75 (expresion2 -> suma .)
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    suma                           shift and go to state 138
+    expresioncomp                  shift and go to state 139
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 109
+
+    (82) suma -> multiplicacion .
+    (83) suma -> multiplicacion . PLUS multiplicacion
+    (84) suma -> multiplicacion . MINUS multiplicacion
+
+    CTEI            reduce using rule 82 (suma -> multiplicacion .)
+    CTEF            reduce using rule 82 (suma -> multiplicacion .)
+    CTEC            reduce using rule 82 (suma -> multiplicacion .)
+    CTESTRING       reduce using rule 82 (suma -> multiplicacion .)
+    LPARENTHESIS    reduce using rule 82 (suma -> multiplicacion .)
+    ID              reduce using rule 82 (suma -> multiplicacion .)
+    AND             reduce using rule 82 (suma -> multiplicacion .)
+    OR              reduce using rule 82 (suma -> multiplicacion .)
+    SEMICOLON       reduce using rule 82 (suma -> multiplicacion .)
+    COMMA           reduce using rule 82 (suma -> multiplicacion .)
+    RPARENTHESIS    reduce using rule 82 (suma -> multiplicacion .)
+    GTHAN           reduce using rule 82 (suma -> multiplicacion .)
+    LTHAN           reduce using rule 82 (suma -> multiplicacion .)
+    GTHANEQ         reduce using rule 82 (suma -> multiplicacion .)
+    LTHANEQ         reduce using rule 82 (suma -> multiplicacion .)
+    DIFFERENT       reduce using rule 82 (suma -> multiplicacion .)
+    PLUS            shift and go to state 140
+    MINUS           shift and go to state 141
+
+
+state 110
+
+    (85) multiplicacion -> expresion3 .
+    (86) multiplicacion -> expresion3 . MULTIPLICATION expresion3
+    (87) multiplicacion -> expresion3 . DIVISION expresion3
+
+    PLUS            reduce using rule 85 (multiplicacion -> expresion3 .)
+    MINUS           reduce using rule 85 (multiplicacion -> expresion3 .)
+    CTEI            reduce using rule 85 (multiplicacion -> expresion3 .)
+    CTEF            reduce using rule 85 (multiplicacion -> expresion3 .)
+    CTEC            reduce using rule 85 (multiplicacion -> expresion3 .)
+    CTESTRING       reduce using rule 85 (multiplicacion -> expresion3 .)
+    LPARENTHESIS    reduce using rule 85 (multiplicacion -> expresion3 .)
+    ID              reduce using rule 85 (multiplicacion -> expresion3 .)
+    AND             reduce using rule 85 (multiplicacion -> expresion3 .)
+    OR              reduce using rule 85 (multiplicacion -> expresion3 .)
+    SEMICOLON       reduce using rule 85 (multiplicacion -> expresion3 .)
+    COMMA           reduce using rule 85 (multiplicacion -> expresion3 .)
+    RPARENTHESIS    reduce using rule 85 (multiplicacion -> expresion3 .)
+    GTHAN           reduce using rule 85 (multiplicacion -> expresion3 .)
+    LTHAN           reduce using rule 85 (multiplicacion -> expresion3 .)
+    GTHANEQ         reduce using rule 85 (multiplicacion -> expresion3 .)
+    LTHANEQ         reduce using rule 85 (multiplicacion -> expresion3 .)
+    DIFFERENT       reduce using rule 85 (multiplicacion -> expresion3 .)
+    MULTIPLICATION  shift and go to state 142
+    DIVISION        shift and go to state 143
+
+
+state 111
+
+    (88) expresion3 -> CTEI .
+
+    MULTIPLICATION  reduce using rule 88 (expresion3 -> CTEI .)
+    DIVISION        reduce using rule 88 (expresion3 -> CTEI .)
+    PLUS            reduce using rule 88 (expresion3 -> CTEI .)
+    MINUS           reduce using rule 88 (expresion3 -> CTEI .)
+    CTEI            reduce using rule 88 (expresion3 -> CTEI .)
+    CTEF            reduce using rule 88 (expresion3 -> CTEI .)
+    CTEC            reduce using rule 88 (expresion3 -> CTEI .)
+    CTESTRING       reduce using rule 88 (expresion3 -> CTEI .)
+    LPARENTHESIS    reduce using rule 88 (expresion3 -> CTEI .)
+    ID              reduce using rule 88 (expresion3 -> CTEI .)
+    AND             reduce using rule 88 (expresion3 -> CTEI .)
+    OR              reduce using rule 88 (expresion3 -> CTEI .)
+    SEMICOLON       reduce using rule 88 (expresion3 -> CTEI .)
+    COMMA           reduce using rule 88 (expresion3 -> CTEI .)
+    RPARENTHESIS    reduce using rule 88 (expresion3 -> CTEI .)
+    GTHAN           reduce using rule 88 (expresion3 -> CTEI .)
+    LTHAN           reduce using rule 88 (expresion3 -> CTEI .)
+    GTHANEQ         reduce using rule 88 (expresion3 -> CTEI .)
+    LTHANEQ         reduce using rule 88 (expresion3 -> CTEI .)
+    DIFFERENT       reduce using rule 88 (expresion3 -> CTEI .)
+
+
+state 112
+
+    (89) expresion3 -> CTEF .
+
+    MULTIPLICATION  reduce using rule 89 (expresion3 -> CTEF .)
+    DIVISION        reduce using rule 89 (expresion3 -> CTEF .)
+    PLUS            reduce using rule 89 (expresion3 -> CTEF .)
+    MINUS           reduce using rule 89 (expresion3 -> CTEF .)
+    CTEI            reduce using rule 89 (expresion3 -> CTEF .)
+    CTEF            reduce using rule 89 (expresion3 -> CTEF .)
+    CTEC            reduce using rule 89 (expresion3 -> CTEF .)
+    CTESTRING       reduce using rule 89 (expresion3 -> CTEF .)
+    LPARENTHESIS    reduce using rule 89 (expresion3 -> CTEF .)
+    ID              reduce using rule 89 (expresion3 -> CTEF .)
+    AND             reduce using rule 89 (expresion3 -> CTEF .)
+    OR              reduce using rule 89 (expresion3 -> CTEF .)
+    SEMICOLON       reduce using rule 89 (expresion3 -> CTEF .)
+    COMMA           reduce using rule 89 (expresion3 -> CTEF .)
+    RPARENTHESIS    reduce using rule 89 (expresion3 -> CTEF .)
+    GTHAN           reduce using rule 89 (expresion3 -> CTEF .)
+    LTHAN           reduce using rule 89 (expresion3 -> CTEF .)
+    GTHANEQ         reduce using rule 89 (expresion3 -> CTEF .)
+    LTHANEQ         reduce using rule 89 (expresion3 -> CTEF .)
+    DIFFERENT       reduce using rule 89 (expresion3 -> CTEF .)
+
+
+state 113
+
+    (90) expresion3 -> CTEC .
+
+    MULTIPLICATION  reduce using rule 90 (expresion3 -> CTEC .)
+    DIVISION        reduce using rule 90 (expresion3 -> CTEC .)
+    PLUS            reduce using rule 90 (expresion3 -> CTEC .)
+    MINUS           reduce using rule 90 (expresion3 -> CTEC .)
+    CTEI            reduce using rule 90 (expresion3 -> CTEC .)
+    CTEF            reduce using rule 90 (expresion3 -> CTEC .)
+    CTEC            reduce using rule 90 (expresion3 -> CTEC .)
+    CTESTRING       reduce using rule 90 (expresion3 -> CTEC .)
+    LPARENTHESIS    reduce using rule 90 (expresion3 -> CTEC .)
+    ID              reduce using rule 90 (expresion3 -> CTEC .)
+    AND             reduce using rule 90 (expresion3 -> CTEC .)
+    OR              reduce using rule 90 (expresion3 -> CTEC .)
+    SEMICOLON       reduce using rule 90 (expresion3 -> CTEC .)
+    COMMA           reduce using rule 90 (expresion3 -> CTEC .)
+    RPARENTHESIS    reduce using rule 90 (expresion3 -> CTEC .)
+    GTHAN           reduce using rule 90 (expresion3 -> CTEC .)
+    LTHAN           reduce using rule 90 (expresion3 -> CTEC .)
+    GTHANEQ         reduce using rule 90 (expresion3 -> CTEC .)
+    LTHANEQ         reduce using rule 90 (expresion3 -> CTEC .)
+    DIFFERENT       reduce using rule 90 (expresion3 -> CTEC .)
+
+
+state 114
+
+    (91) expresion3 -> CTESTRING .
+
+    MULTIPLICATION  reduce using rule 91 (expresion3 -> CTESTRING .)
+    DIVISION        reduce using rule 91 (expresion3 -> CTESTRING .)
+    PLUS            reduce using rule 91 (expresion3 -> CTESTRING .)
+    MINUS           reduce using rule 91 (expresion3 -> CTESTRING .)
+    CTEI            reduce using rule 91 (expresion3 -> CTESTRING .)
+    CTEF            reduce using rule 91 (expresion3 -> CTESTRING .)
+    CTEC            reduce using rule 91 (expresion3 -> CTESTRING .)
+    CTESTRING       reduce using rule 91 (expresion3 -> CTESTRING .)
+    LPARENTHESIS    reduce using rule 91 (expresion3 -> CTESTRING .)
+    ID              reduce using rule 91 (expresion3 -> CTESTRING .)
+    AND             reduce using rule 91 (expresion3 -> CTESTRING .)
+    OR              reduce using rule 91 (expresion3 -> CTESTRING .)
+    SEMICOLON       reduce using rule 91 (expresion3 -> CTESTRING .)
+    COMMA           reduce using rule 91 (expresion3 -> CTESTRING .)
+    RPARENTHESIS    reduce using rule 91 (expresion3 -> CTESTRING .)
+    GTHAN           reduce using rule 91 (expresion3 -> CTESTRING .)
+    LTHAN           reduce using rule 91 (expresion3 -> CTESTRING .)
+    GTHANEQ         reduce using rule 91 (expresion3 -> CTESTRING .)
+    LTHANEQ         reduce using rule 91 (expresion3 -> CTESTRING .)
+    DIFFERENT       reduce using rule 91 (expresion3 -> CTESTRING .)
+
+
+state 115
+
+    (92) expresion3 -> LPARENTHESIS . expresion3 RPARENTHESIS
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion3                     shift and go to state 144
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 116
+
+    (93) expresion3 -> llamada .
+
+    MULTIPLICATION  reduce using rule 93 (expresion3 -> llamada .)
+    DIVISION        reduce using rule 93 (expresion3 -> llamada .)
+    PLUS            reduce using rule 93 (expresion3 -> llamada .)
+    MINUS           reduce using rule 93 (expresion3 -> llamada .)
+    CTEI            reduce using rule 93 (expresion3 -> llamada .)
+    CTEF            reduce using rule 93 (expresion3 -> llamada .)
+    CTEC            reduce using rule 93 (expresion3 -> llamada .)
+    CTESTRING       reduce using rule 93 (expresion3 -> llamada .)
+    LPARENTHESIS    reduce using rule 93 (expresion3 -> llamada .)
+    ID              reduce using rule 93 (expresion3 -> llamada .)
+    AND             reduce using rule 93 (expresion3 -> llamada .)
+    OR              reduce using rule 93 (expresion3 -> llamada .)
+    SEMICOLON       reduce using rule 93 (expresion3 -> llamada .)
+    COMMA           reduce using rule 93 (expresion3 -> llamada .)
+    RPARENTHESIS    reduce using rule 93 (expresion3 -> llamada .)
+    GTHAN           reduce using rule 93 (expresion3 -> llamada .)
+    LTHAN           reduce using rule 93 (expresion3 -> llamada .)
+    GTHANEQ         reduce using rule 93 (expresion3 -> llamada .)
+    LTHANEQ         reduce using rule 93 (expresion3 -> llamada .)
+    DIFFERENT       reduce using rule 93 (expresion3 -> llamada .)
+
+
+state 117
+
+    (94) expresion3 -> leevars .
+
+    MULTIPLICATION  reduce using rule 94 (expresion3 -> leevars .)
+    DIVISION        reduce using rule 94 (expresion3 -> leevars .)
+    PLUS            reduce using rule 94 (expresion3 -> leevars .)
+    MINUS           reduce using rule 94 (expresion3 -> leevars .)
+    CTEI            reduce using rule 94 (expresion3 -> leevars .)
+    CTEF            reduce using rule 94 (expresion3 -> leevars .)
+    CTEC            reduce using rule 94 (expresion3 -> leevars .)
+    CTESTRING       reduce using rule 94 (expresion3 -> leevars .)
+    LPARENTHESIS    reduce using rule 94 (expresion3 -> leevars .)
+    ID              reduce using rule 94 (expresion3 -> leevars .)
+    AND             reduce using rule 94 (expresion3 -> leevars .)
+    OR              reduce using rule 94 (expresion3 -> leevars .)
+    SEMICOLON       reduce using rule 94 (expresion3 -> leevars .)
+    COMMA           reduce using rule 94 (expresion3 -> leevars .)
+    RPARENTHESIS    reduce using rule 94 (expresion3 -> leevars .)
+    GTHAN           reduce using rule 94 (expresion3 -> leevars .)
+    LTHAN           reduce using rule 94 (expresion3 -> leevars .)
+    GTHANEQ         reduce using rule 94 (expresion3 -> leevars .)
+    LTHANEQ         reduce using rule 94 (expresion3 -> leevars .)
+    DIFFERENT       reduce using rule 94 (expresion3 -> leevars .)
+
+
+state 118
+
+    (50) asignacion -> ID arr EQUALS . expresion
+    (71) expresion -> . expresion1
+    (72) expresion -> . expresion1 OR expresion1
+    (73) expresion1 -> . expresion2
+    (74) expresion1 -> . expresion2 AND expresion2
+    (75) expresion2 -> . suma
+    (76) expresion2 -> . suma expresioncomp suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion                      shift and go to state 145
+    expresion1                     shift and go to state 106
+    expresion2                     shift and go to state 107
+    suma                           shift and go to state 108
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 119
+
+    (51) llamada -> ID LPARENTHESIS expresion . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 146
+
+
+state 120
+
+    (52) lectura -> READ LPARENTHESIS leevars . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 147
+
+
+state 121
+
+    (53) leevars -> ID .
+    (54) leevars -> ID . COMMA leevars
+    (55) leevars -> ID . arr
+    (56) leevars -> ID . arr COMMA leevars
+    (23) arr -> . LSQRBRACKET CTEI RSQRBRACKET
+
+  ! shift/reduce conflict for COMMA resolved as shift
+    RPARENTHESIS    reduce using rule 53 (leevars -> ID .)
+    MULTIPLICATION  reduce using rule 53 (leevars -> ID .)
+    DIVISION        reduce using rule 53 (leevars -> ID .)
+    PLUS            reduce using rule 53 (leevars -> ID .)
+    MINUS           reduce using rule 53 (leevars -> ID .)
+    CTEI            reduce using rule 53 (leevars -> ID .)
+    CTEF            reduce using rule 53 (leevars -> ID .)
+    CTEC            reduce using rule 53 (leevars -> ID .)
+    CTESTRING       reduce using rule 53 (leevars -> ID .)
+    LPARENTHESIS    reduce using rule 53 (leevars -> ID .)
+    ID              reduce using rule 53 (leevars -> ID .)
+    AND             reduce using rule 53 (leevars -> ID .)
+    OR              reduce using rule 53 (leevars -> ID .)
+    SEMICOLON       reduce using rule 53 (leevars -> ID .)
+    GTHAN           reduce using rule 53 (leevars -> ID .)
+    LTHAN           reduce using rule 53 (leevars -> ID .)
+    GTHANEQ         reduce using rule 53 (leevars -> ID .)
+    LTHANEQ         reduce using rule 53 (leevars -> ID .)
+    DIFFERENT       reduce using rule 53 (leevars -> ID .)
+    COMMA           shift and go to state 134
+    LSQRBRACKET     shift and go to state 42
+
+  ! COMMA           [ reduce using rule 53 (leevars -> ID .) ]
+
+    arr                            shift and go to state 135
+
+state 122
+
+    (57) escritura -> PRINT LPARENTHESIS escritura1 . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 148
+
+
+state 123
+
+    (58) escritura1 -> escritura2 .
+    (59) escritura1 -> escritura2 . COMMA escritura1
+
+    RPARENTHESIS    reduce using rule 58 (escritura1 -> escritura2 .)
+    COMMA           shift and go to state 149
+
+
+state 124
+
+    (60) escritura2 -> CTEI .
+    (88) expresion3 -> CTEI .
+
+  ! reduce/reduce conflict for COMMA resolved using rule 60 (escritura2 -> CTEI .)
+  ! reduce/reduce conflict for RPARENTHESIS resolved using rule 60 (escritura2 -> CTEI .)
+    COMMA           reduce using rule 60 (escritura2 -> CTEI .)
+    RPARENTHESIS    reduce using rule 60 (escritura2 -> CTEI .)
+    MULTIPLICATION  reduce using rule 88 (expresion3 -> CTEI .)
+    DIVISION        reduce using rule 88 (expresion3 -> CTEI .)
+    PLUS            reduce using rule 88 (expresion3 -> CTEI .)
+    MINUS           reduce using rule 88 (expresion3 -> CTEI .)
+    CTEI            reduce using rule 88 (expresion3 -> CTEI .)
+    CTEF            reduce using rule 88 (expresion3 -> CTEI .)
+    CTEC            reduce using rule 88 (expresion3 -> CTEI .)
+    CTESTRING       reduce using rule 88 (expresion3 -> CTEI .)
+    LPARENTHESIS    reduce using rule 88 (expresion3 -> CTEI .)
+    ID              reduce using rule 88 (expresion3 -> CTEI .)
+    AND             reduce using rule 88 (expresion3 -> CTEI .)
+    OR              reduce using rule 88 (expresion3 -> CTEI .)
+
+  ! COMMA           [ reduce using rule 88 (expresion3 -> CTEI .) ]
+  ! RPARENTHESIS    [ reduce using rule 88 (expresion3 -> CTEI .) ]
+
+
+state 125
+
+    (61) escritura2 -> CTEF .
+    (89) expresion3 -> CTEF .
+
+  ! reduce/reduce conflict for COMMA resolved using rule 61 (escritura2 -> CTEF .)
+  ! reduce/reduce conflict for RPARENTHESIS resolved using rule 61 (escritura2 -> CTEF .)
+    COMMA           reduce using rule 61 (escritura2 -> CTEF .)
+    RPARENTHESIS    reduce using rule 61 (escritura2 -> CTEF .)
+    MULTIPLICATION  reduce using rule 89 (expresion3 -> CTEF .)
+    DIVISION        reduce using rule 89 (expresion3 -> CTEF .)
+    PLUS            reduce using rule 89 (expresion3 -> CTEF .)
+    MINUS           reduce using rule 89 (expresion3 -> CTEF .)
+    CTEI            reduce using rule 89 (expresion3 -> CTEF .)
+    CTEF            reduce using rule 89 (expresion3 -> CTEF .)
+    CTEC            reduce using rule 89 (expresion3 -> CTEF .)
+    CTESTRING       reduce using rule 89 (expresion3 -> CTEF .)
+    LPARENTHESIS    reduce using rule 89 (expresion3 -> CTEF .)
+    ID              reduce using rule 89 (expresion3 -> CTEF .)
+    AND             reduce using rule 89 (expresion3 -> CTEF .)
+    OR              reduce using rule 89 (expresion3 -> CTEF .)
+
+  ! COMMA           [ reduce using rule 89 (expresion3 -> CTEF .) ]
+  ! RPARENTHESIS    [ reduce using rule 89 (expresion3 -> CTEF .) ]
+
+
+state 126
+
+    (62) escritura2 -> CTESTRING .
+    (91) expresion3 -> CTESTRING .
+
+  ! reduce/reduce conflict for COMMA resolved using rule 62 (escritura2 -> CTESTRING .)
+  ! reduce/reduce conflict for RPARENTHESIS resolved using rule 62 (escritura2 -> CTESTRING .)
+    COMMA           reduce using rule 62 (escritura2 -> CTESTRING .)
+    RPARENTHESIS    reduce using rule 62 (escritura2 -> CTESTRING .)
+    MULTIPLICATION  reduce using rule 91 (expresion3 -> CTESTRING .)
+    DIVISION        reduce using rule 91 (expresion3 -> CTESTRING .)
+    PLUS            reduce using rule 91 (expresion3 -> CTESTRING .)
+    MINUS           reduce using rule 91 (expresion3 -> CTESTRING .)
+    CTEI            reduce using rule 91 (expresion3 -> CTESTRING .)
+    CTEF            reduce using rule 91 (expresion3 -> CTESTRING .)
+    CTEC            reduce using rule 91 (expresion3 -> CTESTRING .)
+    CTESTRING       reduce using rule 91 (expresion3 -> CTESTRING .)
+    LPARENTHESIS    reduce using rule 91 (expresion3 -> CTESTRING .)
+    ID              reduce using rule 91 (expresion3 -> CTESTRING .)
+    AND             reduce using rule 91 (expresion3 -> CTESTRING .)
+    OR              reduce using rule 91 (expresion3 -> CTESTRING .)
+
+  ! COMMA           [ reduce using rule 91 (expresion3 -> CTESTRING .) ]
+  ! RPARENTHESIS    [ reduce using rule 91 (expresion3 -> CTESTRING .) ]
+
+
+state 127
+
+    (63) escritura2 -> CTEC .
+    (90) expresion3 -> CTEC .
+
+  ! reduce/reduce conflict for COMMA resolved using rule 63 (escritura2 -> CTEC .)
+  ! reduce/reduce conflict for RPARENTHESIS resolved using rule 63 (escritura2 -> CTEC .)
+    COMMA           reduce using rule 63 (escritura2 -> CTEC .)
+    RPARENTHESIS    reduce using rule 63 (escritura2 -> CTEC .)
+    MULTIPLICATION  reduce using rule 90 (expresion3 -> CTEC .)
+    DIVISION        reduce using rule 90 (expresion3 -> CTEC .)
+    PLUS            reduce using rule 90 (expresion3 -> CTEC .)
+    MINUS           reduce using rule 90 (expresion3 -> CTEC .)
+    CTEI            reduce using rule 90 (expresion3 -> CTEC .)
+    CTEF            reduce using rule 90 (expresion3 -> CTEC .)
+    CTEC            reduce using rule 90 (expresion3 -> CTEC .)
+    CTESTRING       reduce using rule 90 (expresion3 -> CTEC .)
+    LPARENTHESIS    reduce using rule 90 (expresion3 -> CTEC .)
+    ID              reduce using rule 90 (expresion3 -> CTEC .)
+    AND             reduce using rule 90 (expresion3 -> CTEC .)
+    OR              reduce using rule 90 (expresion3 -> CTEC .)
+
+  ! COMMA           [ reduce using rule 90 (expresion3 -> CTEC .) ]
+  ! RPARENTHESIS    [ reduce using rule 90 (expresion3 -> CTEC .) ]
+
+
+state 128
+
+    (64) escritura2 -> expresion .
+
+    COMMA           reduce using rule 64 (escritura2 -> expresion .)
+    RPARENTHESIS    reduce using rule 64 (escritura2 -> expresion .)
+
+
+state 129
+
+    (65) for -> FOR LPARENTHESIS FROM . asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (49) asignacion -> . ID EQUALS expresion
+    (50) asignacion -> . ID arr EQUALS expresion
+
+    ID              shift and go to state 151
+
+    asignacion                     shift and go to state 150
+
+state 130
+
+    (66) if -> IF LPARENTHESIS expresion . RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> IF LPARENTHESIS expresion . RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+
+    RPARENTHESIS    shift and go to state 152
+
+
+state 131
+
+    (70) while -> WHILE LPARENTHESIS expresion . RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    RPARENTHESIS    shift and go to state 153
+
+
+state 132
+
+    (35) funcion -> FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto . retorno RBRACKET
+    (37) retorno -> . RETURN ID SEMICOLON
+
+    RETURN          shift and go to state 155
+
+    retorno                        shift and go to state 154
+
+state 133
+
+    (36) funcion -> FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto . RBRACKET
+
+    RBRACKET        shift and go to state 156
+
+
+state 134
+
+    (54) leevars -> ID COMMA . leevars
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    ID              shift and go to state 121
+
+    leevars                        shift and go to state 157
+
+state 135
+
+    (55) leevars -> ID arr .
+    (56) leevars -> ID arr . COMMA leevars
+
+  ! shift/reduce conflict for COMMA resolved as shift
+    MULTIPLICATION  reduce using rule 55 (leevars -> ID arr .)
+    DIVISION        reduce using rule 55 (leevars -> ID arr .)
+    PLUS            reduce using rule 55 (leevars -> ID arr .)
+    MINUS           reduce using rule 55 (leevars -> ID arr .)
+    CTEI            reduce using rule 55 (leevars -> ID arr .)
+    CTEF            reduce using rule 55 (leevars -> ID arr .)
+    CTEC            reduce using rule 55 (leevars -> ID arr .)
+    CTESTRING       reduce using rule 55 (leevars -> ID arr .)
+    LPARENTHESIS    reduce using rule 55 (leevars -> ID arr .)
+    ID              reduce using rule 55 (leevars -> ID arr .)
+    AND             reduce using rule 55 (leevars -> ID arr .)
+    OR              reduce using rule 55 (leevars -> ID arr .)
+    SEMICOLON       reduce using rule 55 (leevars -> ID arr .)
+    RPARENTHESIS    reduce using rule 55 (leevars -> ID arr .)
+    GTHAN           reduce using rule 55 (leevars -> ID arr .)
+    LTHAN           reduce using rule 55 (leevars -> ID arr .)
+    GTHANEQ         reduce using rule 55 (leevars -> ID arr .)
+    LTHANEQ         reduce using rule 55 (leevars -> ID arr .)
+    DIFFERENT       reduce using rule 55 (leevars -> ID arr .)
+    COMMA           shift and go to state 158
+
+  ! COMMA           [ reduce using rule 55 (leevars -> ID arr .) ]
+
+
+state 136
+
+    (72) expresion -> expresion1 OR . expresion1
+    (73) expresion1 -> . expresion2
+    (74) expresion1 -> . expresion2 AND expresion2
+    (75) expresion2 -> . suma
+    (76) expresion2 -> . suma expresioncomp suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion1                     shift and go to state 159
+    expresion2                     shift and go to state 107
+    suma                           shift and go to state 108
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 137
+
+    (74) expresion1 -> expresion2 AND . expresion2
+    (75) expresion2 -> . suma
+    (76) expresion2 -> . suma expresioncomp suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion2                     shift and go to state 160
+    suma                           shift and go to state 108
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 138
+
+    (77) expresioncomp -> suma . GTHAN suma
+    (78) expresioncomp -> suma . LTHAN suma
+    (79) expresioncomp -> suma . GTHANEQ suma
+    (80) expresioncomp -> suma . LTHANEQ suma
+    (81) expresioncomp -> suma . DIFFERENT suma
+
+    GTHAN           shift and go to state 161
+    LTHAN           shift and go to state 162
+    GTHANEQ         shift and go to state 163
+    LTHANEQ         shift and go to state 164
+    DIFFERENT       shift and go to state 165
+
+
+state 139
+
+    (76) expresion2 -> suma expresioncomp . suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    suma                           shift and go to state 166
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 140
+
+    (83) suma -> multiplicacion PLUS . multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    multiplicacion                 shift and go to state 167
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 141
+
+    (84) suma -> multiplicacion MINUS . multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    multiplicacion                 shift and go to state 168
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 142
+
+    (86) multiplicacion -> expresion3 MULTIPLICATION . expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion3                     shift and go to state 169
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 143
+
+    (87) multiplicacion -> expresion3 DIVISION . expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion3                     shift and go to state 170
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 144
+
+    (92) expresion3 -> LPARENTHESIS expresion3 . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 171
+
+
+state 145
+
+    (50) asignacion -> ID arr EQUALS expresion .
+
+    SEMICOLON       reduce using rule 50 (asignacion -> ID arr EQUALS expresion .)
+    COMMA           reduce using rule 50 (asignacion -> ID arr EQUALS expresion .)
+
+
+state 146
+
+    (51) llamada -> ID LPARENTHESIS expresion RPARENTHESIS .
+
+    SEMICOLON       reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    MULTIPLICATION  reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    DIVISION        reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    PLUS            reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    MINUS           reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    CTEI            reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    CTEF            reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    CTEC            reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    CTESTRING       reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    LPARENTHESIS    reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    ID              reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    AND             reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    OR              reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    COMMA           reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    RPARENTHESIS    reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    GTHAN           reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    LTHAN           reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    GTHANEQ         reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    LTHANEQ         reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+    DIFFERENT       reduce using rule 51 (llamada -> ID LPARENTHESIS expresion RPARENTHESIS .)
+
+
+state 147
+
+    (52) lectura -> READ LPARENTHESIS leevars RPARENTHESIS .
+
+    SEMICOLON       reduce using rule 52 (lectura -> READ LPARENTHESIS leevars RPARENTHESIS .)
+
+
+state 148
+
+    (57) escritura -> PRINT LPARENTHESIS escritura1 RPARENTHESIS .
+
+    SEMICOLON       reduce using rule 57 (escritura -> PRINT LPARENTHESIS escritura1 RPARENTHESIS .)
+
+
+state 149
+
+    (59) escritura1 -> escritura2 COMMA . escritura1
+    (58) escritura1 -> . escritura2
+    (59) escritura1 -> . escritura2 COMMA escritura1
+    (60) escritura2 -> . CTEI
+    (61) escritura2 -> . CTEF
+    (62) escritura2 -> . CTESTRING
+    (63) escritura2 -> . CTEC
+    (64) escritura2 -> . expresion
+    (71) expresion -> . expresion1
+    (72) expresion -> . expresion1 OR expresion1
+    (73) expresion1 -> . expresion2
+    (74) expresion1 -> . expresion2 AND expresion2
+    (75) expresion2 -> . suma
+    (76) expresion2 -> . suma expresioncomp suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 124
+    CTEF            shift and go to state 125
+    CTESTRING       shift and go to state 126
+    CTEC            shift and go to state 127
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    escritura2                     shift and go to state 123
+    escritura1                     shift and go to state 172
+    expresion                      shift and go to state 128
+    expresion1                     shift and go to state 106
+    expresion2                     shift and go to state 107
+    suma                           shift and go to state 108
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 150
+
+    (65) for -> FOR LPARENTHESIS FROM asignacion . COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    COMMA           shift and go to state 173
+
+
+state 151
+
+    (49) asignacion -> ID . EQUALS expresion
+    (50) asignacion -> ID . arr EQUALS expresion
+    (23) arr -> . LSQRBRACKET CTEI RSQRBRACKET
+
+    EQUALS          shift and go to state 92
+    LSQRBRACKET     shift and go to state 42
+
+    arr                            shift and go to state 93
+
+state 152
+
+    (66) if -> IF LPARENTHESIS expresion RPARENTHESIS . THEN LBRACKET estatuto RBRACKET
+    (67) if -> IF LPARENTHESIS expresion RPARENTHESIS . THEN LBRACKET estatuto RBRACKET else
+
+    THEN            shift and go to state 174
+
+
+state 153
+
+    (70) while -> WHILE LPARENTHESIS expresion RPARENTHESIS . LBRACKET estatuto RBRACKET
+
+    LBRACKET        shift and go to state 175
+
+
+state 154
+
+    (35) funcion -> FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno . RBRACKET
+
+    RBRACKET        shift and go to state 176
+
+
+state 155
+
+    (37) retorno -> RETURN . ID SEMICOLON
+
+    ID              shift and go to state 177
+
+
+state 156
+
+    (36) funcion -> FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET .
+
+    FUNCTION        reduce using rule 36 (funcion -> FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET .)
+    MAIN            reduce using rule 36 (funcion -> FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET .)
+    $end            reduce using rule 36 (funcion -> FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto RBRACKET .)
+
+
+state 157
+
+    (54) leevars -> ID COMMA leevars .
+
+    MULTIPLICATION  reduce using rule 54 (leevars -> ID COMMA leevars .)
+    DIVISION        reduce using rule 54 (leevars -> ID COMMA leevars .)
+    PLUS            reduce using rule 54 (leevars -> ID COMMA leevars .)
+    MINUS           reduce using rule 54 (leevars -> ID COMMA leevars .)
+    CTEI            reduce using rule 54 (leevars -> ID COMMA leevars .)
+    CTEF            reduce using rule 54 (leevars -> ID COMMA leevars .)
+    CTEC            reduce using rule 54 (leevars -> ID COMMA leevars .)
+    CTESTRING       reduce using rule 54 (leevars -> ID COMMA leevars .)
+    LPARENTHESIS    reduce using rule 54 (leevars -> ID COMMA leevars .)
+    ID              reduce using rule 54 (leevars -> ID COMMA leevars .)
+    AND             reduce using rule 54 (leevars -> ID COMMA leevars .)
+    OR              reduce using rule 54 (leevars -> ID COMMA leevars .)
+    SEMICOLON       reduce using rule 54 (leevars -> ID COMMA leevars .)
+    COMMA           reduce using rule 54 (leevars -> ID COMMA leevars .)
+    RPARENTHESIS    reduce using rule 54 (leevars -> ID COMMA leevars .)
+    GTHAN           reduce using rule 54 (leevars -> ID COMMA leevars .)
+    LTHAN           reduce using rule 54 (leevars -> ID COMMA leevars .)
+    GTHANEQ         reduce using rule 54 (leevars -> ID COMMA leevars .)
+    LTHANEQ         reduce using rule 54 (leevars -> ID COMMA leevars .)
+    DIFFERENT       reduce using rule 54 (leevars -> ID COMMA leevars .)
+
+
+state 158
+
+    (56) leevars -> ID arr COMMA . leevars
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    ID              shift and go to state 121
+
+    leevars                        shift and go to state 178
+
+state 159
+
+    (72) expresion -> expresion1 OR expresion1 .
+
+    SEMICOLON       reduce using rule 72 (expresion -> expresion1 OR expresion1 .)
+    COMMA           reduce using rule 72 (expresion -> expresion1 OR expresion1 .)
+    RPARENTHESIS    reduce using rule 72 (expresion -> expresion1 OR expresion1 .)
+
+
+state 160
+
+    (74) expresion1 -> expresion2 AND expresion2 .
+
+    OR              reduce using rule 74 (expresion1 -> expresion2 AND expresion2 .)
+    SEMICOLON       reduce using rule 74 (expresion1 -> expresion2 AND expresion2 .)
+    COMMA           reduce using rule 74 (expresion1 -> expresion2 AND expresion2 .)
+    RPARENTHESIS    reduce using rule 74 (expresion1 -> expresion2 AND expresion2 .)
+
+
+state 161
+
+    (77) expresioncomp -> suma GTHAN . suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    suma                           shift and go to state 179
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 162
+
+    (78) expresioncomp -> suma LTHAN . suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    suma                           shift and go to state 180
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 163
+
+    (79) expresioncomp -> suma GTHANEQ . suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    suma                           shift and go to state 181
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 164
+
+    (80) expresioncomp -> suma LTHANEQ . suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    suma                           shift and go to state 182
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 165
+
+    (81) expresioncomp -> suma DIFFERENT . suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    suma                           shift and go to state 183
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 166
+
+    (76) expresion2 -> suma expresioncomp suma .
+
+    AND             reduce using rule 76 (expresion2 -> suma expresioncomp suma .)
+    OR              reduce using rule 76 (expresion2 -> suma expresioncomp suma .)
+    SEMICOLON       reduce using rule 76 (expresion2 -> suma expresioncomp suma .)
+    COMMA           reduce using rule 76 (expresion2 -> suma expresioncomp suma .)
+    RPARENTHESIS    reduce using rule 76 (expresion2 -> suma expresioncomp suma .)
+
+
+state 167
+
+    (83) suma -> multiplicacion PLUS multiplicacion .
+
+    CTEI            reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    CTEF            reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    CTEC            reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    CTESTRING       reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    LPARENTHESIS    reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    ID              reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    AND             reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    OR              reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    SEMICOLON       reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    COMMA           reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    RPARENTHESIS    reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    GTHAN           reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    LTHAN           reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    GTHANEQ         reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    LTHANEQ         reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+    DIFFERENT       reduce using rule 83 (suma -> multiplicacion PLUS multiplicacion .)
+
+
+state 168
+
+    (84) suma -> multiplicacion MINUS multiplicacion .
+
+    CTEI            reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    CTEF            reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    CTEC            reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    CTESTRING       reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    LPARENTHESIS    reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    ID              reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    AND             reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    OR              reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    SEMICOLON       reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    COMMA           reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    RPARENTHESIS    reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    GTHAN           reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    LTHAN           reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    GTHANEQ         reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    LTHANEQ         reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+    DIFFERENT       reduce using rule 84 (suma -> multiplicacion MINUS multiplicacion .)
+
+
+state 169
+
+    (86) multiplicacion -> expresion3 MULTIPLICATION expresion3 .
+
+    PLUS            reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    MINUS           reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    CTEI            reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    CTEF            reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    CTEC            reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    CTESTRING       reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    LPARENTHESIS    reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    ID              reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    AND             reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    OR              reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    SEMICOLON       reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    COMMA           reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    RPARENTHESIS    reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    GTHAN           reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    LTHAN           reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    GTHANEQ         reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    LTHANEQ         reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+    DIFFERENT       reduce using rule 86 (multiplicacion -> expresion3 MULTIPLICATION expresion3 .)
+
+
+state 170
+
+    (87) multiplicacion -> expresion3 DIVISION expresion3 .
+
+    PLUS            reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    MINUS           reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    CTEI            reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    CTEF            reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    CTEC            reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    CTESTRING       reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    LPARENTHESIS    reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    ID              reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    AND             reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    OR              reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    SEMICOLON       reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    COMMA           reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    RPARENTHESIS    reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    GTHAN           reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    LTHAN           reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    GTHANEQ         reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    LTHANEQ         reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+    DIFFERENT       reduce using rule 87 (multiplicacion -> expresion3 DIVISION expresion3 .)
+
+
+state 171
+
+    (92) expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .
+
+    MULTIPLICATION  reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    DIVISION        reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    PLUS            reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    MINUS           reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    CTEI            reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    CTEF            reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    CTEC            reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    CTESTRING       reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    LPARENTHESIS    reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    ID              reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    AND             reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    OR              reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    SEMICOLON       reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    COMMA           reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    RPARENTHESIS    reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    GTHAN           reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    LTHAN           reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    GTHANEQ         reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    LTHANEQ         reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+    DIFFERENT       reduce using rule 92 (expresion3 -> LPARENTHESIS expresion3 RPARENTHESIS .)
+
+
+state 172
+
+    (59) escritura1 -> escritura2 COMMA escritura1 .
+
+    RPARENTHESIS    reduce using rule 59 (escritura1 -> escritura2 COMMA escritura1 .)
+
+
+state 173
+
+    (65) for -> FOR LPARENTHESIS FROM asignacion COMMA . TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    TO              shift and go to state 184
+
+
+state 174
+
+    (66) if -> IF LPARENTHESIS expresion RPARENTHESIS THEN . LBRACKET estatuto RBRACKET
+    (67) if -> IF LPARENTHESIS expresion RPARENTHESIS THEN . LBRACKET estatuto RBRACKET else
+
+    LBRACKET        shift and go to state 185
+
+
+state 175
+
+    (70) while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET . estatuto RBRACKET
+    (38) estatuto -> . estatuto2
+    (39) estatuto -> . empty
+    (40) estatuto2 -> . estatuto3
+    (41) estatuto2 -> . estatuto3 estatuto2
+    (95) empty -> .
+    (42) estatuto3 -> . asignacion SEMICOLON
+    (43) estatuto3 -> . llamada SEMICOLON
+    (44) estatuto3 -> . lectura SEMICOLON
+    (45) estatuto3 -> . escritura SEMICOLON
+    (46) estatuto3 -> . for
+    (47) estatuto3 -> . if
+    (48) estatuto3 -> . while
+    (49) asignacion -> . ID EQUALS expresion
+    (50) asignacion -> . ID arr EQUALS expresion
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (52) lectura -> . READ LPARENTHESIS leevars RPARENTHESIS
+    (57) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (65) for -> . FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (66) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+    (70) while -> . WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    RBRACKET        reduce using rule 95 (empty -> .)
+    ID              shift and go to state 74
+    READ            shift and go to state 75
+    PRINT           shift and go to state 76
+    FOR             shift and go to state 77
+    IF              shift and go to state 78
+    WHILE           shift and go to state 79
+
+    estatuto                       shift and go to state 186
+    estatuto2                      shift and go to state 64
+    empty                          shift and go to state 65
+    estatuto3                      shift and go to state 66
+    asignacion                     shift and go to state 67
+    llamada                        shift and go to state 68
+    lectura                        shift and go to state 69
+    escritura                      shift and go to state 70
+    for                            shift and go to state 71
+    if                             shift and go to state 72
+    while                          shift and go to state 73
+
+state 176
+
+    (35) funcion -> FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET .
+
+    FUNCTION        reduce using rule 35 (funcion -> FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET .)
+    MAIN            reduce using rule 35 (funcion -> FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET .)
+    $end            reduce using rule 35 (funcion -> FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS LBRACKET decvars estatuto retorno RBRACKET .)
+
+
+state 177
+
+    (37) retorno -> RETURN ID . SEMICOLON
+
+    SEMICOLON       shift and go to state 187
+
+
+state 178
+
+    (56) leevars -> ID arr COMMA leevars .
+
+    MULTIPLICATION  reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    DIVISION        reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    PLUS            reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    MINUS           reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    CTEI            reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    CTEF            reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    CTEC            reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    CTESTRING       reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    LPARENTHESIS    reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    ID              reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    AND             reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    OR              reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    SEMICOLON       reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    COMMA           reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    RPARENTHESIS    reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    GTHAN           reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    LTHAN           reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    GTHANEQ         reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    LTHANEQ         reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+    DIFFERENT       reduce using rule 56 (leevars -> ID arr COMMA leevars .)
+
+
+state 179
+
+    (77) expresioncomp -> suma GTHAN suma .
+
+    CTEI            reduce using rule 77 (expresioncomp -> suma GTHAN suma .)
+    CTEF            reduce using rule 77 (expresioncomp -> suma GTHAN suma .)
+    CTEC            reduce using rule 77 (expresioncomp -> suma GTHAN suma .)
+    CTESTRING       reduce using rule 77 (expresioncomp -> suma GTHAN suma .)
+    LPARENTHESIS    reduce using rule 77 (expresioncomp -> suma GTHAN suma .)
+    ID              reduce using rule 77 (expresioncomp -> suma GTHAN suma .)
+
+
+state 180
+
+    (78) expresioncomp -> suma LTHAN suma .
+
+    CTEI            reduce using rule 78 (expresioncomp -> suma LTHAN suma .)
+    CTEF            reduce using rule 78 (expresioncomp -> suma LTHAN suma .)
+    CTEC            reduce using rule 78 (expresioncomp -> suma LTHAN suma .)
+    CTESTRING       reduce using rule 78 (expresioncomp -> suma LTHAN suma .)
+    LPARENTHESIS    reduce using rule 78 (expresioncomp -> suma LTHAN suma .)
+    ID              reduce using rule 78 (expresioncomp -> suma LTHAN suma .)
+
+
+state 181
+
+    (79) expresioncomp -> suma GTHANEQ suma .
+
+    CTEI            reduce using rule 79 (expresioncomp -> suma GTHANEQ suma .)
+    CTEF            reduce using rule 79 (expresioncomp -> suma GTHANEQ suma .)
+    CTEC            reduce using rule 79 (expresioncomp -> suma GTHANEQ suma .)
+    CTESTRING       reduce using rule 79 (expresioncomp -> suma GTHANEQ suma .)
+    LPARENTHESIS    reduce using rule 79 (expresioncomp -> suma GTHANEQ suma .)
+    ID              reduce using rule 79 (expresioncomp -> suma GTHANEQ suma .)
+
+
+state 182
+
+    (80) expresioncomp -> suma LTHANEQ suma .
+
+    CTEI            reduce using rule 80 (expresioncomp -> suma LTHANEQ suma .)
+    CTEF            reduce using rule 80 (expresioncomp -> suma LTHANEQ suma .)
+    CTEC            reduce using rule 80 (expresioncomp -> suma LTHANEQ suma .)
+    CTESTRING       reduce using rule 80 (expresioncomp -> suma LTHANEQ suma .)
+    LPARENTHESIS    reduce using rule 80 (expresioncomp -> suma LTHANEQ suma .)
+    ID              reduce using rule 80 (expresioncomp -> suma LTHANEQ suma .)
+
+
+state 183
+
+    (81) expresioncomp -> suma DIFFERENT suma .
+
+    CTEI            reduce using rule 81 (expresioncomp -> suma DIFFERENT suma .)
+    CTEF            reduce using rule 81 (expresioncomp -> suma DIFFERENT suma .)
+    CTEC            reduce using rule 81 (expresioncomp -> suma DIFFERENT suma .)
+    CTESTRING       reduce using rule 81 (expresioncomp -> suma DIFFERENT suma .)
+    LPARENTHESIS    reduce using rule 81 (expresioncomp -> suma DIFFERENT suma .)
+    ID              reduce using rule 81 (expresioncomp -> suma DIFFERENT suma .)
+
+
+state 184
+
+    (65) for -> FOR LPARENTHESIS FROM asignacion COMMA TO . expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (71) expresion -> . expresion1
+    (72) expresion -> . expresion1 OR expresion1
+    (73) expresion1 -> . expresion2
+    (74) expresion1 -> . expresion2 AND expresion2
+    (75) expresion2 -> . suma
+    (76) expresion2 -> . suma expresioncomp suma
+    (82) suma -> . multiplicacion
+    (83) suma -> . multiplicacion PLUS multiplicacion
+    (84) suma -> . multiplicacion MINUS multiplicacion
+    (85) multiplicacion -> . expresion3
+    (86) multiplicacion -> . expresion3 MULTIPLICATION expresion3
+    (87) multiplicacion -> . expresion3 DIVISION expresion3
+    (88) expresion3 -> . CTEI
+    (89) expresion3 -> . CTEF
+    (90) expresion3 -> . CTEC
+    (91) expresion3 -> . CTESTRING
+    (92) expresion3 -> . LPARENTHESIS expresion3 RPARENTHESIS
+    (93) expresion3 -> . llamada
+    (94) expresion3 -> . leevars
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (53) leevars -> . ID
+    (54) leevars -> . ID COMMA leevars
+    (55) leevars -> . ID arr
+    (56) leevars -> . ID arr COMMA leevars
+
+    CTEI            shift and go to state 111
+    CTEF            shift and go to state 112
+    CTEC            shift and go to state 113
+    CTESTRING       shift and go to state 114
+    LPARENTHESIS    shift and go to state 115
+    ID              shift and go to state 104
+
+    expresion                      shift and go to state 188
+    expresion1                     shift and go to state 106
+    expresion2                     shift and go to state 107
+    suma                           shift and go to state 108
+    multiplicacion                 shift and go to state 109
+    expresion3                     shift and go to state 110
+    llamada                        shift and go to state 116
+    leevars                        shift and go to state 117
+
+state 185
+
+    (66) if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET . estatuto RBRACKET
+    (67) if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET . estatuto RBRACKET else
+    (38) estatuto -> . estatuto2
+    (39) estatuto -> . empty
+    (40) estatuto2 -> . estatuto3
+    (41) estatuto2 -> . estatuto3 estatuto2
+    (95) empty -> .
+    (42) estatuto3 -> . asignacion SEMICOLON
+    (43) estatuto3 -> . llamada SEMICOLON
+    (44) estatuto3 -> . lectura SEMICOLON
+    (45) estatuto3 -> . escritura SEMICOLON
+    (46) estatuto3 -> . for
+    (47) estatuto3 -> . if
+    (48) estatuto3 -> . while
+    (49) asignacion -> . ID EQUALS expresion
+    (50) asignacion -> . ID arr EQUALS expresion
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (52) lectura -> . READ LPARENTHESIS leevars RPARENTHESIS
+    (57) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (65) for -> . FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (66) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+    (70) while -> . WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    RBRACKET        reduce using rule 95 (empty -> .)
+    ID              shift and go to state 74
+    READ            shift and go to state 75
+    PRINT           shift and go to state 76
+    FOR             shift and go to state 77
+    IF              shift and go to state 78
+    WHILE           shift and go to state 79
+
+    estatuto                       shift and go to state 189
+    estatuto2                      shift and go to state 64
+    empty                          shift and go to state 65
+    estatuto3                      shift and go to state 66
+    asignacion                     shift and go to state 67
+    llamada                        shift and go to state 68
+    lectura                        shift and go to state 69
+    escritura                      shift and go to state 70
+    for                            shift and go to state 71
+    if                             shift and go to state 72
+    while                          shift and go to state 73
+
+state 186
+
+    (70) while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto . RBRACKET
+
+    RBRACKET        shift and go to state 190
+
+
+state 187
+
+    (37) retorno -> RETURN ID SEMICOLON .
+
+    RBRACKET        reduce using rule 37 (retorno -> RETURN ID SEMICOLON .)
+
+
+state 188
+
+    (65) for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion . RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    RPARENTHESIS    shift and go to state 191
+
+
+state 189
+
+    (66) if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto . RBRACKET
+    (67) if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto . RBRACKET else
+
+    RBRACKET        shift and go to state 192
+
+
+state 190
+
+    (70) while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET .
+
+    ID              reduce using rule 70 (while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    READ            reduce using rule 70 (while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    PRINT           reduce using rule 70 (while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    FOR             reduce using rule 70 (while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    IF              reduce using rule 70 (while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    WHILE           reduce using rule 70 (while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    RBRACKET        reduce using rule 70 (while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    RETURN          reduce using rule 70 (while -> WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+
+
+state 191
+
+    (65) for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS . LBRACKET estatuto RBRACKET
+
+    LBRACKET        shift and go to state 193
+
+
+state 192
+
+    (66) if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .
+    (67) if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET . else
+    (68) else -> . ELSE LBRACKET estatuto RBRACKET
+    (69) else -> . empty
+    (95) empty -> .
+
+  ! reduce/reduce conflict for ID resolved using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+  ! reduce/reduce conflict for READ resolved using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+  ! reduce/reduce conflict for PRINT resolved using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+  ! reduce/reduce conflict for FOR resolved using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+  ! reduce/reduce conflict for IF resolved using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+  ! reduce/reduce conflict for WHILE resolved using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+  ! reduce/reduce conflict for RBRACKET resolved using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+  ! reduce/reduce conflict for RETURN resolved using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+    ID              reduce using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+    READ            reduce using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+    PRINT           reduce using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+    FOR             reduce using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+    IF              reduce using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+    WHILE           reduce using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+    RBRACKET        reduce using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+    RETURN          reduce using rule 66 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET .)
+    ELSE            shift and go to state 195
+
+  ! ID              [ reduce using rule 95 (empty -> .) ]
+  ! READ            [ reduce using rule 95 (empty -> .) ]
+  ! PRINT           [ reduce using rule 95 (empty -> .) ]
+  ! FOR             [ reduce using rule 95 (empty -> .) ]
+  ! IF              [ reduce using rule 95 (empty -> .) ]
+  ! WHILE           [ reduce using rule 95 (empty -> .) ]
+  ! RBRACKET        [ reduce using rule 95 (empty -> .) ]
+  ! RETURN          [ reduce using rule 95 (empty -> .) ]
+
+    else                           shift and go to state 194
+    empty                          shift and go to state 196
+
+state 193
+
+    (65) for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET . estatuto RBRACKET
+    (38) estatuto -> . estatuto2
+    (39) estatuto -> . empty
+    (40) estatuto2 -> . estatuto3
+    (41) estatuto2 -> . estatuto3 estatuto2
+    (95) empty -> .
+    (42) estatuto3 -> . asignacion SEMICOLON
+    (43) estatuto3 -> . llamada SEMICOLON
+    (44) estatuto3 -> . lectura SEMICOLON
+    (45) estatuto3 -> . escritura SEMICOLON
+    (46) estatuto3 -> . for
+    (47) estatuto3 -> . if
+    (48) estatuto3 -> . while
+    (49) asignacion -> . ID EQUALS expresion
+    (50) asignacion -> . ID arr EQUALS expresion
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (52) lectura -> . READ LPARENTHESIS leevars RPARENTHESIS
+    (57) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (65) for -> . FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (66) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+    (70) while -> . WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    RBRACKET        reduce using rule 95 (empty -> .)
+    ID              shift and go to state 74
+    READ            shift and go to state 75
+    PRINT           shift and go to state 76
+    FOR             shift and go to state 77
+    IF              shift and go to state 78
+    WHILE           shift and go to state 79
+
+    asignacion                     shift and go to state 67
+    estatuto                       shift and go to state 197
+    estatuto2                      shift and go to state 64
+    empty                          shift and go to state 65
+    estatuto3                      shift and go to state 66
+    llamada                        shift and go to state 68
+    lectura                        shift and go to state 69
+    escritura                      shift and go to state 70
+    for                            shift and go to state 71
+    if                             shift and go to state 72
+    while                          shift and go to state 73
+
+state 194
+
+    (67) if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else .
+
+    ID              reduce using rule 67 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else .)
+    READ            reduce using rule 67 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else .)
+    PRINT           reduce using rule 67 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else .)
+    FOR             reduce using rule 67 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else .)
+    IF              reduce using rule 67 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else .)
+    WHILE           reduce using rule 67 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else .)
+    RBRACKET        reduce using rule 67 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else .)
+    RETURN          reduce using rule 67 (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else .)
+
+
+state 195
+
+    (68) else -> ELSE . LBRACKET estatuto RBRACKET
+
+    LBRACKET        shift and go to state 198
+
+
+state 196
+
+    (69) else -> empty .
+
+    ID              reduce using rule 69 (else -> empty .)
+    READ            reduce using rule 69 (else -> empty .)
+    PRINT           reduce using rule 69 (else -> empty .)
+    FOR             reduce using rule 69 (else -> empty .)
+    IF              reduce using rule 69 (else -> empty .)
+    WHILE           reduce using rule 69 (else -> empty .)
+    RBRACKET        reduce using rule 69 (else -> empty .)
+    RETURN          reduce using rule 69 (else -> empty .)
+
+
+state 197
+
+    (65) for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto . RBRACKET
+
+    RBRACKET        shift and go to state 199
+
+
+state 198
+
+    (68) else -> ELSE LBRACKET . estatuto RBRACKET
+    (38) estatuto -> . estatuto2
+    (39) estatuto -> . empty
+    (40) estatuto2 -> . estatuto3
+    (41) estatuto2 -> . estatuto3 estatuto2
+    (95) empty -> .
+    (42) estatuto3 -> . asignacion SEMICOLON
+    (43) estatuto3 -> . llamada SEMICOLON
+    (44) estatuto3 -> . lectura SEMICOLON
+    (45) estatuto3 -> . escritura SEMICOLON
+    (46) estatuto3 -> . for
+    (47) estatuto3 -> . if
+    (48) estatuto3 -> . while
+    (49) asignacion -> . ID EQUALS expresion
+    (50) asignacion -> . ID arr EQUALS expresion
+    (51) llamada -> . ID LPARENTHESIS expresion RPARENTHESIS
+    (52) lectura -> . READ LPARENTHESIS leevars RPARENTHESIS
+    (57) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (65) for -> . FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    (66) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET
+    (67) if -> . IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else
+    (70) while -> . WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+
+    RBRACKET        reduce using rule 95 (empty -> .)
+    ID              shift and go to state 74
+    READ            shift and go to state 75
+    PRINT           shift and go to state 76
+    FOR             shift and go to state 77
+    IF              shift and go to state 78
+    WHILE           shift and go to state 79
+
+    estatuto                       shift and go to state 200
+    estatuto2                      shift and go to state 64
+    empty                          shift and go to state 65
+    estatuto3                      shift and go to state 66
+    asignacion                     shift and go to state 67
+    llamada                        shift and go to state 68
+    lectura                        shift and go to state 69
+    escritura                      shift and go to state 70
+    for                            shift and go to state 71
+    if                             shift and go to state 72
+    while                          shift and go to state 73
+
+state 199
+
+    (65) for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET .
+
+    ID              reduce using rule 65 (for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    READ            reduce using rule 65 (for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    PRINT           reduce using rule 65 (for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    FOR             reduce using rule 65 (for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    IF              reduce using rule 65 (for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    WHILE           reduce using rule 65 (for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    RBRACKET        reduce using rule 65 (for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+    RETURN          reduce using rule 65 (for -> FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET .)
+
+
+state 200
+
+    (68) else -> ELSE LBRACKET estatuto . RBRACKET
+
+    RBRACKET        shift and go to state 201
+
+
+state 201
+
+    (68) else -> ELSE LBRACKET estatuto RBRACKET .
+
+    ID              reduce using rule 68 (else -> ELSE LBRACKET estatuto RBRACKET .)
+    READ            reduce using rule 68 (else -> ELSE LBRACKET estatuto RBRACKET .)
+    PRINT           reduce using rule 68 (else -> ELSE LBRACKET estatuto RBRACKET .)
+    FOR             reduce using rule 68 (else -> ELSE LBRACKET estatuto RBRACKET .)
+    IF              reduce using rule 68 (else -> ELSE LBRACKET estatuto RBRACKET .)
+    WHILE           reduce using rule 68 (else -> ELSE LBRACKET estatuto RBRACKET .)
+    RBRACKET        reduce using rule 68 (else -> ELSE LBRACKET estatuto RBRACKET .)
+    RETURN          reduce using rule 68 (else -> ELSE LBRACKET estatuto RBRACKET .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for MAIN in state 4 resolved as shift
+WARNING: shift/reduce conflict for LPARENTHESIS in state 104 resolved as shift
+WARNING: shift/reduce conflict for COMMA in state 104 resolved as shift
+WARNING: shift/reduce conflict for COMMA in state 121 resolved as shift
+WARNING: shift/reduce conflict for COMMA in state 135 resolved as shift
+WARNING: reduce/reduce conflict in state 15 resolved using rule (bloque -> funcion)
+WARNING: rejected rule (empty -> <empty>) in state 15
+WARNING: reduce/reduce conflict in state 124 resolved using rule (escritura2 -> CTEI)
+WARNING: rejected rule (expresion3 -> CTEI) in state 124
+WARNING: reduce/reduce conflict in state 125 resolved using rule (escritura2 -> CTEF)
+WARNING: rejected rule (expresion3 -> CTEF) in state 125
+WARNING: reduce/reduce conflict in state 126 resolved using rule (escritura2 -> CTESTRING)
+WARNING: rejected rule (expresion3 -> CTESTRING) in state 126
+WARNING: reduce/reduce conflict in state 127 resolved using rule (escritura2 -> CTEC)
+WARNING: rejected rule (expresion3 -> CTEC) in state 127
+WARNING: reduce/reduce conflict in state 192 resolved using rule (if -> IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET)
+WARNING: rejected rule (empty -> <empty>) in state 192
