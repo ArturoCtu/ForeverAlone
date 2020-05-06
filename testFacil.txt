@@ -1,0 +1,27 @@
+program alone;
+var int i; 
+	float a,c,d;
+	char b;
+
+function int fact(int i)
+var int i;
+	float k;
+{
+i=10;
+
+return i;
+}
+
+main(int baboso, float alv)
+var int j, k, l;
+	float x[10], c, y[8];
+{
+	if(a>b) then{
+		print("LOL", 10, "sd");
+	} else {
+		print("nop");
+	}
+	fact(a);
+	print("LOL");
+
+}
