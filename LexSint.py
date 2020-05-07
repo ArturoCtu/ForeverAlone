@@ -2,7 +2,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 import sys
 # LEXSINT v3
-# Lista de Tokens para Patito++
+# Lista de Tokens para ForeverAlone
 tokens = [
     #Literals (Identificador)
     'ID',     
@@ -42,7 +42,6 @@ tokens = [
 
 # Lista de Palabras reservadas
 reserved = {
-    # FALTA IMPLEMENTAR
     #Strucutral and Functional
     'program': 'PROGRAM',
     'main': 'MAIN',
@@ -66,12 +65,12 @@ reserved = {
     #Cyclic
     'for': 'FOR',
     'while': 'WHILE',
-    'from': 'FROM', #FALTA
-    'to': 'TO', #FALTA
+    'from': 'FROM',
+    'to': 'TO', 
 
     #IO
-    'print': 'PRINT', #FALTA
-    'read': 'READ' #FALTA
+    'print': 'PRINT', 
+    'read': 'READ'
 }
 
 #Se agregan las reservadas a la lista de tokens para tener una sola lista
@@ -110,9 +109,11 @@ t_ignore = r' '
 #Saltos de Linea
 def t_newline(t):
     r'\n+'
-#Ignorar Indentacion
+
+#Aceptar Indentacion
 def t_tabspace(t):
     r'\t+'
+
 # Crear IDs
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
@@ -148,32 +149,21 @@ def t_error(t):
     print("ERROR at '%s'" % t.value)
     t.lexer.skip(1)
 
-
-lexer = lex.lex()
-
-'''
-Quick Lexer Test 
-lexer.input("ab3 = 'a'")
-while True:
-    tok = lexer.token()
-    if not tok:
-        break
-    print(tok)
-'''
+#Estrucura del Programa
 def p_programa(p):
     '''
-    programa : PROGRAM ID SEMICOLON programa1
+    programa : PROGRAM ID SEMICOLON programa1 END
     '''
     p[0] = 'SUCCESS'
 def p_programa1(p):
     '''
-    programa1 : vars funcion principal END
-  			  | principal
+    programa1 : vars funcion principal 
     '''
 def p_principal(p):
     '''
     principal : MAIN LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET
     '''   
+#Variables
 def p_vars(p):
     '''
     vars : VAR vars1
@@ -209,6 +199,7 @@ def p_arr(p):
 	arr : LSQRBRACKET CTEI RSQRBRACKET
         | empty
 	'''
+#Parametros
 def p_parameters(p):
     '''
     parameters : parameters2
@@ -226,6 +217,7 @@ def p_parameters3(p):
 		| COMMA ID
 		| COMMA tipo ID
 	'''
+#Funciones
 def p_funcion(p):
 	'''
 	funcion : FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET funcion
@@ -236,6 +228,7 @@ def p_retorno(p):
 	'''
 	retorno : RETURN ID SEMICOLON
 	'''
+#Estatutos
 def p_estatuto(p):
     '''
     estatuto : estatuto2 estatuto
@@ -253,8 +246,7 @@ def p_estatuto2(p):
     ''' 
 def p_asignacion(p):
     '''
-    asignacion : ID EQUALS expresion 
-        | ID arr EQUALS expresion
+    asignacion : ID arr EQUALS expresion 
     '''
 def p_llamada(p):
     '''
@@ -270,8 +262,7 @@ def p_escritura(p):
     '''
 def p_escritura1(p):
     '''
-    escritura1 : expresion escritura2   
-                | CTESTRING escritura2
+    escritura1 : expresion escritura2 
     '''
 def p_escritura2(p):
     '''
@@ -295,52 +286,68 @@ def p_while(p):
     '''
     while : WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
     '''
+#Expresiones
 def p_expresion(p):
     '''
-    expresion : expresion1
-        | expresion1 OR expresion1
+    expresion : nexp expresion1
     '''
 def p_expresion1(p):
-    '''
-    expresion1 : expresion2
-        | expresion2 AND expresion2
-    '''
-def p_expresion2(p):
-    '''
-    expresion2 : suma
-        | expresioncomp suma
-    '''
-def p_expresioncomp(p):
-    '''
-    expresioncomp : suma GTHAN suma
-             | suma LTHAN suma
-             | suma GTHANEQ suma
-             | suma LTHANEQ suma
-             | suma DIFFERENT suma  
-    '''
-def p_suma(p):
-    '''
-    suma : multiplicacion
-        | multiplicacion PLUS multiplicacion
-        | multiplicacion MINUS multiplicacion
-    '''
-def p_multiplicacion(p):
-    '''
-    multiplicacion : expresion3
-        | expresion3 MULTIPLICATION expresion3
-        | expresion3 DIVISION expresion3
-    '''
-def p_expresion3(p):
-    '''
-    expresion3 : vars2
-        | CTEI
-        | CTEF
-        | CTEC
-        | CTESTRING
-        | LPARENTHESIS expresion3 RPARENTHESIS
-        | llamada
-    '''
-
+	'''
+	expresion1 : OR expresion
+		| empty
+	'''
+def p_nexp(p):
+	'''
+	nexp : comexp nexp1
+	'''
+def p_nexp1(p):
+	'''
+	nexp1 : AND nexp
+		| empty
+	'''
+def p_comexp(p):
+	'''
+	comexp : sumexp compex1
+	'''
+def p_compex1(p):
+	'''
+	compex1 : GTHAN sumexp
+		| LTHAN sumexp
+		| GTHANEQ sumexp
+		| LTHANEQ sumexp
+		| DIFFERENT sumexp
+		| empty
+	'''
+def p_sumexp(p):
+	'''
+	sumexp : mulexp sumexp1
+	'''
+def p_sumexp1(p):
+	'''
+	sumexp1 : PLUS sumexp
+		| MINUS sumexp
+		| empty
+	'''
+def p_mulexp(p):
+	'''
+	mulexp : pexp mulexp1
+	'''
+def p_mulexp1(p):
+	'''
+	mulexp1 : MULTIPLICATION mulexp
+		| DIVISION mulexp
+		| empty
+	'''
+def p_pexp(p):
+	'''
+	pexp : CTEI
+		| CTEF
+		| CTEC
+		| CTESTRING
+		| llamada
+		| ID
+		| LPARENTHESIS expresion RPARENTHESIS
+	'''
 def p_empty(p):
     '''
     empty : 
@@ -350,8 +357,17 @@ def p_error(p):
     print("Syntax error at '%s'" % p.value)
 
 
+precedence = (
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'MULTIPLICATION', 'DIVISION'),
+    ('right', 'EQUALS'),
+    ('left', 'AND', 'OR'),
+)
+
+lexer = lex.lex()
 parser = yacc.yacc()
 
+'''
 def main():
     try:
         filename = 'testFacil.txt'
@@ -371,5 +387,5 @@ def main():
             print("Syntax error")
     except EOFError:
         print(EOFError)
-
 main()
+'''

@@ -16,7 +16,7 @@ main(int baboso, float alv)
 var int j, k, l;
 	float x[10], c, y[8];
 {
-	if(a>b) then{
+	if(a<b || c>=d || a < b) then{
 		print("LOL", 10, "sd");
 	} else {
 		print("nop");
