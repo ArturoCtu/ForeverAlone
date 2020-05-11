@@ -3,7 +3,7 @@ var int i;
 	float a,c,d;
 	char b;
 
-function int fact(int i)
+function float fact(int i)
 var int i;
 	float k;
 {
@@ -11,7 +11,11 @@ i=10;
 
 return i;
 }
-
+function void suma(int a, int b)
+var int res;
+{
+	res = a + b;
+}
 main(int baboso, float alv)
 var int j, k, l;
 	float x[10], c, y[8];
@@ -25,3 +29,4 @@ var int j, k, l;
 	print("LOL");
 
 }
+end

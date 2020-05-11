@@ -1,7 +1,9 @@
 import ply.lex as lex
 import ply.yacc as yacc
 import sys
-# LEXSINT v3
+import queue
+from myTables import varTable, funTable
+#Lexer
 # Lista de Tokens para ForeverAlone
 tokens = [
     #Literals (Identificador)
@@ -48,7 +50,7 @@ reserved = {
     'function': 'FUNCTION',
     'void': 'VOID',
     'return': 'RETURN',
-    'end': 'END', #FALTA
+    'end': 'END',
 
     #Conditional
     'if': 'IF',
@@ -109,6 +111,7 @@ t_ignore = r' '
 #Saltos de Linea
 def t_newline(t):
     r'\n+'
+    t.lexer.lineno += len(t.value) #Cuenta mal pero se entiende
 
 #Aceptar Indentacion
 def t_tabspace(t):
@@ -149,12 +152,32 @@ def t_error(t):
     print("ERROR at '%s'" % t.value)
     t.lexer.skip(1)
 
+
+# Cosas a guardar y pilas
+currentVarType = ''
+currentVarId = ''
+currentFunType = ''
+currentFunId = ''
+
+OperandStack = []
+TypeStack = []
+OperatorsStack = []
+#Intancear las clases
+funTable = funTable()
+
+#PARSER
 #Estrucura del Programa
 def p_programa(p):
     '''
-    programa : PROGRAM ID SEMICOLON programa1 END
+    programa : addProgram PROGRAM ID SEMICOLON programa1 END
     '''
-    p[0] = 'SUCCESS'
+    p[0] = 'PROGRAM COMPILED'
+def p_addProgram(p):
+	''' addProgram : '''
+	global currentFunId, currentFunType
+	currentFunId = 'main'
+	currentFunType = 'void'
+	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0)
 def p_programa1(p):
     '''
     programa1 : vars funcion principal 
@@ -162,7 +185,7 @@ def p_programa1(p):
 def p_principal(p):
     '''
     principal : MAIN LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET
-    '''   
+    '''
 #Variables
 def p_vars(p):
     '''
@@ -194,6 +217,11 @@ def p_tipo(p):
         | CHAR 
         | STRING
     '''
+    global currentVarType
+    currentVarType = p[0]
+    global currentFunType
+    currentFunType = p[1]
+
 def p_arr(p):
 	'''
 	arr : LSQRBRACKET CTEI RSQRBRACKET
@@ -220,10 +248,18 @@ def p_parameters3(p):
 #Funciones
 def p_funcion(p):
 	'''
-	funcion : FUNCTION tipo ID LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET funcion
-		| FUNCTION VOID ID LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET funcion
+	funcion : FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET funcion
+		| FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET funcion
         | empty
 	'''
+def p_addFunction(p):
+	'''addFunction : '''
+	global currentFunId
+	currentFunId = p[-1]
+	global currentFunType
+	if p[-2] == 'void':
+		currentFunType = 'void'
+	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0)
 def p_retorno(p):
 	'''
 	retorno : RETURN ID SEMICOLON
@@ -352,10 +388,14 @@ def p_empty(p):
     '''
     empty : 
     '''
-    
-def p_error(p):
-    print("Syntax error at '%s'" % p.value)
 
+    p[0] = None
+def p_error(t):
+    if t is not None:
+        print ("Illegal token at %s, unexpected %s" % (lexer.lineno, t.value))
+        parser.errok()
+    else:
+        print('Unexpected end of file')
 
 precedence = (
     ('left', 'PLUS', 'MINUS'),
@@ -364,10 +404,11 @@ precedence = (
     ('left', 'AND', 'OR'),
 )
 
+#Contruir Lex y Parser
 lexer = lex.lex()
 parser = yacc.yacc()
 
-'''
+
 def main():
     try:
         filename = 'testFacil.txt'
@@ -380,12 +421,10 @@ def main():
             tok = lexer.token()
             if not tok:
                 break
-            print(tok)
-        if (parser.parse(content, tracking = True) == 'SUCCESS'):
-            print ("Correct Syntax")
-        else: 
-            print("Syntax error")
+            #print(tok)
+        if (parser.parse(content, tracking = True) == 'PROGRAM COMPILED'):
+            print ("Compiled")
+
     except EOFError:
         print(EOFError)
 main()
-'''
