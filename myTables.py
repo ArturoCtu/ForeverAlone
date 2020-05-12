@@ -20,7 +20,7 @@ class funTable(object):
 
 	def addFun(self, type, id, nParams, typeParams, idParams, nVars):
 		if id in self.funlst.keys():
-			print("Error: la funcion" + id + "ya existe")
+			print("Error: la funcion " + id + " ya existe")
 		else: 
 			self.funlst[id] = {
 				'type' : type,
@@ -37,10 +37,10 @@ class funTable(object):
 
 	def addVartoFun(self, funId, type, id):
 		if(self.funlst[funId]['vars'].searchVar(id)):
-			print("Error: la variable" + id + "ya existe")
+			print("Error: la variable " + id + " ya existe")
 		else:
 			self.funlst[funId]['vars'].addVar(type, id)
-			print("Variable agregada", id)
+			print("Variable agregada " + type + " " + id + " to " + funId)
 
 	def printFunVars(self, funId):
 		if id in self.funlst:

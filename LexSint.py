@@ -164,19 +164,19 @@ TypeStack = []
 OperatorsStack = []
 #Intancear las clases
 funTable = funTable()
-
+varTable = varTable()
 #PARSER
 #Estrucura del Programa
 def p_programa(p):
     '''
-    programa : addProgram PROGRAM ID SEMICOLON programa1 END
+    programa : PROGRAM ID addProgram SEMICOLON programa1 END
     '''
     p[0] = 'PROGRAM COMPILED'
 def p_addProgram(p):
 	''' addProgram : '''
 	global currentFunId, currentFunType
-	currentFunId = 'main'
-	currentFunType = 'void'
+	currentFunId = p[-1]
+	currentFunType = 'global'
 	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0)
 def p_programa1(p):
     '''
@@ -184,8 +184,14 @@ def p_programa1(p):
     '''
 def p_principal(p):
     '''
-    principal : MAIN LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET
+    principal : MAIN addMain LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET
     '''
+def p_addMain(p):
+	''' addMain : '''
+	global currentFunId, currentFunType
+	currentFunId = 'main'
+	currentFunType = 'void'
+	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0)	
 #Variables
 def p_vars(p):
     '''
@@ -198,7 +204,7 @@ def p_vars1(p):
     '''
 def p_vars2(p):
     '''
-    vars2 : ID arr vars3
+    vars2 : ID addVariable arr vars3
     '''
 def p_vars3(p):
     '''
@@ -218,7 +224,7 @@ def p_tipo(p):
         | STRING
     '''
     global currentVarType
-    currentVarType = p[0]
+    currentVarType = p[1]
     global currentFunType
     currentFunType = p[1]
 
@@ -235,15 +241,15 @@ def p_parameters(p):
     '''
 def p_parameters2(p):
 	'''
-	parameters2 : tipo ID
-		| tipo ID parameters3 
+	parameters2 : tipo ID addVariable
+		| tipo ID addVariable parameters3 
 	'''
 def p_parameters3(p):
 	'''
-	parameters3 : COMMA ID parameters3
-		| COMMA tipo ID parameters3
-		| COMMA ID
-		| COMMA tipo ID
+	parameters3 : COMMA ID addVariable parameters3
+		| COMMA tipo ID addVariable parameters3
+		| COMMA ID addVariable
+		| COMMA tipo ID addVariable
 	'''
 #Funciones
 def p_funcion(p):
@@ -384,6 +390,14 @@ def p_pexp(p):
 		| ID
 		| LPARENTHESIS expresion RPARENTHESIS
 	'''
+def p_addVariable(p):
+	'''addVariable : '''
+	global currentVarId
+	currentVarId = p[-1]
+	if(funTable.searchFun(currentFunId)==True):
+		funTable.addVartoFun(currentFunId, currentVarType, currentVarId)
+	else:
+		print("Funcion no enconttrada")
 def p_empty(p):
     '''
     empty : 

@@ -3,8 +3,8 @@ var int i;
 	float a,c,d;
 	char b;
 
-function float fact(int i)
-var int i;
+function float fact(int i, ij, lk)
+var int ib;
 	float k;
 {
 i=10;
