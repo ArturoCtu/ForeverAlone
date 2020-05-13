@@ -45,20 +45,3 @@ class funTable(object):
 	def printFunVars(self, funId):
 		if id in self.funlst:
 				self.funlst[funId]['vars'].printVar()
-
-'''
-z = funTable()
-
-z.addFun('void', 'ImprimeParametros', 3,
-['int', 'float', 'char'],['uno','dos', 'tres'], 0)
-
-
-z.addVartoFun('ImprimeParametros','int', 'i')
-z.addVartoFun('ImprimeParametros', 'float', 'o')
-z.addVartoFun('ImprimeParametros', 'char', 'p')
-
-print(z.searchFun('ImprimeParametros'))
-print(z.searchFun('hgrughurhgu'))
-
-z.printFunVars('hola')
-'''
