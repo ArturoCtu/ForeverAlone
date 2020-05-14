@@ -24,19 +24,22 @@ semanticCube['int']['float']['-'] = semanticCube['float']['int']['-'] = 'float'
 semanticCube['int']['float']['*'] = semanticCube['float']['int']['*'] = 'float'
 semanticCube['int']['float']['/'] = semanticCube['float']['int']['/'] = 'float'
 #Mixtas con Equivalencias INT - CHAR - FLOAT
-semanticCube['char']['int']['+'] = semanticCube['int']['char']['+'] = 'Error'
-semanticCube['char']['float']['+'] = semanticCube['float']['char']['+'] = 'Error'
-semanticCube['char']['int']['-'] = semanticCube['int']['char']['-'] = 'Error'
-semanticCube['char']['float']['-'] = semanticCube['float']['char']['-'] = 'Error'
-semanticCube['char']['int']['*'] = semanticCube['int']['char']['*'] = 'Error'
-semanticCube['char']['float']['*'] = semanticCube['float']['char']['*'] = 'Error'
-semanticCube['char']['int']['/'] = semanticCube['int']['char']['/'] = 'Error'
-semanticCube['char']['float']['/'] = semanticCube['float']['char']['/'] = 'Error'
+semanticCube['int']['char']['+'] = semanticCube['char']['int']['+'] = 'Error'
+semanticCube['int']['char']['-'] = semanticCube['char']['int']['-'] = 'Error'
+semanticCube['int']['char']['*'] = semanticCube['char']['int']['*'] = 'Error'
+semanticCube['int']['char']['/'] = semanticCube['char']['int']['/'] = 'Error'
+semanticCube['float']['char']['+'] = semanticCube['char']['float']['+'] = 'Error'
+semanticCube['float']['char']['-'] = semanticCube['char']['float']['-'] = 'Error'
+semanticCube['float']['char']['*'] = semanticCube['char']['float']['*'] = 'Error'
+semanticCube['float']['char']['/'] = semanticCube['char']['float']['/'] = 'Error'
 
 #Asignaciones
 semanticCube['int']['int']['='] = 'int'
 semanticCube['float']['float']['='] = 'float'
 semanticCube['char']['char']['='] = 'char' 
+#Errores
+semanticCube['char']['int']['='] = semanticCube['int']['char']['='] = 'Error'
+semanticCube['char']['float']['='] = semanticCube['float']['char']['='] = 'Error'
 
 #Comparaciones
 #Integers
@@ -45,31 +48,41 @@ semanticCube['int']['int']['<'] = 'bool'
 semanticCube['int']['int']['>='] = 'bool'
 semanticCube['int']['int']['<='] = 'bool'
 semanticCube['int']['int']['!='] = 'bool'
+semanticCube['int']['int']['=='] = 'bool'
 #Floats
 semanticCube['float']['float']['>'] = 'bool'
 semanticCube['float']['float']['<'] = 'bool'
 semanticCube['float']['float']['>='] = 'bool'
 semanticCube['float']['float']['<='] = 'bool'
 semanticCube['float']['float']['!='] = 'bool'
+semanticCube['float']['float']['=='] = 'bool'
+#Mixta
+semanticCube['int']['float']['>'] = semanticCube['float']['int']['>'] = 'bool' 
+semanticCube['int']['float']['<'] = semanticCube['float']['int']['<'] = 'bool' 
+semanticCube['int']['float']['>='] = semanticCube['float']['int']['>='] = 'bool' 
+semanticCube['int']['float']['<='] = semanticCube['float']['int']['<='] = 'bool' 
+semanticCube['int']['float']['!='] = semanticCube['float']['int']['!='] = 'bool'
+semanticCube['int']['float']['=='] = semanticCube['float']['int']['=='] = 'bool' 
 #Chars
 semanticCube['char']['char']['<'] = 'Error'
 semanticCube['char']['char']['>'] = 'Error'
 semanticCube['char']['char']['>='] = 'Error'
 semanticCube['char']['char']['<='] = 'Error'
 semanticCube['char']['char']['!='] = 'Error'
-#Errores
-semanticCube['char']['int']['='] = semanticCube['int']['char']['='] = 'Error'
-semanticCube['char']['float']['='] = semanticCube['float']['char']['='] = 'Error'
-semanticCube['char']['int']['>'] = semanticCube['int']['char']['>'] = 'Error'
-semanticCube['char']['float']['>'] = semanticCube['float']['char']['>'] = 'Error'
-semanticCube['char']['int']['<'] = semanticCube['int']['char']['<'] = 'Error'
-semanticCube['char']['float']['<'] = semanticCube['float']['char']['<'] = 'Error'
-semanticCube['char']['int']['>='] = semanticCube['int']['char']['>='] = 'Error'
-semanticCube['char']['float']['>='] = semanticCube['int']['float']['>='] = 'Error'
-semanticCube['char']['int']['<='] = semanticCube['int']['char']['<='] = 'Error'
-semanticCube['char']['float']['<='] = semanticCube['float']['char']['<='] = 'Error'
-semanticCube['char']['int']['!='] = semanticCube['int']['char']['!='] = 'Error'
-semanticCube['char']['float']['!='] = semanticCube['float']['char']['!='] = 'Error'
+semanticCube['char']['char']['=='] = 'bool'
+#Errores con equivalencia
+semanticCube['int']['char']['>'] = semanticCube['char']['int']['>'] = 'Error'
+semanticCube['float']['char']['>'] = semanticCube['char']['float']['>'] = 'Error'
+semanticCube['int']['char']['<'] = semanticCube['char']['int']['<'] = 'Error'
+semanticCube['float']['char']['<'] = semanticCube['char']['float']['<'] = 'Error'
+semanticCube['int']['char']['>='] = semanticCube['char']['int']['>='] = 'Error'
+semanticCube['float']['char']['>='] = semanticCube['char']['float']['>='] = 'Error'
+semanticCube['int']['char']['<='] = semanticCube['char']['int']['<='] = 'Error'
+semanticCube['float']['char']['<='] = semanticCube['char']['float']['<='] = 'Error'
+semanticCube['int']['char']['!='] = semanticCube['char']['int']['!='] = 'Error'
+semanticCube['float']['char']['!='] = semanticCube['char']['float']['!='] = 'Error'
+semanticCube['int']['char']['=='] = semanticCube['char']['int']['=='] = 'Error'
+semanticCube['float']['char']['=='] = semanticCube['char']['float']['=='] = 'Error'
 
 #Operadores Logicos
 semanticCube['int']['int']['||'] = 'bool'
@@ -79,10 +92,11 @@ semanticCube['float']['float']['&&'] = 'bool'
 semanticCube['char']['char']['||'] = 'bool'
 semanticCube['char']['char']['&&'] = 'bool'
 #Errores
-semanticCube['char']['int']['||'] = semanticCube['int']['char']['||'] = 'Error'
+semanticCube['int']['char']['||'] = semanticCube['char']['int']['||'] = 'Error'
 semanticCube['char']['float']['||'] = semanticCube['char']['float']['||'] = 'Error'
 semanticCube['char']['int']['&&'] = semanticCube['char']['int']['&&'] = 'Error'
 semanticCube['char']['float']['&&'] = semanticCube['char']['float']['&&'] = 'Error'
 
 
-#NO TENGO == AGREGAR A LEXER PARSER Y CUBO SEMANTICO
+def getType(left,right, operator):
+	return semanticCube[left][right][operator]

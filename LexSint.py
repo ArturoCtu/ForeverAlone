@@ -3,13 +3,14 @@ import ply.yacc as yacc
 import sys
 import queue
 from myTables import varTable, funTable
+from semanticCube import *
 #Lexer
 # Lista de Tokens para ForeverAlone
 tokens = [
     #Literals (Identificador)
     'ID',     
 
-    #Operators (+,-,*,/,&&,||,>,<,>=,<=,!=)
+    #Operators (+,-,*,/,&&,||,>,<,>=,<=,!=,==)
     'PLUS',
     'MINUS',
     'MULTIPLICATION',
@@ -21,6 +22,7 @@ tokens = [
     'GTHANEQ',
     'LTHANEQ',
     'DIFFERENT',
+    'EQUALS',
 
     #Delimitators (;,',',:,{,},[,],(,),")
     'SEMICOLON',
@@ -39,7 +41,7 @@ tokens = [
     'CTESTRING',
 
     #Assignment (=)
-    'EQUALS'
+    'EQUAL'
 ]
 
 # Lista de Palabras reservadas
@@ -91,6 +93,7 @@ t_GTHAN = r'>'
 t_LTHANEQ = r'<='
 t_GTHANEQ = r'>='
 t_DIFFERENT = r'!='
+t_EQUALS = r'=='
 
 #Delimitators
 t_SEMICOLON = r'\;'
@@ -103,7 +106,7 @@ t_LSQRBRACKET = r'\['
 t_RSQRBRACKET = r'\]'
 
 #Assignment
-t_EQUALS = r'\='
+t_EQUAL = r'\='
 
 #Espacios en Blanco
 t_ignore = r' '
@@ -288,7 +291,7 @@ def p_estatuto2(p):
     ''' 
 def p_asignacion(p):
     '''
-    asignacion : ID arr EQUALS expresion 
+    asignacion : ID arr EQUAL expresion 
     '''
 def p_llamada(p):
     '''
@@ -358,6 +361,7 @@ def p_compex1(p):
 		| GTHANEQ sumexp
 		| LTHANEQ sumexp
 		| DIFFERENT sumexp
+		| EQUALS sumexp
 		| empty
 	'''
 def p_sumexp(p):
@@ -414,7 +418,7 @@ def p_error(t):
 precedence = (
     ('left', 'PLUS', 'MINUS'),
     ('left', 'MULTIPLICATION', 'DIVISION'),
-    ('right', 'EQUALS'),
+    ('right', 'EQUAL'),
     ('left', 'AND', 'OR'),
 )
 
@@ -441,4 +445,9 @@ def main():
 
     except EOFError:
         print(EOFError)
+
+    #Llamando a Cubo semantico de 2 maneras
+    print(semanticCube['float']['float']['=='])
+    print(getType('float','int','>'))
+
 main()
