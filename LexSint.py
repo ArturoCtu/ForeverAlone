@@ -4,6 +4,7 @@ import sys
 import queue
 from myTables import varTable, funTable
 from semanticCube import *
+from avail import *
 #Lexer
 # Lista de Tokens para ForeverAlone
 tokens = [
@@ -162,12 +163,17 @@ currentVarId = ''
 currentFunType = ''
 currentFunId = ''
 
-OperandStack = []
-TypeStack = []
-OperatorsStack = []
+#Pilas para los quads
+operandStack = []
+typeStack = []
+operatorsStack = []
+jumpStack = []
+quadruples = []
+
 #Intancear las clases
 funTable = funTable()
 varTable = varTable()
+avail = avail()
 #PARSER
 #Estrucura del Programa
 def p_programa(p):
@@ -178,7 +184,7 @@ def p_programa(p):
 def p_addProgram(p):
 	''' addProgram : '''
 	global currentFunId, currentFunType
-	currentFunId = p[-1]
+	currentFunId = 'global'
 	currentFunType = 'global'
 	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0)
 def p_programa1(p):
@@ -291,7 +297,7 @@ def p_estatuto2(p):
     ''' 
 def p_asignacion(p):
     '''
-    asignacion : ID arr EQUAL expresion 
+    asignacion : ID addId arr EQUAL addOperator expresion quadEqual
     '''
 def p_llamada(p):
     '''
@@ -307,13 +313,18 @@ def p_escritura(p):
     '''
 def p_escritura1(p):
     '''
-    escritura1 : expresion escritura2 
+    escritura1 : printOperator expresion escritura2 
     '''
 def p_escritura2(p):
     '''
     escritura2 : COMMA escritura1
         | empty 
     '''
+def p_printOperator(p):
+	''' printOperator : '''
+	global operatorsStack
+	operatorsStack.append('print')
+
 def p_for(p):
     '''
     for : FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
@@ -334,64 +345,64 @@ def p_while(p):
 #Expresiones
 def p_expresion(p):
     '''
-    expresion : nexp expresion1
+    expresion : nexp genQuad expresion1
     '''
 def p_expresion1(p):
 	'''
-	expresion1 : OR expresion
+	expresion1 : OR addOperator expresion
 		| empty
 	'''
 def p_nexp(p):
 	'''
-	nexp : comexp nexp1
+	nexp : comexp genQuad nexp1
 	'''
 def p_nexp1(p):
 	'''
-	nexp1 : AND nexp
+	nexp1 : AND addOperator nexp
 		| empty
 	'''
 def p_comexp(p):
 	'''
-	comexp : sumexp compex1
+	comexp : sumexp genQuad compex1
 	'''
 def p_compex1(p):
 	'''
-	compex1 : GTHAN sumexp
-		| LTHAN sumexp
-		| GTHANEQ sumexp
-		| LTHANEQ sumexp
-		| DIFFERENT sumexp
-		| EQUALS sumexp
+	compex1 : GTHAN addOperator sumexp
+		| LTHAN addOperator sumexp
+		| GTHANEQ addOperator sumexp
+		| LTHANEQ addOperator sumexp
+		| DIFFERENT addOperator sumexp
+		| EQUALS addOperator sumexp
 		| empty
 	'''
 def p_sumexp(p):
 	'''
-	sumexp : mulexp sumexp1
+	sumexp : mulexp genQuad sumexp1
 	'''
 def p_sumexp1(p):
 	'''
-	sumexp1 : PLUS sumexp
-		| MINUS sumexp
+	sumexp1 : PLUS addOperator sumexp
+		| MINUS addOperator sumexp
 		| empty
 	'''
 def p_mulexp(p):
 	'''
-	mulexp : pexp mulexp1
+	mulexp : pexp genQuad mulexp1
 	'''
 def p_mulexp1(p):
 	'''
-	mulexp1 : MULTIPLICATION mulexp
-		| DIVISION mulexp
+	mulexp1 : MULTIPLICATION addOperator mulexp
+		| DIVISION addOperator mulexp
 		| empty
 	'''
 def p_pexp(p):
 	'''
-	pexp : CTEI
-		| CTEF
-		| CTEC
-		| CTESTRING
+	pexp : CTEI addOperandCte
+		| CTEF addOperandCte
+		| CTEC addOperandCte
+		| CTESTRING addOperandCte
 		| llamada
-		| ID
+		| ID addOperandVar
 		| LPARENTHESIS expresion RPARENTHESIS
 	'''
 def p_addVariable(p):
@@ -402,6 +413,99 @@ def p_addVariable(p):
 		funTable.addVartoFun(currentFunId, currentVarType, currentVarId)
 	else:
 		print("Funcion no enconttrada")
+
+def p_quadEqual(p):
+	''' quadEqual : '''
+	global operatorsStack, operatorsStack, typeStack, quadruples
+	'''
+	operatorsStack = ['+','=']
+	operandStack = ['a','b']
+	typeStack = ['int','int']
+	'''
+	if(len(operatorsStack) > 0):
+		if(operatorsStack[-1] == '='):
+			operator = operatorsStack.pop()
+			rightVal = operandStack.pop()
+			rightType = typeStack.pop()
+			leftVal = operandStack.pop()
+			leftType = typeStack.pop()
+
+			resType = getType(leftType,rightType,operator)
+			if resType != 'error':
+				quad = (operator, leftVal, None, rightVal)
+				print('quad equal: ' + str(quad))
+				quadruples.append(quad)
+			else:
+				print("Type missmatch")
+				sys.exit()     
+
+def p_genQuad(p): #4Args
+	'''genQuad : '''
+	global operatorsStack, operandStack, typeStack, quadruples
+	if(len(operatorsStack) > 0):
+		if(operatorsStack[-1] != '='):
+			operator = operatorsStack.pop()
+			rightVal = operandStack.pop()
+			rightType = typeStack.pop()
+			leftVal = operandStack.pop()
+			leftType = typeStack.pop()
+			resType = getType(leftType, rightType, operator)
+			if(resType != 'error'):
+				result = avail.next()
+				quad = (operator, leftVal, rightVal, result)
+				print('quad: ' + str(quad))
+				quadruples.append(quad)
+				operandStack.append(result)
+				typeStack.append(resType)
+			else:
+				print("type mismatch")
+				sys.exit()
+
+
+def p_addOperator(p):
+	''' addOperator : '''
+	global operatorsStack
+	operatorsStack.append(p[-1])
+	#print(operatorsStack[-1])
+
+def p_addOperandVar(p):
+	''' addOperandVar : '''
+	global operandStack, operatorsStack ,currentFunId
+	res = funTable.getVarType(currentFunId, p[-1])
+	if res != False:
+		typeStack.append(res)
+		operandStack.append(p[-1])
+	else:
+		sys.exit()
+
+	#print(typeStack[-1])
+def p_addOperandCte(p):
+	''' addOperandCte : '''
+	global operandStack, operatorsStack
+	res = type(p[-1])
+	if res == int:
+		typeStack.append('int')
+	elif res == float:
+		typeStack.append('float')
+	elif res == str:
+		if(len(p[-1])>1):
+			typeStack.append('string')
+		else:
+			typeStack.append('char')
+	operandStack.append(p[-1])
+	#print(operandStack[-1],typeStack[-1])
+def p_addId(p):
+	''' addId : '''
+	global currentVarId, funTable
+	currentVarId = p[-1]
+	if(funTable.searchVarinFun(currentFunId, currentVarId)):
+		typeStack.append(funTable.getVarType(currentFunId, currentVarId))
+		operandStack.append(currentVarId)
+	else:
+		sys.exit()
+
+
+
 def p_empty(p):
     '''
     empty : 
@@ -428,26 +532,32 @@ parser = yacc.yacc()
 
 
 def main():
-    try:
-        filename = 'testFacil.txt'
-        file = open(filename, 'r')
-        print("Compilando: " + filename)
-        content = file.read()
-        file.close()
-        lexer.input(content)
-        while True:
-            tok = lexer.token()
-            if not tok:
-                break
+	try:
+		filename = 'testFacil.txt'
+		file = open(filename, 'r')
+		print("Compilando: " + filename)
+		content = file.read()
+		file.close()
+		lexer.input(content)
+		while True:
+			tok = lexer.token()
+			if not tok:
+				break
             #print(tok)
-        if (parser.parse(content, tracking = True) == 'PROGRAM COMPILED'):
-            print ("Compiled")
 
-    except EOFError:
-        print(EOFError)
+		if (parser.parse(content, tracking = True) == 'PROGRAM COMPILED'):
+			print ("Compiled")
 
+
+	except EOFError:
+		print(EOFError)
+
+	#print(funTable.getVarType('suma', 'res'))
+	print(*typeStack, sep = ", ") 
+	print(*operandStack, sep = ", ") 
+	print(*operatorsStack, sep = ", ")    
     #Llamando a Cubo semantico de 2 maneras
-    print(semanticCube['float']['float']['=='])
-    print(getType('float','int','>'))
+    #print(semanticCube['float']['float']['=='])
+    #print(getType('float','int','>'))
 
 main()

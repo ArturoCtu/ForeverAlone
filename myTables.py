@@ -8,6 +8,9 @@ class varTable(object):
 			'type': type
 		}
 
+	def getType(self, id):
+		return self.varlst[id]['type']
+
 	def searchVar(self, id):
 		return id in self.varlst
 
@@ -41,6 +44,23 @@ class funTable(object):
 		else:
 			self.funlst[funId]['vars'].addVar(type, id)
 			print("Variable agregada " + type + " " + id + " to " + funId)
+
+	def getVarType(self, funId, id):
+		if(self.funlst[funId]['vars'].searchVar(id)):
+			return self.funlst[funId]['vars'].getType(id)
+		elif(self.funlst['global']['vars'].searchVar(id)):
+			return self.funlst['global']['vars'].getType(id)
+		else:
+			print("Var "+ id + " Not Found")
+
+	def searchVarinFun(self, funId, id):
+		if(self.funlst[funId]['vars'].searchVar(id)):
+			return True
+		elif(self.funlst['global']['vars'].searchVar(id)):
+			return True
+		else:
+			print("Var "+ id + " Not Found")
+			return False 
 
 	def printFunVars(self, funId):
 		if id in self.funlst:

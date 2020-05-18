@@ -7,7 +7,7 @@ function float fact(int i, ij, lk)
 var int ib;
 	float k;
 {
-i=10;
+i = 10;
 
 return i;
 }
@@ -20,10 +20,10 @@ main(int baboso, float alv)
 var int j, k, l;
 	float x[10], c, y[8];
 {
-	if(a<b || c>=d || a < b) then{
+	if(a<b && b > c) then{
 		print("LOL", 10, "sd");
 	} else {
-		print("nop");
+		print('c');
 	}
 	fact(a);
 	print("LOL");
