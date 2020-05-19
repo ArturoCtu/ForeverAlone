@@ -305,15 +305,20 @@ def p_llamada(p):
     '''
 def p_lectura(p):
     '''
-    lectura : READ LPARENTHESIS vars2 RPARENTHESIS
+    lectura : READ readOperator LPARENTHESIS expresion RPARENTHESIS
     '''
+def p_readOperator(p):
+	''' readOperator : '''
+	global operatorsStack
+	operatorsStack.append('read')
+
 def p_escritura(p):
     '''
     escritura : PRINT LPARENTHESIS escritura1 RPARENTHESIS
     '''
 def p_escritura1(p):
     '''
-    escritura1 : printOperator expresion escritura2 
+    escritura1 : printOperator expresion printQuad escritura2 
     '''
 def p_escritura2(p):
     '''
@@ -331,7 +336,7 @@ def p_for(p):
     '''
 def p_if(p):
     '''
-    if : IF LPARENTHESIS expresion RPARENTHESIS THEN LBRACKET estatuto RBRACKET else 
+    if : IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else 
     '''
 def p_else(p):
     '''
@@ -345,7 +350,7 @@ def p_while(p):
 #Expresiones
 def p_expresion(p):
     '''
-    expresion : nexp genQuad expresion1
+    expresion : nexp orQuad expresion1
     '''
 def p_expresion1(p):
 	'''
@@ -354,7 +359,7 @@ def p_expresion1(p):
 	'''
 def p_nexp(p):
 	'''
-	nexp : comexp genQuad nexp1
+	nexp : comexp andQuad nexp1
 	'''
 def p_nexp1(p):
 	'''
@@ -363,7 +368,7 @@ def p_nexp1(p):
 	'''
 def p_comexp(p):
 	'''
-	comexp : sumexp genQuad compex1
+	comexp : sumexp compQuad compex1 compQuad
 	'''
 def p_compex1(p):
 	'''
@@ -377,7 +382,7 @@ def p_compex1(p):
 	'''
 def p_sumexp(p):
 	'''
-	sumexp : mulexp genQuad sumexp1
+	sumexp : mulexp plusQuad sumexp1
 	'''
 def p_sumexp1(p):
 	'''
@@ -387,7 +392,7 @@ def p_sumexp1(p):
 	'''
 def p_mulexp(p):
 	'''
-	mulexp : pexp genQuad mulexp1
+	mulexp : pexp multQuad mulexp1
 	'''
 def p_mulexp1(p):
 	'''
@@ -414,6 +419,79 @@ def p_addVariable(p):
 	else:
 		print("Funcion no enconttrada")
 
+
+def p_genQuad(p): 
+	'''genQuad : '''
+	global operatorsStack, operandStack, typeStack, quadruples
+	if(len(operatorsStack) > 0):
+		if(operatorsStack[-1] == 'print' or operatorsStack[-1] == 'read'): #2Args
+			operator = operatorsStack.pop()
+			value = operandStack.pop()
+			typeStack.pop()
+			quad = (operator, None, None, value)
+			print('print quad: ' + str(quad))
+			quadruples.append(quad)
+		elif(operatorsStack[-1] != '='): #4Args
+			operator = operatorsStack.pop()
+			rightVal = operandStack.pop()
+			rightType = typeStack.pop()
+			leftVal = operandStack.pop()
+			leftType = typeStack.pop()
+			resType = getType(leftType, rightType, operator)
+			if(resType != 'error'):
+				result = avail.next()
+				quad = (operator, leftVal, rightVal, result)
+				print('quad: ' + str(quad))
+				quadruples.append(quad)
+				operandStack.append(result)
+				typeStack.append(resType)
+			else:
+				print("type mismatch")
+				sys.exit()
+
+############################################
+# GENERACION DE CUADRUPLOS CON PRECEDENCIA #
+############################################
+#AND Y OR
+def p_orQuad(p):
+	''' orQuad : '''
+	global operatorsStack
+	if(len(operatorsStack) > 0):
+		if(operatorsStack[-1] == '||'):
+			genQuad()
+def p_andQuad(p):
+	''' andQuad : '''
+	global operatorsStack
+	if(len(operatorsStack) > 0):
+		if(operatorsStack[-1] == '&&'):
+			genQuad()
+
+#COMPARACIONES
+def p_compQuad(p):
+	''' compQuad : '''
+	global operatorsStack
+	
+	if(len(operatorsStack) > 0):
+		if(operatorsStack[-1] == '<' or operatorsStack[-1] == '>'  or operatorsStack[-1] == '<=' or operatorsStack[-1] == '>=' or operatorsStack[-1] == '==' or operatorsStack[-1] == '!='):
+			genQuad()
+
+#MULTIPLICACION Y DIVISION
+def p_multQuad(p):
+    '''multQuad : '''
+    global operatorsStack
+    if(len(operatorsStack) > 0):
+    	if(operatorsStack[-1] == '*' or operatorsStack[-1] == '/'):
+    		genQuad()
+
+#SUMA Y RESTA
+def p_plusQuad(p):
+    '''plusQuad : '''
+    global operatorsStack
+    if(len(operatorsStack) > 0):
+    	if(operatorsStack[-1] == '+' or operatorsStack[-1] == '-'):
+    		genQuad()
+
+#IGUAL
 def p_quadEqual(p):
 	''' quadEqual : '''
 	global operatorsStack, operatorsStack, typeStack, quadruples
@@ -438,12 +516,32 @@ def p_quadEqual(p):
 			else:
 				print("Type missmatch")
 				sys.exit()     
+#PRINT
+def p_printQuad(p):
+	''' printQuad : '''
+	global operatorsStack
+	if(len(operatorsStack) > 0):
+		if(operatorsStack[-1] == 'print'):
+			operator = operatorsStack.pop()
+			value = operandStack.pop()
+			typeStack.pop()
+			quad = (operator, None, None, value)
+			print('print quad: ' + str(quad))
+			quadruples.append(quad)
 
-def p_genQuad(p): #4Args
-	'''genQuad : '''
+
+
+def genQuad(): 
 	global operatorsStack, operandStack, typeStack, quadruples
 	if(len(operatorsStack) > 0):
-		if(operatorsStack[-1] != '='):
+		if(operatorsStack[-1] == 'print' or operatorsStack[-1] == 'read'): #2Args
+			operator = operatorsStack.pop()
+			value = operandStack.pop()
+			typeStack.pop()
+			quad = (operator, None, None, value)
+			print('print quad: ' + str(quad))
+			quadruples.append(quad)
+		elif(operatorsStack[-1] != '='): #4Args
 			operator = operatorsStack.pop()
 			rightVal = operandStack.pop()
 			rightType = typeStack.pop()
@@ -504,8 +602,32 @@ def p_addId(p):
 	else:
 		sys.exit()
 
+def p_ifQuad(p):
+	''' ifQuad : '''
+	global typeStack, quadruples, jumpStack
+
+	if typeStack.pop() == 'bool':
+		print("HEYHEY")
+	'''
+		value = operandStack.pop()
+		quad = ('goto', value, None, -1)
+		quadruples.append(quad)
+		jumpStack.append(len(quadruples)-1)
+		print('if quad: ' + str(quad))
+	else:
+		print("type mismatch")
+		sys.exit()
+	'''
+'''
+def p_forQuad(p):
 
 
+def p_whileQuad(p):
+
+
+def p_auxQuad(p):
+
+'''
 def p_empty(p):
     '''
     empty : 

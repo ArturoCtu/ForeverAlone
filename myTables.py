@@ -39,11 +39,11 @@ class funTable(object):
 		return id in self.funlst
 
 	def addVartoFun(self, funId, type, id):
-		if(self.funlst[funId]['vars'].searchVar(id)):
+		if(self.funlst[funId]['vars'].searchVar(id) or self.funlst['global']['vars'].searchVar(id)):
 			print("Error: la variable " + id + " ya existe")
 		else:
 			self.funlst[funId]['vars'].addVar(type, id)
-			print("Variable agregada " + type + " " + id + " to " + funId)
+			#print("Variable agregada " + type + " " + id + " to " + funId)
 
 	def getVarType(self, funId, id):
 		if(self.funlst[funId]['vars'].searchVar(id)):
