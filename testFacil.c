@@ -16,14 +16,20 @@ var int res;
 	res = aj + bj * c / 10;
 }
 main(int baboso, float alv)
-var int j, k, l;
+var int j, k, l, iterator;
 	float x[10], y[8];
 {
+	read(a);
 	if(j > k || k < l) then{
 		print("lol", 'c');
 	} else {
 		print("burro lol");
+		j = l + k;
 	}
-
+		
+	while(iterator < 10){
+		iterator = iterator + 1;
+	}
+	print("thanks");
 }
 end

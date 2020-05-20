@@ -305,13 +305,8 @@ def p_llamada(p):
     '''
 def p_lectura(p):
     '''
-    lectura : READ readOperator LPARENTHESIS expresion RPARENTHESIS
+    lectura : READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
     '''
-def p_readOperator(p):
-	''' readOperator : '''
-	global operatorsStack
-	operatorsStack.append('read')
-
 def p_escritura(p):
     '''
     escritura : PRINT LPARENTHESIS escritura1 RPARENTHESIS
@@ -325,27 +320,22 @@ def p_escritura2(p):
     escritura2 : COMMA escritura1
         | empty 
     '''
-def p_printOperator(p):
-	''' printOperator : '''
-	global operatorsStack
-	operatorsStack.append('print')
-
 def p_for(p):
     '''
     for : FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
     '''
 def p_if(p):
     '''
-    if : IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else 
+    if : IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
     '''
 def p_else(p):
     '''
-    else : ELSE LBRACKET estatuto RBRACKET
+    else : ELSE elseQuad LBRACKET estatuto RBRACKET
         | empty
     '''
 def p_while(p):
     '''
-    while : WHILE LPARENTHESIS expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    while : WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
     '''
 #Expresiones
 def p_expresion(p):
@@ -410,44 +400,9 @@ def p_pexp(p):
 		| ID addOperandVar
 		| LPARENTHESIS expresion RPARENTHESIS
 	'''
-def p_addVariable(p):
-	'''addVariable : '''
-	global currentVarId
-	currentVarId = p[-1]
-	if(funTable.searchFun(currentFunId)==True):
-		funTable.addVartoFun(currentFunId, currentVarType, currentVarId)
-	else:
-		print("Funcion no enconttrada")
-
-
-def p_genQuad(p): 
-	'''genQuad : '''
-	global operatorsStack, operandStack, typeStack, quadruples
-	if(len(operatorsStack) > 0):
-		if(operatorsStack[-1] == 'print' or operatorsStack[-1] == 'read'): #2Args
-			operator = operatorsStack.pop()
-			value = operandStack.pop()
-			typeStack.pop()
-			quad = (operator, None, None, value)
-			print('print quad: ' + str(quad))
-			quadruples.append(quad)
-		elif(operatorsStack[-1] != '='): #4Args
-			operator = operatorsStack.pop()
-			rightVal = operandStack.pop()
-			rightType = typeStack.pop()
-			leftVal = operandStack.pop()
-			leftType = typeStack.pop()
-			resType = getType(leftType, rightType, operator)
-			if(resType != 'error'):
-				result = avail.next()
-				quad = (operator, leftVal, rightVal, result)
-				print('quad: ' + str(quad))
-				quadruples.append(quad)
-				operandStack.append(result)
-				typeStack.append(resType)
-			else:
-				print("type mismatch")
-				sys.exit()
+#########################################################################
+#			 	SEMANTICA Y GENERACION DE CODIGO INTERMEDIO			   	#
+#########################################################################
 
 ############################################
 # GENERACION DE CUADRUPLOS CON PRECEDENCIA #
@@ -470,9 +425,8 @@ def p_andQuad(p):
 def p_compQuad(p):
 	''' compQuad : '''
 	global operatorsStack
-	
 	if(len(operatorsStack) > 0):
-		if(operatorsStack[-1] == '<' or operatorsStack[-1] == '>'  or operatorsStack[-1] == '<=' or operatorsStack[-1] == '>=' or operatorsStack[-1] == '==' or operatorsStack[-1] == '!='):
+		if(operatorsStack[-1] == '>' or operatorsStack[-1] == '<'  or operatorsStack[-1] == '>=' or operatorsStack[-1] == '<=' or operatorsStack[-1] == '==' or operatorsStack[-1] == '!='):
 			genQuad()
 
 #MULTIPLICACION Y DIVISION
@@ -495,11 +449,6 @@ def p_plusQuad(p):
 def p_quadEqual(p):
 	''' quadEqual : '''
 	global operatorsStack, operatorsStack, typeStack, quadruples
-	'''
-	operatorsStack = ['+','=']
-	operandStack = ['a','b']
-	typeStack = ['int','int']
-	'''
 	if(len(operatorsStack) > 0):
 		if(operatorsStack[-1] == '='):
 			operator = operatorsStack.pop()
@@ -516,7 +465,15 @@ def p_quadEqual(p):
 			else:
 				print("Type missmatch")
 				sys.exit()     
+
+############################################
+#    CUADRUPLOS LINEALES DE 2 ARGUMENTOS   #
+############################################
 #PRINT
+def p_printOperator(p):
+	''' printOperator : '''
+	global operatorsStack
+	operatorsStack.append('print')
 def p_printQuad(p):
 	''' printQuad : '''
 	global operatorsStack
@@ -528,9 +485,91 @@ def p_printQuad(p):
 			quad = (operator, None, None, value)
 			print('print quad: ' + str(quad))
 			quadruples.append(quad)
+#READ
+def p_readOperator(p):
+	''' readOperator : '''
+	global operatorsStack
+	operatorsStack.append('read')
+def p_readQuad(p):
+	''' readQuad : '''
+	global operatorsStack
+	if(len(operatorsStack) > 0):
+		if(operatorsStack[-1] == 'read'):
+			operator = operatorsStack.pop()
+			value = operandStack.pop()
+			typeStack.pop()
+			quad = (operator, None, None, value)
+			print('print quad: ' + str(quad))
+			quadruples.append(quad)
+
+############################################
+#   		CUADRUPLOS NO LINEALES		   #
+############################################
+#IF & IFELSE
+def p_ifQuad(p):
+	''' ifQuad : '''
+	global typeStack, quadruples, jumpStack
+	resType	= typeStack.pop()
+	if resType == 'bool':
+		value = operandStack.pop()
+		quad = ('GotoF', value, None, -1)
+		quadruples.append(quad)
+		jumpStack.append(len(quadruples)-1)
+		print("Jumps",*jumpStack)
+	else:
+		print("type mismatch")
+		sys.exit()
+
+def p_elseQuad(p):
+	''' elseQuad : '''
+	global quadruples, jumpStack
+	quad = ('Goto', None, None, -1)
+	quadruples.append(quad)
+	false = jumpStack.pop()
+	jumpStack.append(len(quadruples)-1)
+	fillQuad(false, -1)
+
+def p_endIf(p):
+	''' endIf : '''
+	global jumpStack
+	end = jumpStack.pop()
+	fillQuad(end, -1)
+
+#WHILE
+def p_whileOperator(p):
+	''' whileOperator : '''
+	global operatorsStack, jumpStack
+	operatorsStack.append('while')
+	jumpStack.append(len(quadruples))
+
+def p_whileQuad(p):
+	''' whileQuad : '''
+	global typeStack, quadruples, jumpStack
+	resType = typeStack.pop()
+	if(resType == 'bool'):
+		operatorsStack.pop()
+		value = operandStack.pop()
+		quad = ('GotoF', value, None, -1)
+		quadruples.append(quad)
+		jumpStack.append(len(quadruples)-1)
+	else: 
+		print("type mismatch")
+		sys.exit()
+
+def p_endWhile(p):
+	''' endWhile : '''
+	end = jumpStack.pop()
+	ret = jumpStack.pop()
+	quad = ('Goto', None, None, -1)
+	quadruples.append(quad)
+	fillQuad(end, -1)
+
+#FOR
+#def p_forOperator(p):
+#	''' forOperator : '''
 
 
-
+#FUNCIONES GENERALES
 def genQuad(): 
 	global operatorsStack, operandStack, typeStack, quadruples
 	if(len(operatorsStack) > 0):
@@ -559,12 +598,19 @@ def genQuad():
 				print("type mismatch")
 				sys.exit()
 
-
 def p_addOperator(p):
 	''' addOperator : '''
 	global operatorsStack
 	operatorsStack.append(p[-1])
-	#print(operatorsStack[-1])
+
+def p_addVariable(p):
+	'''addVariable : '''
+	global currentVarId
+	currentVarId = p[-1]
+	if(funTable.searchFun(currentFunId)==True):
+		funTable.addVartoFun(currentFunId, currentVarType, currentVarId)
+	else:
+		print("Funcion no encontrada")
 
 def p_addOperandVar(p):
 	''' addOperandVar : '''
@@ -576,7 +622,6 @@ def p_addOperandVar(p):
 	else:
 		sys.exit()
 
-	#print(typeStack[-1])
 def p_addOperandCte(p):
 	''' addOperandCte : '''
 	global operandStack, operatorsStack
@@ -591,7 +636,7 @@ def p_addOperandCte(p):
 		else:
 			typeStack.append('char')
 	operandStack.append(p[-1])
-	#print(operandStack[-1],typeStack[-1])
+
 def p_addId(p):
 	''' addId : '''
 	global currentVarId, funTable
@@ -602,32 +647,13 @@ def p_addId(p):
 	else:
 		sys.exit()
 
-def p_ifQuad(p):
-	''' ifQuad : '''
-	global typeStack, quadruples, jumpStack
+def fillQuad(end, cont):
+	global quadruples
+	t = list(quadruples[end])
+	t[3] = len(quadruples)
+	quadruples[end] = tuple(t)
+	print('quad fill' + str(quadruples[end]))
 
-	if typeStack.pop() == 'bool':
-		print("HEYHEY")
-	'''
-		value = operandStack.pop()
-		quad = ('goto', value, None, -1)
-		quadruples.append(quad)
-		jumpStack.append(len(quadruples)-1)
-		print('if quad: ' + str(quad))
-	else:
-		print("type mismatch")
-		sys.exit()
-	'''
-'''
-def p_forQuad(p):
-
-
-def p_whileQuad(p):
-
-
-def p_auxQuad(p):
-
-'''
 def p_empty(p):
     '''
     empty : 
@@ -655,7 +681,8 @@ parser = yacc.yacc()
 
 def main():
 	try:
-		filename = 'testFacil.txt'
+		#Usare .c para que mi editor lo despliegue mejor
+		filename = 'testFacil.c'
 		file = open(filename, 'r')
 		print("Compilando: " + filename)
 		content = file.read()
@@ -677,8 +704,8 @@ def main():
 	#print(funTable.getVarType('suma', 'res'))
 	print(*typeStack, sep = ", ") 
 	print(*operandStack, sep = ", ") 
-	print(*operatorsStack, sep = ", ")    
-    #Llamando a Cubo semantico de 2 maneras
+	print(*operatorsStack, sep = ", ")   
+    #Llamando a Cubo semantico de 2 maneras 
     #print(semanticCube['float']['float']['=='])
     #print(getType('float','int','>'))
 
