@@ -565,8 +565,33 @@ def p_endWhile(p):
 	fillQuad(end, -1)
 
 #FOR
-#def p_forOperator(p):
-#	''' forOperator : '''
+def p_forOperator(p):
+	''' forOperator : '''
+	global operatorsStack, jumpStack
+	operatorsStack.append('for')
+	jumpStack.append(len(quadruples))
+
+def p_forQuad(p):
+	''' forQuad : '''
+	global typeStack, quadruples, jumpStack
+	resType = typeStack.pop()
+	if(resType == 'bool'):
+		operatorsStack.pop()
+		value = operandStack.pop()
+		quad = ('GotoF', value, None, -1)
+		quadruples.append(quad)
+		jumpStack.append(len(quadruples)-1)
+	else: 
+		print("type mismatch")
+		sys.exit()
+
+def p_endFor(p):
+	''' endFor : '''
+	end = jumpStack.pop()
+	ret = jumpStack.pop()
+	quad = ('Goto', None, None, -1)
+	quadruples.append(quad)
+	fillQuad(end, -1)
 
 
 #FUNCIONES GENERALES
