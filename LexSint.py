@@ -322,7 +322,7 @@ def p_escritura2(p):
     '''
 def p_for(p):
     '''
-    for : FOR LPARENTHESIS FROM asignacion COMMA TO expresion RPARENTHESIS LBRACKET estatuto RBRACKET
+    for : FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
     '''
 def p_if(p):
     '''
@@ -460,7 +460,7 @@ def p_quadEqual(p):
 			resType = getType(leftType,rightType,operator)
 			if resType != 'error':
 				quad = (operator, leftVal, None, rightVal)
-				print('quad equal: ' + str(quad))
+				#print('quad equal: ' + str(quad))
 				quadruples.append(quad)
 			else:
 				print("Type missmatch")
@@ -483,7 +483,7 @@ def p_printQuad(p):
 			value = operandStack.pop()
 			typeStack.pop()
 			quad = (operator, None, None, value)
-			print('print quad: ' + str(quad))
+			#print('print quad: ' + str(quad))
 			quadruples.append(quad)
 #READ
 def p_readOperator(p):
@@ -499,7 +499,7 @@ def p_readQuad(p):
 			value = operandStack.pop()
 			typeStack.pop()
 			quad = (operator, None, None, value)
-			print('print quad: ' + str(quad))
+			#print('print quad: ' + str(quad))
 			quadruples.append(quad)
 
 ############################################
@@ -515,7 +515,6 @@ def p_ifQuad(p):
 		quad = ('GotoF', value, None, -1)
 		quadruples.append(quad)
 		jumpStack.append(len(quadruples)-1)
-		print("Jumps",*jumpStack)
 	else:
 		print("type mismatch")
 		sys.exit()
@@ -560,8 +559,8 @@ def p_endWhile(p):
 	''' endWhile : '''
 	end = jumpStack.pop()
 	ret = jumpStack.pop()
-	quad = ('Goto', None, None, -1)
-	quadruples.append(quad)
+	#quad = ('Goto', None, None, -1)
+	#quadruples.append(quad)
 	fillQuad(end, -1)
 
 #FOR
@@ -603,7 +602,7 @@ def genQuad():
 			value = operandStack.pop()
 			typeStack.pop()
 			quad = (operator, None, None, value)
-			print('print quad: ' + str(quad))
+			#print('print quad: ' + str(quad))
 			quadruples.append(quad)
 		elif(operatorsStack[-1] != '='): #4Args
 			operator = operatorsStack.pop()
@@ -615,7 +614,7 @@ def genQuad():
 			if(resType != 'error'):
 				result = avail.next()
 				quad = (operator, leftVal, rightVal, result)
-				print('quad: ' + str(quad))
+				#print('quad: ' + str(quad))
 				quadruples.append(quad)
 				operandStack.append(result)
 				typeStack.append(resType)
@@ -677,7 +676,7 @@ def fillQuad(end, cont):
 	t = list(quadruples[end])
 	t[3] = len(quadruples)
 	quadruples[end] = tuple(t)
-	print('quad fill' + str(quadruples[end]))
+	#print('quad fill' + str(quadruples[end]))
 
 def p_empty(p):
     '''
@@ -727,9 +726,13 @@ def main():
 		print(EOFError)
 
 	#print(funTable.getVarType('suma', 'res'))
+	print("CUADRUPLOS")
+	print(*quadruples, sep = "\n") 
 	print(*typeStack, sep = ", ") 
 	print(*operandStack, sep = ", ") 
-	print(*operatorsStack, sep = ", ")   
+	print(*operatorsStack, sep = ", ")
+	print(funTable.getVarAddress('global', 'b'))
+	print(funTable.getVarAddress('global', 'f'))
     #Llamando a Cubo semantico de 2 maneras 
     #print(semanticCube['float']['float']['=='])
     #print(getType('float','int','>'))

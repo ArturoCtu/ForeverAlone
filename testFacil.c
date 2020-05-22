@@ -16,7 +16,7 @@ var int res;
 	res = aj + bj * c / 10;
 }
 main(int baboso, float alv)
-var int j, k, l, iterator;
+var int j, k, l, iterator, it;
 	float x[10], y[8];
 {
 	read(a);
@@ -30,6 +30,7 @@ var int j, k, l, iterator;
 	while(iterator < 10){
 		iterator = iterator + 1;
 	}
+
 	print("thanks");
 }
 end
