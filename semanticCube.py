@@ -1,6 +1,10 @@
 from collections import defaultdict
 
 semanticCube = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: None)))
+#Asignacion
+semanticCube['int']['int']['='] = 'int'
+semanticCube['float']['float']['='] = 'float'
+semanticCube['char']['char']['='] = 'char'
 
 #Operaciones
 #Integer

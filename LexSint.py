@@ -2,7 +2,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 import sys
 import queue
-from myTables import varTable, funTable
+from myTables import *
 from semanticCube import *
 from avail import *
 #Lexer
@@ -169,7 +169,7 @@ typeStack = []
 operatorsStack = []
 jumpStack = []
 quadruples = []
-
+quadruplesMem = []
 #Intancear las clases
 funTable = funTable()
 varTable = varTable()
@@ -456,12 +456,16 @@ def p_quadEqual(p):
 			rightType = typeStack.pop()
 			leftVal = operandStack.pop()
 			leftType = typeStack.pop()
-
 			resType = getType(leftType,rightType,operator)
 			if resType != 'error':
 				quad = (operator, leftVal, None, rightVal)
 				#print('quad equal: ' + str(quad))
 				quadruples.append(quad)
+				leftVal = funTable.getVarAddress(currentFunId, leftVal)
+				rightVal = funTable.getVarAddress(currentFunId, rightVal)
+				operator = operators[operator]
+				quad = (operator, leftVal, None, rightVal)
+				quadruplesMem.append(quad)
 			else:
 				print("Type missmatch")
 				sys.exit()     
@@ -483,8 +487,12 @@ def p_printQuad(p):
 			value = operandStack.pop()
 			typeStack.pop()
 			quad = (operator, None, None, value)
-			#print('print quad: ' + str(quad))
 			quadruples.append(quad)
+			operator = operators[operator]
+			value = funTable.getVarAddress(currentFunId, value)
+			quad = (operator, None, None, value)
+			quadruplesMem.append(quad)
+
 #READ
 def p_readOperator(p):
 	''' readOperator : '''
@@ -499,8 +507,12 @@ def p_readQuad(p):
 			value = operandStack.pop()
 			typeStack.pop()
 			quad = (operator, None, None, value)
-			#print('print quad: ' + str(quad))
 			quadruples.append(quad)
+			value = funTable.getVarAddress(currentFunId, value)
+			operator = operators[operator]
+			quad = (operator, None, None, value)
+			#print('print quad: ' + str(quad))
+			quadruplesMem.append(quad)
 
 ############################################
 #   		CUADRUPLOS NO LINEALES		   #
@@ -508,12 +520,17 @@ def p_readQuad(p):
 #IF & IFELSE
 def p_ifQuad(p):
 	''' ifQuad : '''
-	global typeStack, quadruples, jumpStack
+	global typeStack, quadruples, jumpStack, funTable
 	resType	= typeStack.pop()
 	if resType == 'bool':
 		value = operandStack.pop()
 		quad = ('GotoF', value, None, -1)
 		quadruples.append(quad)
+
+		value = funTable.getVarAddress(currentFunId, value)
+		operator = operators['GotoF']
+		quad = (operator, value, None, -1)
+		quadruplesMem.append(quad)
 		jumpStack.append(len(quadruples)-1)
 	else:
 		print("type mismatch")
@@ -524,6 +541,9 @@ def p_elseQuad(p):
 	global quadruples, jumpStack
 	quad = ('Goto', None, None, -1)
 	quadruples.append(quad)
+	operator = operators['Goto']
+	quad = (operator, None, None, -1)
+	quadruplesMem.append(quad)
 	false = jumpStack.pop()
 	jumpStack.append(len(quadruples)-1)
 	fillQuad(false, -1)
@@ -550,6 +570,11 @@ def p_whileQuad(p):
 		value = operandStack.pop()
 		quad = ('GotoF', value, None, -1)
 		quadruples.append(quad)
+
+		value = funTable.getVarAddress(currentFunId, value)
+		operator = operators['GotoF']
+		quad = (operator, value, None, -1)
+		quadruplesMem.append(quad)
 		jumpStack.append(len(quadruples)-1)
 	else: 
 		print("type mismatch")
@@ -559,8 +584,11 @@ def p_endWhile(p):
 	''' endWhile : '''
 	end = jumpStack.pop()
 	ret = jumpStack.pop()
-	#quad = ('Goto', None, None, -1)
-	#quadruples.append(quad)
+	quad = ('Goto', None, None, ret)
+	quadruples.append(quad)
+	operator = operators['Goto']
+	quad = (operator, None, None, ret)
+	quadruplesMem.append(quad)
 	fillQuad(end, -1)
 
 #FOR
@@ -595,7 +623,7 @@ def p_endFor(p):
 
 #FUNCIONES GENERALES
 def genQuad(): 
-	global operatorsStack, operandStack, typeStack, quadruples
+	global operatorsStack, operandStack, typeStack, quadruples, funTable
 	if(len(operatorsStack) > 0):
 		if(operatorsStack[-1] == 'print' or operatorsStack[-1] == 'read'): #2Args
 			operator = operatorsStack.pop()
@@ -613,11 +641,22 @@ def genQuad():
 			resType = getType(leftType, rightType, operator)
 			if(resType != 'error'):
 				result = avail.next()
+				funTable.addTempVar(currentFunId, resType, result)
 				quad = (operator, leftVal, rightVal, result)
 				#print('quad: ' + str(quad))
 				quadruples.append(quad)
 				operandStack.append(result)
 				typeStack.append(resType)
+
+
+				leftVal = funTable.getVarAddress(currentFunId, leftVal)
+				rightVal = funTable.getVarAddress(currentFunId, rightVal)
+				result = funTable.getVarAddress(currentFunId, result)
+				operator = operators[operator]
+				quad = (operator, leftVal, rightVal, result)
+				quadruplesMem.append(quad)
+
+
 			else:
 				print("type mismatch")
 				sys.exit()
@@ -648,18 +687,23 @@ def p_addOperandVar(p):
 
 def p_addOperandCte(p):
 	''' addOperandCte : '''
-	global operandStack, operatorsStack
+	global operandStack, operatorsStack, funTable
 	res = type(p[-1])
 	if res == int:
 		typeStack.append('int')
+		funTable.addCtetoFun(currentFunId, 'int', p[-1])
 	elif res == float:
 		typeStack.append('float')
+		funTable.addCtetoFun(currentFunId, 'float', p[-1])
 	elif res == str:
 		if(len(p[-1])>1):
 			typeStack.append('string')
+			funTable.addCtetoFun(currentFunId, 'string', p[-1])
 		else:
 			typeStack.append('char')
+			funTable.addCtetoFun(currentFunId, 'char', p[-1])
 	operandStack.append(p[-1])
+
 
 def p_addId(p):
 	''' addId : '''
@@ -672,10 +716,13 @@ def p_addId(p):
 		sys.exit()
 
 def fillQuad(end, cont):
-	global quadruples
+	global quadruples, quadruplesMem
 	t = list(quadruples[end])
 	t[3] = len(quadruples)
 	quadruples[end] = tuple(t)
+	t = list(quadruplesMem[end])
+	t[3] = len(quadruplesMem)
+	quadruplesMem[end] = tuple(t)
 	#print('quad fill' + str(quadruples[end]))
 
 def p_empty(p):
@@ -706,7 +753,7 @@ parser = yacc.yacc()
 def main():
 	try:
 		#Usare .c para que mi editor lo despliegue mejor
-		filename = 'testFacil.c'
+		filename = 'NoFunctions.c'
 		file = open(filename, 'r')
 		print("Compilando: " + filename)
 		content = file.read()
@@ -727,11 +774,14 @@ def main():
 
 	#print(funTable.getVarType('suma', 'res'))
 	print("CUADRUPLOS")
-	print(*quadruples, sep = "\n") 
+	print(*quadruplesMem, sep = "\n") 
+
 	print(*typeStack, sep = ", ") 
 	print(*operandStack, sep = ", ") 
 	print(*operatorsStack, sep = ", ")
-	print(funTable.getVarAddress('global', 'b'))
+
+	print(*quadruples, sep = "\n")
+
 	print(funTable.getVarAddress('global', 'f'))
     #Llamando a Cubo semantico de 2 maneras 
     #print(semanticCube['float']['float']['=='])
