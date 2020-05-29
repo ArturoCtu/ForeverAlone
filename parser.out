@@ -34,179 +34,3783 @@ Rule 24    parameters3 -> COMMA ID addVariable parameters3
 Rule 25    parameters3 -> COMMA tipo ID addVariable parameters3
 Rule 26    parameters3 -> COMMA ID addVariable
 Rule 27    parameters3 -> COMMA tipo ID addVariable
-Rule 28    funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET funcion
-Rule 29    funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET funcion
+Rule 28    funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+Rule 29    funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
 Rule 30    funcion -> empty
 Rule 31    addFunction -> <empty>
-Rule 32    retorno -> RETURN ID SEMICOLON
-Rule 33    estatuto -> estatuto2 estatuto
-Rule 34    estatuto -> empty
-Rule 35    estatuto2 -> asignacion SEMICOLON
-Rule 36    estatuto2 -> llamada SEMICOLON
-Rule 37    estatuto2 -> lectura SEMICOLON
-Rule 38    estatuto2 -> escritura SEMICOLON
-Rule 39    estatuto2 -> for
-Rule 40    estatuto2 -> if
-Rule 41    estatuto2 -> while
-Rule 42    asignacion -> ID addId arr EQUAL addOperator expresion quadEqual
-Rule 43    llamada -> ID LPARENTHESIS expresion RPARENTHESIS
-Rule 44    lectura -> READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
-Rule 45    escritura -> PRINT LPARENTHESIS escritura1 RPARENTHESIS
-Rule 46    escritura1 -> printOperator expresion printQuad escritura2
-Rule 47    escritura2 -> COMMA escritura1
-Rule 48    escritura2 -> empty
-Rule 49    for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
-Rule 50    if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
-Rule 51    else -> ELSE elseQuad LBRACKET estatuto RBRACKET
-Rule 52    else -> empty
-Rule 53    while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
-Rule 54    expresion -> nexp orQuad expresion1
-Rule 55    expresion1 -> OR addOperator expresion
-Rule 56    expresion1 -> empty
-Rule 57    nexp -> comexp andQuad nexp1
-Rule 58    nexp1 -> AND addOperator nexp
-Rule 59    nexp1 -> empty
-Rule 60    comexp -> sumexp compQuad compex1 compQuad
-Rule 61    compex1 -> GTHAN addOperator sumexp
-Rule 62    compex1 -> LTHAN addOperator sumexp
-Rule 63    compex1 -> GTHANEQ addOperator sumexp
-Rule 64    compex1 -> LTHANEQ addOperator sumexp
-Rule 65    compex1 -> DIFFERENT addOperator sumexp
-Rule 66    compex1 -> EQUALS addOperator sumexp
-Rule 67    compex1 -> empty
-Rule 68    sumexp -> mulexp plusQuad sumexp1
-Rule 69    sumexp1 -> PLUS addOperator sumexp
-Rule 70    sumexp1 -> MINUS addOperator sumexp
-Rule 71    sumexp1 -> empty
-Rule 72    mulexp -> pexp multQuad mulexp1
-Rule 73    mulexp1 -> MULTIPLICATION addOperator mulexp
-Rule 74    mulexp1 -> DIVISION addOperator mulexp
-Rule 75    mulexp1 -> empty
-Rule 76    pexp -> CTEI addOperandCte
-Rule 77    pexp -> CTEF addOperandCte
-Rule 78    pexp -> CTEC addOperandCte
-Rule 79    pexp -> CTESTRING addOperandCte
-Rule 80    pexp -> llamada
-Rule 81    pexp -> ID addOperandVar
-Rule 82    pexp -> LPARENTHESIS expresion RPARENTHESIS
-Rule 83    empty -> <empty>
+Rule 32    endFunc -> <empty>
+Rule 33    retorno -> RETURN expresion quadReturn SEMICOLON
+Rule 34    quadReturn -> <empty>
+Rule 35    estatuto -> estatuto2 estatuto
+Rule 36    estatuto -> empty
+Rule 37    estatuto2 -> asignacion SEMICOLON
+Rule 38    estatuto2 -> llamada SEMICOLON
+Rule 39    estatuto2 -> lectura SEMICOLON
+Rule 40    estatuto2 -> escritura SEMICOLON
+Rule 41    estatuto2 -> for
+Rule 42    estatuto2 -> if
+Rule 43    estatuto2 -> while
+Rule 44    asignacion -> ID addId arr EQUAL addOperator expresion quadEqual
+Rule 45    llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+Rule 46    enviarAgrs -> expresion quadArg enviarAgrs2
+Rule 47    enviarAgrs -> empty
+Rule 48    enviarAgrs2 -> COMMA enviarAgrs
+Rule 49    enviarAgrs2 -> empty
+Rule 50    requestCallMemory -> <empty>
+Rule 51    quadArg -> <empty>
+Rule 52    callQuad -> <empty>
+Rule 53    lectura -> READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
+Rule 54    escritura -> PRINT LPARENTHESIS escritura1 RPARENTHESIS
+Rule 55    escritura1 -> printOperator expresion printQuad escritura2
+Rule 56    escritura2 -> COMMA escritura1
+Rule 57    escritura2 -> empty
+Rule 58    for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+Rule 59    if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+Rule 60    else -> ELSE elseQuad LBRACKET estatuto RBRACKET
+Rule 61    else -> empty
+Rule 62    while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+Rule 63    expresion -> nexp orQuad expresion1
+Rule 64    expresion1 -> OR addOperator expresion
+Rule 65    expresion1 -> empty
+Rule 66    nexp -> comexp andQuad nexp1
+Rule 67    nexp1 -> AND addOperator nexp
+Rule 68    nexp1 -> empty
+Rule 69    comexp -> sumexp compQuad compex1 compQuad
+Rule 70    compex1 -> GTHAN addOperator sumexp
+Rule 71    compex1 -> LTHAN addOperator sumexp
+Rule 72    compex1 -> GTHANEQ addOperator sumexp
+Rule 73    compex1 -> LTHANEQ addOperator sumexp
+Rule 74    compex1 -> DIFFERENT addOperator sumexp
+Rule 75    compex1 -> EQUALS addOperator sumexp
+Rule 76    compex1 -> empty
+Rule 77    sumexp -> mulexp plusQuad sumexp1
+Rule 78    sumexp1 -> PLUS addOperator sumexp
+Rule 79    sumexp1 -> MINUS addOperator sumexp
+Rule 80    sumexp1 -> empty
+Rule 81    mulexp -> pexp multQuad mulexp1
+Rule 82    mulexp1 -> MULTIPLICATION addOperator mulexp
+Rule 83    mulexp1 -> DIVISION addOperator mulexp
+Rule 84    mulexp1 -> empty
+Rule 85    pexp -> CTEI addOperandCte
+Rule 86    pexp -> CTEF addOperandCte
+Rule 87    pexp -> CTEC addOperandCte
+Rule 88    pexp -> CTESTRING addOperandCte
+Rule 89    pexp -> llamada
+Rule 90    pexp -> ID addOperandVar
+Rule 91    pexp -> LPARENTHESIS expresion RPARENTHESIS
+Rule 92    orQuad -> <empty>
+Rule 93    andQuad -> <empty>
+Rule 94    compQuad -> <empty>
+Rule 95    multQuad -> <empty>
+Rule 96    plusQuad -> <empty>
+Rule 97    quadEqual -> <empty>
+Rule 98    printOperator -> <empty>
+Rule 99    printQuad -> <empty>
+Rule 100   readOperator -> <empty>
+Rule 101   readQuad -> <empty>
+Rule 102   ifQuad -> <empty>
+Rule 103   elseQuad -> <empty>
+Rule 104   endIf -> <empty>
+Rule 105   whileOperator -> <empty>
+Rule 106   whileQuad -> <empty>
+Rule 107   endWhile -> <empty>
+Rule 108   forOperator -> <empty>
+Rule 109   forQuad -> <empty>
+Rule 110   endFor -> <empty>
+Rule 111   addOperator -> <empty>
+Rule 112   addVariable -> <empty>
+Rule 113   addOperandVar -> <empty>
+Rule 114   addOperandCte -> <empty>
+Rule 115   addId -> <empty>
+Rule 116   empty -> <empty>
 
 Terminals, with rules where they appear
 
-AND                  : 58
+AND                  : 67
 CHAR                 : 16
-COMMA                : 10 24 25 26 27 47 49
-CTEC                 : 78
-CTEF                 : 77
-CTEI                 : 18 76
-CTESTRING            : 79
-DIFFERENT            : 65
-DIVISION             : 74
-ELSE                 : 51
+COMMA                : 10 24 25 26 27 48 56 58
+CTEC                 : 87
+CTEF                 : 86
+CTEI                 : 18 85
+CTESTRING            : 88
+DIFFERENT            : 74
+DIVISION             : 83
+ELSE                 : 60
 END                  : 1
-EQUAL                : 42
-EQUALS               : 66
+EQUAL                : 44
+EQUALS               : 75
 FLOAT                : 15
-FOR                  : 49
+FOR                  : 58
 FROM                 : 
 FUNCTION             : 28 29
-GTHAN                : 61
-GTHANEQ              : 63
-ID                   : 1 9 22 23 24 25 26 27 28 29 32 42 43 81
-IF                   : 50
+GTHAN                : 70
+GTHANEQ              : 72
+ID                   : 1 9 22 23 24 25 26 27 28 29 44 45 90
+IF                   : 59
 INT                  : 14
-LBRACKET             : 4 28 29 49 50 51 53
-LPARENTHESIS         : 4 28 29 43 44 45 50 53 82
+LBRACKET             : 4 28 29 58 59 60 62
+LPARENTHESIS         : 4 28 29 45 53 54 59 62 91
 LSQRBRACKET          : 18
-LTHAN                : 62
-LTHANEQ              : 64
+LTHAN                : 71
+LTHANEQ              : 73
 MAIN                 : 4
-MINUS                : 70
-MULTIPLICATION       : 73
-OR                   : 55
-PLUS                 : 69
-PRINT                : 45
+MINUS                : 79
+MULTIPLICATION       : 82
+OR                   : 64
+PLUS                 : 78
+PRINT                : 54
 PROGRAM              : 1
-RBRACKET             : 4 28 29 49 50 51 53
-READ                 : 44
-RETURN               : 32
-RPARENTHESIS         : 4 28 29 43 44 45 50 53 82
+RBRACKET             : 4 28 29 58 59 60 62
+READ                 : 53
+RETURN               : 33
+RPARENTHESIS         : 4 28 29 45 53 54 59 62 91
 RSQRBRACKET          : 18
-SEMICOLON            : 1 8 32 35 36 37 38
+SEMICOLON            : 1 8 33 37 38 39 40
 STRING               : 17
-THEN                 : 50
-TO                   : 49
+THEN                 : 59
+TO                   : 58
 VAR                  : 6
 VOID                 : 29
-WHILE                : 53
+WHILE                : 62
 error                : 
 
 Nonterminals, with rules where they appear
 
 addFunction          : 28 29
-addId                : 42
+addId                : 44
 addMain              : 4
-addOperandCte        : 76 77 78 79
-addOperandVar        : 81
-addOperator          : 42 55 58 61 62 63 64 65 66 69 70 73 74
+addOperandCte        : 85 86 87 88
+addOperandVar        : 90
+addOperator          : 44 64 67 70 71 72 73 74 75 78 79 82 83
 addProgram           : 1
 addVariable          : 9 22 23 24 25 26 27
-andQuad              : 57
-arr                  : 9 42
-asignacion           : 35 49
-comexp               : 57
-compQuad             : 60 60
-compex1              : 60
-else                 : 50
-elseQuad             : 51
-empty                : 7 11 13 19 21 30 34 48 52 56 59 67 71 75
-endFor               : 49
-endIf                : 50
-endWhile             : 53
-escritura            : 38
-escritura1           : 45 47
-escritura2           : 46
-estatuto             : 4 28 29 33 49 50 51 53
-estatuto2            : 33
-expresion            : 42 43 44 46 49 50 53 55 82
-expresion1           : 54
-for                  : 39
-forOperator          : 49
-forQuad              : 49
+andQuad              : 66
+arr                  : 9 44
+asignacion           : 37 58
+callQuad             : 45
+comexp               : 66
+compQuad             : 69 69
+compex1              : 69
+else                 : 59
+elseQuad             : 60
+empty                : 7 11 13 19 21 30 36 47 49 57 61 65 68 76 80 84
+endFor               : 58
+endFunc              : 28 29
+endIf                : 59
+endWhile             : 62
+enviarAgrs           : 45 48
+enviarAgrs2          : 46
+escritura            : 40
+escritura1           : 54 56
+escritura2           : 55
+estatuto             : 4 28 29 35 58 59 60 62
+estatuto2            : 35
+expresion            : 33 44 46 53 55 58 59 62 64 91
+expresion1           : 63
+for                  : 41
+forOperator          : 58
+forQuad              : 58
 funcion              : 3 28 29
-if                   : 40
-ifQuad               : 50
-lectura              : 37
-llamada              : 36 80
-mulexp               : 68 73 74
-mulexp1              : 72
-multQuad             : 72
-nexp                 : 54 58
-nexp1                : 57
-orQuad               : 54
+if                   : 42
+ifQuad               : 59
+lectura              : 39
+llamada              : 38 89
+mulexp               : 77 82 83
+mulexp1              : 81
+multQuad             : 81
+nexp                 : 63 67
+nexp1                : 66
+orQuad               : 63
 parameters           : 4 28 29
 parameters2          : 20
 parameters3          : 23 24 25
-pexp                 : 72
-plusQuad             : 68
+pexp                 : 81
+plusQuad             : 77
 principal            : 3
-printOperator        : 46
-printQuad            : 46
+printOperator        : 55
+printQuad            : 55
 programa             : 0
 programa1            : 1
-quadEqual            : 42
-readOperator         : 44
-readQuad             : 44
+quadArg              : 46
+quadEqual            : 44
+quadReturn           : 33
+readOperator         : 53
+readQuad             : 53
+requestCallMemory    : 45
 retorno              : 28
-sumexp               : 60 61 62 63 64 65 66 69 70
-sumexp1              : 68
+sumexp               : 69 70 71 72 73 74 75 78 79
+sumexp1              : 77
 tipo                 : 8 22 23 25 27 28
 vars                 : 3 4 28 29
 vars1                : 6 12
 vars2                : 8 10
 vars3                : 9
 varsadd              : 8
-while                : 41
-whileOperator        : 53
-whileQuad            : 53
+while                : 43
+whileOperator        : 62
+whileQuad            : 62
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . PROGRAM ID addProgram SEMICOLON programa1 END
+
+    PROGRAM         shift and go to state 2
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> PROGRAM . ID addProgram SEMICOLON programa1 END
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) programa -> PROGRAM ID . addProgram SEMICOLON programa1 END
+    (2) addProgram -> .
+
+    SEMICOLON       reduce using rule 2 (addProgram -> .)
+
+    addProgram                     shift and go to state 4
+
+state 4
+
+    (1) programa -> PROGRAM ID addProgram . SEMICOLON programa1 END
+
+    SEMICOLON       shift and go to state 5
+
+
+state 5
+
+    (1) programa -> PROGRAM ID addProgram SEMICOLON . programa1 END
+    (3) programa1 -> . vars funcion principal
+    (6) vars -> . VAR vars1
+    (7) vars -> . empty
+    (116) empty -> .
+
+    VAR             shift and go to state 8
+    FUNCTION        reduce using rule 116 (empty -> .)
+    MAIN            reduce using rule 116 (empty -> .)
+
+    programa1                      shift and go to state 6
+    vars                           shift and go to state 7
+    empty                          shift and go to state 9
+
+state 6
+
+    (1) programa -> PROGRAM ID addProgram SEMICOLON programa1 . END
+
+    END             shift and go to state 10
+
+
+state 7
+
+    (3) programa1 -> vars . funcion principal
+    (28) funcion -> . FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+    (29) funcion -> . FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
+    (30) funcion -> . empty
+    (116) empty -> .
+
+    FUNCTION        shift and go to state 12
+    MAIN            reduce using rule 116 (empty -> .)
+
+    funcion                        shift and go to state 11
+    empty                          shift and go to state 13
+
+state 8
+
+    (6) vars -> VAR . vars1
+    (8) vars1 -> . tipo vars2 SEMICOLON varsadd
+    (14) tipo -> . INT
+    (15) tipo -> . FLOAT
+    (16) tipo -> . CHAR
+    (17) tipo -> . STRING
+
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+    STRING          shift and go to state 19
+
+    vars1                          shift and go to state 14
+    tipo                           shift and go to state 15
+
+state 9
+
+    (7) vars -> empty .
+
+    FUNCTION        reduce using rule 7 (vars -> empty .)
+    MAIN            reduce using rule 7 (vars -> empty .)
+    LBRACKET        reduce using rule 7 (vars -> empty .)
+
+
+state 10
+
+    (1) programa -> PROGRAM ID addProgram SEMICOLON programa1 END .
+
+    $end            reduce using rule 1 (programa -> PROGRAM ID addProgram SEMICOLON programa1 END .)
+
+
+state 11
+
+    (3) programa1 -> vars funcion . principal
+    (4) principal -> . MAIN addMain LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET
+
+    MAIN            shift and go to state 21
+
+    principal                      shift and go to state 20
+
+state 12
+
+    (28) funcion -> FUNCTION . tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+    (29) funcion -> FUNCTION . VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
+    (14) tipo -> . INT
+    (15) tipo -> . FLOAT
+    (16) tipo -> . CHAR
+    (17) tipo -> . STRING
+
+    VOID            shift and go to state 23
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+    STRING          shift and go to state 19
+
+    tipo                           shift and go to state 22
+
+state 13
+
+    (30) funcion -> empty .
+
+    MAIN            reduce using rule 30 (funcion -> empty .)
+
+
+state 14
+
+    (6) vars -> VAR vars1 .
+
+    FUNCTION        reduce using rule 6 (vars -> VAR vars1 .)
+    MAIN            reduce using rule 6 (vars -> VAR vars1 .)
+    LBRACKET        reduce using rule 6 (vars -> VAR vars1 .)
+
+
+state 15
+
+    (8) vars1 -> tipo . vars2 SEMICOLON varsadd
+    (9) vars2 -> . ID addVariable arr vars3
+
+    ID              shift and go to state 25
+
+    vars2                          shift and go to state 24
+
+state 16
+
+    (14) tipo -> INT .
+
+    ID              reduce using rule 14 (tipo -> INT .)
+
+
+state 17
+
+    (15) tipo -> FLOAT .
+
+    ID              reduce using rule 15 (tipo -> FLOAT .)
+
+
+state 18
+
+    (16) tipo -> CHAR .
+
+    ID              reduce using rule 16 (tipo -> CHAR .)
+
+
+state 19
+
+    (17) tipo -> STRING .
+
+    ID              reduce using rule 17 (tipo -> STRING .)
+
+
+state 20
+
+    (3) programa1 -> vars funcion principal .
+
+    END             reduce using rule 3 (programa1 -> vars funcion principal .)
+
+
+state 21
+
+    (4) principal -> MAIN . addMain LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET
+    (5) addMain -> .
+
+    LPARENTHESIS    reduce using rule 5 (addMain -> .)
+
+    addMain                        shift and go to state 26
+
+state 22
+
+    (28) funcion -> FUNCTION tipo . ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+
+    ID              shift and go to state 27
+
+
+state 23
+
+    (29) funcion -> FUNCTION VOID . ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
+
+    ID              shift and go to state 28
+
+
+state 24
+
+    (8) vars1 -> tipo vars2 . SEMICOLON varsadd
+
+    SEMICOLON       shift and go to state 29
+
+
+state 25
+
+    (9) vars2 -> ID . addVariable arr vars3
+    (112) addVariable -> .
+
+    LSQRBRACKET     reduce using rule 112 (addVariable -> .)
+    COMMA           reduce using rule 112 (addVariable -> .)
+    SEMICOLON       reduce using rule 112 (addVariable -> .)
+
+    addVariable                    shift and go to state 30
+
+state 26
+
+    (4) principal -> MAIN addMain . LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET
+
+    LPARENTHESIS    shift and go to state 31
+
+
+state 27
+
+    (28) funcion -> FUNCTION tipo ID . addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+    (31) addFunction -> .
+
+    LPARENTHESIS    reduce using rule 31 (addFunction -> .)
+
+    addFunction                    shift and go to state 32
+
+state 28
+
+    (29) funcion -> FUNCTION VOID ID . addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
+    (31) addFunction -> .
+
+    LPARENTHESIS    reduce using rule 31 (addFunction -> .)
+
+    addFunction                    shift and go to state 33
+
+state 29
+
+    (8) vars1 -> tipo vars2 SEMICOLON . varsadd
+    (12) varsadd -> . vars1
+    (13) varsadd -> . empty
+    (8) vars1 -> . tipo vars2 SEMICOLON varsadd
+    (116) empty -> .
+    (14) tipo -> . INT
+    (15) tipo -> . FLOAT
+    (16) tipo -> . CHAR
+    (17) tipo -> . STRING
+
+    FUNCTION        reduce using rule 116 (empty -> .)
+    MAIN            reduce using rule 116 (empty -> .)
+    LBRACKET        reduce using rule 116 (empty -> .)
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+    STRING          shift and go to state 19
+
+    tipo                           shift and go to state 15
+    varsadd                        shift and go to state 34
+    vars1                          shift and go to state 35
+    empty                          shift and go to state 36
+
+state 30
+
+    (9) vars2 -> ID addVariable . arr vars3
+    (18) arr -> . LSQRBRACKET CTEI RSQRBRACKET
+    (19) arr -> . empty
+    (116) empty -> .
+
+    LSQRBRACKET     shift and go to state 38
+    COMMA           reduce using rule 116 (empty -> .)
+    SEMICOLON       reduce using rule 116 (empty -> .)
+
+    arr                            shift and go to state 37
+    empty                          shift and go to state 39
+
+state 31
+
+    (4) principal -> MAIN addMain LPARENTHESIS . parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET
+    (20) parameters -> . parameters2
+    (21) parameters -> . empty
+    (22) parameters2 -> . tipo ID addVariable
+    (23) parameters2 -> . tipo ID addVariable parameters3
+    (116) empty -> .
+    (14) tipo -> . INT
+    (15) tipo -> . FLOAT
+    (16) tipo -> . CHAR
+    (17) tipo -> . STRING
+
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+    STRING          shift and go to state 19
+
+    parameters                     shift and go to state 40
+    parameters2                    shift and go to state 41
+    empty                          shift and go to state 42
+    tipo                           shift and go to state 43
+
+state 32
+
+    (28) funcion -> FUNCTION tipo ID addFunction . LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+
+    LPARENTHESIS    shift and go to state 44
+
+
+state 33
+
+    (29) funcion -> FUNCTION VOID ID addFunction . LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
+
+    LPARENTHESIS    shift and go to state 45
+
+
+state 34
+
+    (8) vars1 -> tipo vars2 SEMICOLON varsadd .
+
+    FUNCTION        reduce using rule 8 (vars1 -> tipo vars2 SEMICOLON varsadd .)
+    MAIN            reduce using rule 8 (vars1 -> tipo vars2 SEMICOLON varsadd .)
+    LBRACKET        reduce using rule 8 (vars1 -> tipo vars2 SEMICOLON varsadd .)
+
+
+state 35
+
+    (12) varsadd -> vars1 .
+
+    FUNCTION        reduce using rule 12 (varsadd -> vars1 .)
+    MAIN            reduce using rule 12 (varsadd -> vars1 .)
+    LBRACKET        reduce using rule 12 (varsadd -> vars1 .)
+
+
+state 36
+
+    (13) varsadd -> empty .
+
+    FUNCTION        reduce using rule 13 (varsadd -> empty .)
+    MAIN            reduce using rule 13 (varsadd -> empty .)
+    LBRACKET        reduce using rule 13 (varsadd -> empty .)
+
+
+state 37
+
+    (9) vars2 -> ID addVariable arr . vars3
+    (10) vars3 -> . COMMA vars2
+    (11) vars3 -> . empty
+    (116) empty -> .
+
+    COMMA           shift and go to state 47
+    SEMICOLON       reduce using rule 116 (empty -> .)
+
+    vars3                          shift and go to state 46
+    empty                          shift and go to state 48
+
+state 38
+
+    (18) arr -> LSQRBRACKET . CTEI RSQRBRACKET
+
+    CTEI            shift and go to state 49
+
+
+state 39
+
+    (19) arr -> empty .
+
+    COMMA           reduce using rule 19 (arr -> empty .)
+    SEMICOLON       reduce using rule 19 (arr -> empty .)
+    EQUAL           reduce using rule 19 (arr -> empty .)
+
+
+state 40
+
+    (4) principal -> MAIN addMain LPARENTHESIS parameters . RPARENTHESIS vars LBRACKET estatuto RBRACKET
+
+    RPARENTHESIS    shift and go to state 50
+
+
+state 41
+
+    (20) parameters -> parameters2 .
+
+    RPARENTHESIS    reduce using rule 20 (parameters -> parameters2 .)
+
+
+state 42
+
+    (21) parameters -> empty .
+
+    RPARENTHESIS    reduce using rule 21 (parameters -> empty .)
+
+
+state 43
+
+    (22) parameters2 -> tipo . ID addVariable
+    (23) parameters2 -> tipo . ID addVariable parameters3
+
+    ID              shift and go to state 51
+
+
+state 44
+
+    (28) funcion -> FUNCTION tipo ID addFunction LPARENTHESIS . parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+    (20) parameters -> . parameters2
+    (21) parameters -> . empty
+    (22) parameters2 -> . tipo ID addVariable
+    (23) parameters2 -> . tipo ID addVariable parameters3
+    (116) empty -> .
+    (14) tipo -> . INT
+    (15) tipo -> . FLOAT
+    (16) tipo -> . CHAR
+    (17) tipo -> . STRING
+
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+    STRING          shift and go to state 19
+
+    tipo                           shift and go to state 43
+    parameters                     shift and go to state 52
+    parameters2                    shift and go to state 41
+    empty                          shift and go to state 42
+
+state 45
+
+    (29) funcion -> FUNCTION VOID ID addFunction LPARENTHESIS . parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
+    (20) parameters -> . parameters2
+    (21) parameters -> . empty
+    (22) parameters2 -> . tipo ID addVariable
+    (23) parameters2 -> . tipo ID addVariable parameters3
+    (116) empty -> .
+    (14) tipo -> . INT
+    (15) tipo -> . FLOAT
+    (16) tipo -> . CHAR
+    (17) tipo -> . STRING
+
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+    STRING          shift and go to state 19
+
+    parameters                     shift and go to state 53
+    parameters2                    shift and go to state 41
+    empty                          shift and go to state 42
+    tipo                           shift and go to state 43
+
+state 46
+
+    (9) vars2 -> ID addVariable arr vars3 .
+
+    SEMICOLON       reduce using rule 9 (vars2 -> ID addVariable arr vars3 .)
+
+
+state 47
+
+    (10) vars3 -> COMMA . vars2
+    (9) vars2 -> . ID addVariable arr vars3
+
+    ID              shift and go to state 25
+
+    vars2                          shift and go to state 54
+
+state 48
+
+    (11) vars3 -> empty .
+
+    SEMICOLON       reduce using rule 11 (vars3 -> empty .)
+
+
+state 49
+
+    (18) arr -> LSQRBRACKET CTEI . RSQRBRACKET
+
+    RSQRBRACKET     shift and go to state 55
+
+
+state 50
+
+    (4) principal -> MAIN addMain LPARENTHESIS parameters RPARENTHESIS . vars LBRACKET estatuto RBRACKET
+    (6) vars -> . VAR vars1
+    (7) vars -> . empty
+    (116) empty -> .
+
+    VAR             shift and go to state 8
+    LBRACKET        reduce using rule 116 (empty -> .)
+
+    vars                           shift and go to state 56
+    empty                          shift and go to state 9
+
+state 51
+
+    (22) parameters2 -> tipo ID . addVariable
+    (23) parameters2 -> tipo ID . addVariable parameters3
+    (112) addVariable -> .
+
+    COMMA           reduce using rule 112 (addVariable -> .)
+    RPARENTHESIS    reduce using rule 112 (addVariable -> .)
+
+    addVariable                    shift and go to state 57
+
+state 52
+
+    (28) funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters . RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+
+    RPARENTHESIS    shift and go to state 58
+
+
+state 53
+
+    (29) funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters . RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
+
+    RPARENTHESIS    shift and go to state 59
+
+
+state 54
+
+    (10) vars3 -> COMMA vars2 .
+
+    SEMICOLON       reduce using rule 10 (vars3 -> COMMA vars2 .)
+
+
+state 55
+
+    (18) arr -> LSQRBRACKET CTEI RSQRBRACKET .
+
+    COMMA           reduce using rule 18 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    SEMICOLON       reduce using rule 18 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+    EQUAL           reduce using rule 18 (arr -> LSQRBRACKET CTEI RSQRBRACKET .)
+
+
+state 56
+
+    (4) principal -> MAIN addMain LPARENTHESIS parameters RPARENTHESIS vars . LBRACKET estatuto RBRACKET
+
+    LBRACKET        shift and go to state 60
+
+
+state 57
+
+    (22) parameters2 -> tipo ID addVariable .
+    (23) parameters2 -> tipo ID addVariable . parameters3
+    (24) parameters3 -> . COMMA ID addVariable parameters3
+    (25) parameters3 -> . COMMA tipo ID addVariable parameters3
+    (26) parameters3 -> . COMMA ID addVariable
+    (27) parameters3 -> . COMMA tipo ID addVariable
+
+    RPARENTHESIS    reduce using rule 22 (parameters2 -> tipo ID addVariable .)
+    COMMA           shift and go to state 62
+
+    parameters3                    shift and go to state 61
+
+state 58
+
+    (28) funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS . vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+    (6) vars -> . VAR vars1
+    (7) vars -> . empty
+    (116) empty -> .
+
+    VAR             shift and go to state 8
+    LBRACKET        reduce using rule 116 (empty -> .)
+
+    vars                           shift and go to state 63
+    empty                          shift and go to state 9
+
+state 59
+
+    (29) funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS . vars LBRACKET estatuto RBRACKET endFunc funcion
+    (6) vars -> . VAR vars1
+    (7) vars -> . empty
+    (116) empty -> .
+
+    VAR             shift and go to state 8
+    LBRACKET        reduce using rule 116 (empty -> .)
+
+    vars                           shift and go to state 64
+    empty                          shift and go to state 9
+
+state 60
+
+    (4) principal -> MAIN addMain LPARENTHESIS parameters RPARENTHESIS vars LBRACKET . estatuto RBRACKET
+    (35) estatuto -> . estatuto2 estatuto
+    (36) estatuto -> . empty
+    (37) estatuto2 -> . asignacion SEMICOLON
+    (38) estatuto2 -> . llamada SEMICOLON
+    (39) estatuto2 -> . lectura SEMICOLON
+    (40) estatuto2 -> . escritura SEMICOLON
+    (41) estatuto2 -> . for
+    (42) estatuto2 -> . if
+    (43) estatuto2 -> . while
+    (116) empty -> .
+    (44) asignacion -> . ID addId arr EQUAL addOperator expresion quadEqual
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    (53) lectura -> . READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
+    (54) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (58) for -> . FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (59) if -> . IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+    (62) while -> . WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+
+    RBRACKET        reduce using rule 116 (empty -> .)
+    ID              shift and go to state 75
+    READ            shift and go to state 76
+    PRINT           shift and go to state 77
+    FOR             shift and go to state 78
+    IF              shift and go to state 79
+    WHILE           shift and go to state 80
+
+    estatuto                       shift and go to state 65
+    estatuto2                      shift and go to state 66
+    empty                          shift and go to state 67
+    asignacion                     shift and go to state 68
+    llamada                        shift and go to state 69
+    lectura                        shift and go to state 70
+    escritura                      shift and go to state 71
+    for                            shift and go to state 72
+    if                             shift and go to state 73
+    while                          shift and go to state 74
+
+state 61
+
+    (23) parameters2 -> tipo ID addVariable parameters3 .
+
+    RPARENTHESIS    reduce using rule 23 (parameters2 -> tipo ID addVariable parameters3 .)
+
+
+state 62
+
+    (24) parameters3 -> COMMA . ID addVariable parameters3
+    (25) parameters3 -> COMMA . tipo ID addVariable parameters3
+    (26) parameters3 -> COMMA . ID addVariable
+    (27) parameters3 -> COMMA . tipo ID addVariable
+    (14) tipo -> . INT
+    (15) tipo -> . FLOAT
+    (16) tipo -> . CHAR
+    (17) tipo -> . STRING
+
+    ID              shift and go to state 81
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+    STRING          shift and go to state 19
+
+    tipo                           shift and go to state 82
+
+state 63
+
+    (28) funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars . LBRACKET estatuto retorno RBRACKET endFunc funcion
+
+    LBRACKET        shift and go to state 83
+
+
+state 64
+
+    (29) funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars . LBRACKET estatuto RBRACKET endFunc funcion
+
+    LBRACKET        shift and go to state 84
+
+
+state 65
+
+    (4) principal -> MAIN addMain LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto . RBRACKET
+
+    RBRACKET        shift and go to state 85
+
+
+state 66
+
+    (35) estatuto -> estatuto2 . estatuto
+    (35) estatuto -> . estatuto2 estatuto
+    (36) estatuto -> . empty
+    (37) estatuto2 -> . asignacion SEMICOLON
+    (38) estatuto2 -> . llamada SEMICOLON
+    (39) estatuto2 -> . lectura SEMICOLON
+    (40) estatuto2 -> . escritura SEMICOLON
+    (41) estatuto2 -> . for
+    (42) estatuto2 -> . if
+    (43) estatuto2 -> . while
+    (116) empty -> .
+    (44) asignacion -> . ID addId arr EQUAL addOperator expresion quadEqual
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    (53) lectura -> . READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
+    (54) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (58) for -> . FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (59) if -> . IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+    (62) while -> . WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+
+    RBRACKET        reduce using rule 116 (empty -> .)
+    RETURN          reduce using rule 116 (empty -> .)
+    ID              shift and go to state 75
+    READ            shift and go to state 76
+    PRINT           shift and go to state 77
+    FOR             shift and go to state 78
+    IF              shift and go to state 79
+    WHILE           shift and go to state 80
+
+    estatuto2                      shift and go to state 66
+    estatuto                       shift and go to state 86
+    empty                          shift and go to state 67
+    asignacion                     shift and go to state 68
+    llamada                        shift and go to state 69
+    lectura                        shift and go to state 70
+    escritura                      shift and go to state 71
+    for                            shift and go to state 72
+    if                             shift and go to state 73
+    while                          shift and go to state 74
+
+state 67
+
+    (36) estatuto -> empty .
+
+    RBRACKET        reduce using rule 36 (estatuto -> empty .)
+    RETURN          reduce using rule 36 (estatuto -> empty .)
+
+
+state 68
+
+    (37) estatuto2 -> asignacion . SEMICOLON
+
+    SEMICOLON       shift and go to state 87
+
+
+state 69
+
+    (38) estatuto2 -> llamada . SEMICOLON
+
+    SEMICOLON       shift and go to state 88
+
+
+state 70
+
+    (39) estatuto2 -> lectura . SEMICOLON
+
+    SEMICOLON       shift and go to state 89
+
+
+state 71
+
+    (40) estatuto2 -> escritura . SEMICOLON
+
+    SEMICOLON       shift and go to state 90
+
+
+state 72
+
+    (41) estatuto2 -> for .
+
+    ID              reduce using rule 41 (estatuto2 -> for .)
+    READ            reduce using rule 41 (estatuto2 -> for .)
+    PRINT           reduce using rule 41 (estatuto2 -> for .)
+    FOR             reduce using rule 41 (estatuto2 -> for .)
+    IF              reduce using rule 41 (estatuto2 -> for .)
+    WHILE           reduce using rule 41 (estatuto2 -> for .)
+    RBRACKET        reduce using rule 41 (estatuto2 -> for .)
+    RETURN          reduce using rule 41 (estatuto2 -> for .)
+
+
+state 73
+
+    (42) estatuto2 -> if .
+
+    ID              reduce using rule 42 (estatuto2 -> if .)
+    READ            reduce using rule 42 (estatuto2 -> if .)
+    PRINT           reduce using rule 42 (estatuto2 -> if .)
+    FOR             reduce using rule 42 (estatuto2 -> if .)
+    IF              reduce using rule 42 (estatuto2 -> if .)
+    WHILE           reduce using rule 42 (estatuto2 -> if .)
+    RBRACKET        reduce using rule 42 (estatuto2 -> if .)
+    RETURN          reduce using rule 42 (estatuto2 -> if .)
+
+
+state 74
+
+    (43) estatuto2 -> while .
+
+    ID              reduce using rule 43 (estatuto2 -> while .)
+    READ            reduce using rule 43 (estatuto2 -> while .)
+    PRINT           reduce using rule 43 (estatuto2 -> while .)
+    FOR             reduce using rule 43 (estatuto2 -> while .)
+    IF              reduce using rule 43 (estatuto2 -> while .)
+    WHILE           reduce using rule 43 (estatuto2 -> while .)
+    RBRACKET        reduce using rule 43 (estatuto2 -> while .)
+    RETURN          reduce using rule 43 (estatuto2 -> while .)
+
+
+state 75
+
+    (44) asignacion -> ID . addId arr EQUAL addOperator expresion quadEqual
+    (45) llamada -> ID . requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    (115) addId -> .
+    (50) requestCallMemory -> .
+
+    LSQRBRACKET     reduce using rule 115 (addId -> .)
+    EQUAL           reduce using rule 115 (addId -> .)
+    LPARENTHESIS    reduce using rule 50 (requestCallMemory -> .)
+
+    addId                          shift and go to state 91
+    requestCallMemory              shift and go to state 92
+
+state 76
+
+    (53) lectura -> READ . readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
+    (100) readOperator -> .
+
+    LPARENTHESIS    reduce using rule 100 (readOperator -> .)
+
+    readOperator                   shift and go to state 93
+
+state 77
+
+    (54) escritura -> PRINT . LPARENTHESIS escritura1 RPARENTHESIS
+
+    LPARENTHESIS    shift and go to state 94
+
+
+state 78
+
+    (58) for -> FOR . forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (108) forOperator -> .
+
+    ID              reduce using rule 108 (forOperator -> .)
+
+    forOperator                    shift and go to state 95
+
+state 79
+
+    (59) if -> IF . LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+
+    LPARENTHESIS    shift and go to state 96
+
+
+state 80
+
+    (62) while -> WHILE . whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+    (105) whileOperator -> .
+
+    LPARENTHESIS    reduce using rule 105 (whileOperator -> .)
+
+    whileOperator                  shift and go to state 97
+
+state 81
+
+    (24) parameters3 -> COMMA ID . addVariable parameters3
+    (26) parameters3 -> COMMA ID . addVariable
+    (112) addVariable -> .
+
+    COMMA           reduce using rule 112 (addVariable -> .)
+    RPARENTHESIS    reduce using rule 112 (addVariable -> .)
+
+    addVariable                    shift and go to state 98
+
+state 82
+
+    (25) parameters3 -> COMMA tipo . ID addVariable parameters3
+    (27) parameters3 -> COMMA tipo . ID addVariable
+
+    ID              shift and go to state 99
+
+
+state 83
+
+    (28) funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET . estatuto retorno RBRACKET endFunc funcion
+    (35) estatuto -> . estatuto2 estatuto
+    (36) estatuto -> . empty
+    (37) estatuto2 -> . asignacion SEMICOLON
+    (38) estatuto2 -> . llamada SEMICOLON
+    (39) estatuto2 -> . lectura SEMICOLON
+    (40) estatuto2 -> . escritura SEMICOLON
+    (41) estatuto2 -> . for
+    (42) estatuto2 -> . if
+    (43) estatuto2 -> . while
+    (116) empty -> .
+    (44) asignacion -> . ID addId arr EQUAL addOperator expresion quadEqual
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    (53) lectura -> . READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
+    (54) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (58) for -> . FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (59) if -> . IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+    (62) while -> . WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+
+    RETURN          reduce using rule 116 (empty -> .)
+    ID              shift and go to state 75
+    READ            shift and go to state 76
+    PRINT           shift and go to state 77
+    FOR             shift and go to state 78
+    IF              shift and go to state 79
+    WHILE           shift and go to state 80
+
+    estatuto                       shift and go to state 100
+    estatuto2                      shift and go to state 66
+    empty                          shift and go to state 67
+    asignacion                     shift and go to state 68
+    llamada                        shift and go to state 69
+    lectura                        shift and go to state 70
+    escritura                      shift and go to state 71
+    for                            shift and go to state 72
+    if                             shift and go to state 73
+    while                          shift and go to state 74
+
+state 84
+
+    (29) funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET . estatuto RBRACKET endFunc funcion
+    (35) estatuto -> . estatuto2 estatuto
+    (36) estatuto -> . empty
+    (37) estatuto2 -> . asignacion SEMICOLON
+    (38) estatuto2 -> . llamada SEMICOLON
+    (39) estatuto2 -> . lectura SEMICOLON
+    (40) estatuto2 -> . escritura SEMICOLON
+    (41) estatuto2 -> . for
+    (42) estatuto2 -> . if
+    (43) estatuto2 -> . while
+    (116) empty -> .
+    (44) asignacion -> . ID addId arr EQUAL addOperator expresion quadEqual
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    (53) lectura -> . READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
+    (54) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (58) for -> . FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (59) if -> . IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+    (62) while -> . WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+
+    RBRACKET        reduce using rule 116 (empty -> .)
+    ID              shift and go to state 75
+    READ            shift and go to state 76
+    PRINT           shift and go to state 77
+    FOR             shift and go to state 78
+    IF              shift and go to state 79
+    WHILE           shift and go to state 80
+
+    estatuto                       shift and go to state 101
+    estatuto2                      shift and go to state 66
+    empty                          shift and go to state 67
+    asignacion                     shift and go to state 68
+    llamada                        shift and go to state 69
+    lectura                        shift and go to state 70
+    escritura                      shift and go to state 71
+    for                            shift and go to state 72
+    if                             shift and go to state 73
+    while                          shift and go to state 74
+
+state 85
+
+    (4) principal -> MAIN addMain LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET .
+
+    END             reduce using rule 4 (principal -> MAIN addMain LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET .)
+
+
+state 86
+
+    (35) estatuto -> estatuto2 estatuto .
+
+    RBRACKET        reduce using rule 35 (estatuto -> estatuto2 estatuto .)
+    RETURN          reduce using rule 35 (estatuto -> estatuto2 estatuto .)
+
+
+state 87
+
+    (37) estatuto2 -> asignacion SEMICOLON .
+
+    ID              reduce using rule 37 (estatuto2 -> asignacion SEMICOLON .)
+    READ            reduce using rule 37 (estatuto2 -> asignacion SEMICOLON .)
+    PRINT           reduce using rule 37 (estatuto2 -> asignacion SEMICOLON .)
+    FOR             reduce using rule 37 (estatuto2 -> asignacion SEMICOLON .)
+    IF              reduce using rule 37 (estatuto2 -> asignacion SEMICOLON .)
+    WHILE           reduce using rule 37 (estatuto2 -> asignacion SEMICOLON .)
+    RBRACKET        reduce using rule 37 (estatuto2 -> asignacion SEMICOLON .)
+    RETURN          reduce using rule 37 (estatuto2 -> asignacion SEMICOLON .)
+
+
+state 88
+
+    (38) estatuto2 -> llamada SEMICOLON .
+
+    ID              reduce using rule 38 (estatuto2 -> llamada SEMICOLON .)
+    READ            reduce using rule 38 (estatuto2 -> llamada SEMICOLON .)
+    PRINT           reduce using rule 38 (estatuto2 -> llamada SEMICOLON .)
+    FOR             reduce using rule 38 (estatuto2 -> llamada SEMICOLON .)
+    IF              reduce using rule 38 (estatuto2 -> llamada SEMICOLON .)
+    WHILE           reduce using rule 38 (estatuto2 -> llamada SEMICOLON .)
+    RBRACKET        reduce using rule 38 (estatuto2 -> llamada SEMICOLON .)
+    RETURN          reduce using rule 38 (estatuto2 -> llamada SEMICOLON .)
+
+
+state 89
+
+    (39) estatuto2 -> lectura SEMICOLON .
+
+    ID              reduce using rule 39 (estatuto2 -> lectura SEMICOLON .)
+    READ            reduce using rule 39 (estatuto2 -> lectura SEMICOLON .)
+    PRINT           reduce using rule 39 (estatuto2 -> lectura SEMICOLON .)
+    FOR             reduce using rule 39 (estatuto2 -> lectura SEMICOLON .)
+    IF              reduce using rule 39 (estatuto2 -> lectura SEMICOLON .)
+    WHILE           reduce using rule 39 (estatuto2 -> lectura SEMICOLON .)
+    RBRACKET        reduce using rule 39 (estatuto2 -> lectura SEMICOLON .)
+    RETURN          reduce using rule 39 (estatuto2 -> lectura SEMICOLON .)
+
+
+state 90
+
+    (40) estatuto2 -> escritura SEMICOLON .
+
+    ID              reduce using rule 40 (estatuto2 -> escritura SEMICOLON .)
+    READ            reduce using rule 40 (estatuto2 -> escritura SEMICOLON .)
+    PRINT           reduce using rule 40 (estatuto2 -> escritura SEMICOLON .)
+    FOR             reduce using rule 40 (estatuto2 -> escritura SEMICOLON .)
+    IF              reduce using rule 40 (estatuto2 -> escritura SEMICOLON .)
+    WHILE           reduce using rule 40 (estatuto2 -> escritura SEMICOLON .)
+    RBRACKET        reduce using rule 40 (estatuto2 -> escritura SEMICOLON .)
+    RETURN          reduce using rule 40 (estatuto2 -> escritura SEMICOLON .)
+
+
+state 91
+
+    (44) asignacion -> ID addId . arr EQUAL addOperator expresion quadEqual
+    (18) arr -> . LSQRBRACKET CTEI RSQRBRACKET
+    (19) arr -> . empty
+    (116) empty -> .
+
+    LSQRBRACKET     shift and go to state 38
+    EQUAL           reduce using rule 116 (empty -> .)
+
+    arr                            shift and go to state 102
+    empty                          shift and go to state 39
+
+state 92
+
+    (45) llamada -> ID requestCallMemory . LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    LPARENTHESIS    shift and go to state 103
+
+
+state 93
+
+    (53) lectura -> READ readOperator . LPARENTHESIS expresion readQuad RPARENTHESIS
+
+    LPARENTHESIS    shift and go to state 104
+
+
+state 94
+
+    (54) escritura -> PRINT LPARENTHESIS . escritura1 RPARENTHESIS
+    (55) escritura1 -> . printOperator expresion printQuad escritura2
+    (98) printOperator -> .
+
+    CTEI            reduce using rule 98 (printOperator -> .)
+    CTEF            reduce using rule 98 (printOperator -> .)
+    CTEC            reduce using rule 98 (printOperator -> .)
+    CTESTRING       reduce using rule 98 (printOperator -> .)
+    ID              reduce using rule 98 (printOperator -> .)
+    LPARENTHESIS    reduce using rule 98 (printOperator -> .)
+
+    escritura1                     shift and go to state 105
+    printOperator                  shift and go to state 106
+
+state 95
+
+    (58) for -> FOR forOperator . asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (44) asignacion -> . ID addId arr EQUAL addOperator expresion quadEqual
+
+    ID              shift and go to state 108
+
+    asignacion                     shift and go to state 107
+
+state 96
+
+    (59) if -> IF LPARENTHESIS . expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+    (63) expresion -> . nexp orQuad expresion1
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    expresion                      shift and go to state 110
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 97
+
+    (62) while -> WHILE whileOperator . LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+
+    LPARENTHESIS    shift and go to state 122
+
+
+state 98
+
+    (24) parameters3 -> COMMA ID addVariable . parameters3
+    (26) parameters3 -> COMMA ID addVariable .
+    (24) parameters3 -> . COMMA ID addVariable parameters3
+    (25) parameters3 -> . COMMA tipo ID addVariable parameters3
+    (26) parameters3 -> . COMMA ID addVariable
+    (27) parameters3 -> . COMMA tipo ID addVariable
+
+    RPARENTHESIS    reduce using rule 26 (parameters3 -> COMMA ID addVariable .)
+    COMMA           shift and go to state 62
+
+    parameters3                    shift and go to state 123
+
+state 99
+
+    (25) parameters3 -> COMMA tipo ID . addVariable parameters3
+    (27) parameters3 -> COMMA tipo ID . addVariable
+    (112) addVariable -> .
+
+    COMMA           reduce using rule 112 (addVariable -> .)
+    RPARENTHESIS    reduce using rule 112 (addVariable -> .)
+
+    addVariable                    shift and go to state 124
+
+state 100
+
+    (28) funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto . retorno RBRACKET endFunc funcion
+    (33) retorno -> . RETURN expresion quadReturn SEMICOLON
+
+    RETURN          shift and go to state 126
+
+    retorno                        shift and go to state 125
+
+state 101
+
+    (29) funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto . RBRACKET endFunc funcion
+
+    RBRACKET        shift and go to state 127
+
+
+state 102
+
+    (44) asignacion -> ID addId arr . EQUAL addOperator expresion quadEqual
+
+    EQUAL           shift and go to state 128
+
+
+state 103
+
+    (45) llamada -> ID requestCallMemory LPARENTHESIS . enviarAgrs RPARENTHESIS callQuad
+    (46) enviarAgrs -> . expresion quadArg enviarAgrs2
+    (47) enviarAgrs -> . empty
+    (63) expresion -> . nexp orQuad expresion1
+    (116) empty -> .
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    enviarAgrs                     shift and go to state 129
+    expresion                      shift and go to state 130
+    empty                          shift and go to state 131
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 104
+
+    (53) lectura -> READ readOperator LPARENTHESIS . expresion readQuad RPARENTHESIS
+    (63) expresion -> . nexp orQuad expresion1
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    expresion                      shift and go to state 132
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 105
+
+    (54) escritura -> PRINT LPARENTHESIS escritura1 . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 133
+
+
+state 106
+
+    (55) escritura1 -> printOperator . expresion printQuad escritura2
+    (63) expresion -> . nexp orQuad expresion1
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    expresion                      shift and go to state 134
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 107
+
+    (58) for -> FOR forOperator asignacion . COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+
+    COMMA           shift and go to state 135
+
+
+state 108
+
+    (44) asignacion -> ID . addId arr EQUAL addOperator expresion quadEqual
+    (115) addId -> .
+
+    LSQRBRACKET     reduce using rule 115 (addId -> .)
+    EQUAL           reduce using rule 115 (addId -> .)
+
+    addId                          shift and go to state 91
+
+state 109
+
+    (91) pexp -> LPARENTHESIS . expresion RPARENTHESIS
+    (63) expresion -> . nexp orQuad expresion1
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    expresion                      shift and go to state 136
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 110
+
+    (59) if -> IF LPARENTHESIS expresion . RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+
+    RPARENTHESIS    shift and go to state 137
+
+
+state 111
+
+    (63) expresion -> nexp . orQuad expresion1
+    (92) orQuad -> .
+
+    OR              reduce using rule 92 (orQuad -> .)
+    RPARENTHESIS    reduce using rule 92 (orQuad -> .)
+    COMMA           reduce using rule 92 (orQuad -> .)
+    SEMICOLON       reduce using rule 92 (orQuad -> .)
+    LBRACKET        reduce using rule 92 (orQuad -> .)
+
+    orQuad                         shift and go to state 138
+
+state 112
+
+    (66) nexp -> comexp . andQuad nexp1
+    (93) andQuad -> .
+
+    AND             reduce using rule 93 (andQuad -> .)
+    OR              reduce using rule 93 (andQuad -> .)
+    RPARENTHESIS    reduce using rule 93 (andQuad -> .)
+    COMMA           reduce using rule 93 (andQuad -> .)
+    SEMICOLON       reduce using rule 93 (andQuad -> .)
+    LBRACKET        reduce using rule 93 (andQuad -> .)
+
+    andQuad                        shift and go to state 139
+
+state 113
+
+    (69) comexp -> sumexp . compQuad compex1 compQuad
+    (94) compQuad -> .
+
+    GTHAN           reduce using rule 94 (compQuad -> .)
+    LTHAN           reduce using rule 94 (compQuad -> .)
+    GTHANEQ         reduce using rule 94 (compQuad -> .)
+    LTHANEQ         reduce using rule 94 (compQuad -> .)
+    DIFFERENT       reduce using rule 94 (compQuad -> .)
+    EQUALS          reduce using rule 94 (compQuad -> .)
+    AND             reduce using rule 94 (compQuad -> .)
+    OR              reduce using rule 94 (compQuad -> .)
+    RPARENTHESIS    reduce using rule 94 (compQuad -> .)
+    COMMA           reduce using rule 94 (compQuad -> .)
+    SEMICOLON       reduce using rule 94 (compQuad -> .)
+    LBRACKET        reduce using rule 94 (compQuad -> .)
+
+    compQuad                       shift and go to state 140
+
+state 114
+
+    (77) sumexp -> mulexp . plusQuad sumexp1
+    (96) plusQuad -> .
+
+    PLUS            reduce using rule 96 (plusQuad -> .)
+    MINUS           reduce using rule 96 (plusQuad -> .)
+    GTHAN           reduce using rule 96 (plusQuad -> .)
+    LTHAN           reduce using rule 96 (plusQuad -> .)
+    GTHANEQ         reduce using rule 96 (plusQuad -> .)
+    LTHANEQ         reduce using rule 96 (plusQuad -> .)
+    DIFFERENT       reduce using rule 96 (plusQuad -> .)
+    EQUALS          reduce using rule 96 (plusQuad -> .)
+    AND             reduce using rule 96 (plusQuad -> .)
+    OR              reduce using rule 96 (plusQuad -> .)
+    RPARENTHESIS    reduce using rule 96 (plusQuad -> .)
+    COMMA           reduce using rule 96 (plusQuad -> .)
+    SEMICOLON       reduce using rule 96 (plusQuad -> .)
+    LBRACKET        reduce using rule 96 (plusQuad -> .)
+
+    plusQuad                       shift and go to state 141
+
+state 115
+
+    (81) mulexp -> pexp . multQuad mulexp1
+    (95) multQuad -> .
+
+    MULTIPLICATION  reduce using rule 95 (multQuad -> .)
+    DIVISION        reduce using rule 95 (multQuad -> .)
+    PLUS            reduce using rule 95 (multQuad -> .)
+    MINUS           reduce using rule 95 (multQuad -> .)
+    GTHAN           reduce using rule 95 (multQuad -> .)
+    LTHAN           reduce using rule 95 (multQuad -> .)
+    GTHANEQ         reduce using rule 95 (multQuad -> .)
+    LTHANEQ         reduce using rule 95 (multQuad -> .)
+    DIFFERENT       reduce using rule 95 (multQuad -> .)
+    EQUALS          reduce using rule 95 (multQuad -> .)
+    AND             reduce using rule 95 (multQuad -> .)
+    OR              reduce using rule 95 (multQuad -> .)
+    RPARENTHESIS    reduce using rule 95 (multQuad -> .)
+    COMMA           reduce using rule 95 (multQuad -> .)
+    SEMICOLON       reduce using rule 95 (multQuad -> .)
+    LBRACKET        reduce using rule 95 (multQuad -> .)
+
+    multQuad                       shift and go to state 142
+
+state 116
+
+    (85) pexp -> CTEI . addOperandCte
+    (114) addOperandCte -> .
+
+    MULTIPLICATION  reduce using rule 114 (addOperandCte -> .)
+    DIVISION        reduce using rule 114 (addOperandCte -> .)
+    PLUS            reduce using rule 114 (addOperandCte -> .)
+    MINUS           reduce using rule 114 (addOperandCte -> .)
+    GTHAN           reduce using rule 114 (addOperandCte -> .)
+    LTHAN           reduce using rule 114 (addOperandCte -> .)
+    GTHANEQ         reduce using rule 114 (addOperandCte -> .)
+    LTHANEQ         reduce using rule 114 (addOperandCte -> .)
+    DIFFERENT       reduce using rule 114 (addOperandCte -> .)
+    EQUALS          reduce using rule 114 (addOperandCte -> .)
+    AND             reduce using rule 114 (addOperandCte -> .)
+    OR              reduce using rule 114 (addOperandCte -> .)
+    RPARENTHESIS    reduce using rule 114 (addOperandCte -> .)
+    COMMA           reduce using rule 114 (addOperandCte -> .)
+    SEMICOLON       reduce using rule 114 (addOperandCte -> .)
+    LBRACKET        reduce using rule 114 (addOperandCte -> .)
+
+    addOperandCte                  shift and go to state 143
+
+state 117
+
+    (86) pexp -> CTEF . addOperandCte
+    (114) addOperandCte -> .
+
+    MULTIPLICATION  reduce using rule 114 (addOperandCte -> .)
+    DIVISION        reduce using rule 114 (addOperandCte -> .)
+    PLUS            reduce using rule 114 (addOperandCte -> .)
+    MINUS           reduce using rule 114 (addOperandCte -> .)
+    GTHAN           reduce using rule 114 (addOperandCte -> .)
+    LTHAN           reduce using rule 114 (addOperandCte -> .)
+    GTHANEQ         reduce using rule 114 (addOperandCte -> .)
+    LTHANEQ         reduce using rule 114 (addOperandCte -> .)
+    DIFFERENT       reduce using rule 114 (addOperandCte -> .)
+    EQUALS          reduce using rule 114 (addOperandCte -> .)
+    AND             reduce using rule 114 (addOperandCte -> .)
+    OR              reduce using rule 114 (addOperandCte -> .)
+    RPARENTHESIS    reduce using rule 114 (addOperandCte -> .)
+    COMMA           reduce using rule 114 (addOperandCte -> .)
+    SEMICOLON       reduce using rule 114 (addOperandCte -> .)
+    LBRACKET        reduce using rule 114 (addOperandCte -> .)
+
+    addOperandCte                  shift and go to state 144
+
+state 118
+
+    (87) pexp -> CTEC . addOperandCte
+    (114) addOperandCte -> .
+
+    MULTIPLICATION  reduce using rule 114 (addOperandCte -> .)
+    DIVISION        reduce using rule 114 (addOperandCte -> .)
+    PLUS            reduce using rule 114 (addOperandCte -> .)
+    MINUS           reduce using rule 114 (addOperandCte -> .)
+    GTHAN           reduce using rule 114 (addOperandCte -> .)
+    LTHAN           reduce using rule 114 (addOperandCte -> .)
+    GTHANEQ         reduce using rule 114 (addOperandCte -> .)
+    LTHANEQ         reduce using rule 114 (addOperandCte -> .)
+    DIFFERENT       reduce using rule 114 (addOperandCte -> .)
+    EQUALS          reduce using rule 114 (addOperandCte -> .)
+    AND             reduce using rule 114 (addOperandCte -> .)
+    OR              reduce using rule 114 (addOperandCte -> .)
+    RPARENTHESIS    reduce using rule 114 (addOperandCte -> .)
+    COMMA           reduce using rule 114 (addOperandCte -> .)
+    SEMICOLON       reduce using rule 114 (addOperandCte -> .)
+    LBRACKET        reduce using rule 114 (addOperandCte -> .)
+
+    addOperandCte                  shift and go to state 145
+
+state 119
+
+    (88) pexp -> CTESTRING . addOperandCte
+    (114) addOperandCte -> .
+
+    MULTIPLICATION  reduce using rule 114 (addOperandCte -> .)
+    DIVISION        reduce using rule 114 (addOperandCte -> .)
+    PLUS            reduce using rule 114 (addOperandCte -> .)
+    MINUS           reduce using rule 114 (addOperandCte -> .)
+    GTHAN           reduce using rule 114 (addOperandCte -> .)
+    LTHAN           reduce using rule 114 (addOperandCte -> .)
+    GTHANEQ         reduce using rule 114 (addOperandCte -> .)
+    LTHANEQ         reduce using rule 114 (addOperandCte -> .)
+    DIFFERENT       reduce using rule 114 (addOperandCte -> .)
+    EQUALS          reduce using rule 114 (addOperandCte -> .)
+    AND             reduce using rule 114 (addOperandCte -> .)
+    OR              reduce using rule 114 (addOperandCte -> .)
+    RPARENTHESIS    reduce using rule 114 (addOperandCte -> .)
+    COMMA           reduce using rule 114 (addOperandCte -> .)
+    SEMICOLON       reduce using rule 114 (addOperandCte -> .)
+    LBRACKET        reduce using rule 114 (addOperandCte -> .)
+
+    addOperandCte                  shift and go to state 146
+
+state 120
+
+    (89) pexp -> llamada .
+
+    MULTIPLICATION  reduce using rule 89 (pexp -> llamada .)
+    DIVISION        reduce using rule 89 (pexp -> llamada .)
+    PLUS            reduce using rule 89 (pexp -> llamada .)
+    MINUS           reduce using rule 89 (pexp -> llamada .)
+    GTHAN           reduce using rule 89 (pexp -> llamada .)
+    LTHAN           reduce using rule 89 (pexp -> llamada .)
+    GTHANEQ         reduce using rule 89 (pexp -> llamada .)
+    LTHANEQ         reduce using rule 89 (pexp -> llamada .)
+    DIFFERENT       reduce using rule 89 (pexp -> llamada .)
+    EQUALS          reduce using rule 89 (pexp -> llamada .)
+    AND             reduce using rule 89 (pexp -> llamada .)
+    OR              reduce using rule 89 (pexp -> llamada .)
+    RPARENTHESIS    reduce using rule 89 (pexp -> llamada .)
+    COMMA           reduce using rule 89 (pexp -> llamada .)
+    SEMICOLON       reduce using rule 89 (pexp -> llamada .)
+    LBRACKET        reduce using rule 89 (pexp -> llamada .)
+
+
+state 121
+
+    (90) pexp -> ID . addOperandVar
+    (45) llamada -> ID . requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    (113) addOperandVar -> .
+    (50) requestCallMemory -> .
+
+    MULTIPLICATION  reduce using rule 113 (addOperandVar -> .)
+    DIVISION        reduce using rule 113 (addOperandVar -> .)
+    PLUS            reduce using rule 113 (addOperandVar -> .)
+    MINUS           reduce using rule 113 (addOperandVar -> .)
+    GTHAN           reduce using rule 113 (addOperandVar -> .)
+    LTHAN           reduce using rule 113 (addOperandVar -> .)
+    GTHANEQ         reduce using rule 113 (addOperandVar -> .)
+    LTHANEQ         reduce using rule 113 (addOperandVar -> .)
+    DIFFERENT       reduce using rule 113 (addOperandVar -> .)
+    EQUALS          reduce using rule 113 (addOperandVar -> .)
+    AND             reduce using rule 113 (addOperandVar -> .)
+    OR              reduce using rule 113 (addOperandVar -> .)
+    RPARENTHESIS    reduce using rule 113 (addOperandVar -> .)
+    COMMA           reduce using rule 113 (addOperandVar -> .)
+    SEMICOLON       reduce using rule 113 (addOperandVar -> .)
+    LBRACKET        reduce using rule 113 (addOperandVar -> .)
+    LPARENTHESIS    reduce using rule 50 (requestCallMemory -> .)
+
+    addOperandVar                  shift and go to state 147
+    requestCallMemory              shift and go to state 92
+
+state 122
+
+    (62) while -> WHILE whileOperator LPARENTHESIS . expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+    (63) expresion -> . nexp orQuad expresion1
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    expresion                      shift and go to state 148
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 123
+
+    (24) parameters3 -> COMMA ID addVariable parameters3 .
+
+    RPARENTHESIS    reduce using rule 24 (parameters3 -> COMMA ID addVariable parameters3 .)
+
+
+state 124
+
+    (25) parameters3 -> COMMA tipo ID addVariable . parameters3
+    (27) parameters3 -> COMMA tipo ID addVariable .
+    (24) parameters3 -> . COMMA ID addVariable parameters3
+    (25) parameters3 -> . COMMA tipo ID addVariable parameters3
+    (26) parameters3 -> . COMMA ID addVariable
+    (27) parameters3 -> . COMMA tipo ID addVariable
+
+    RPARENTHESIS    reduce using rule 27 (parameters3 -> COMMA tipo ID addVariable .)
+    COMMA           shift and go to state 62
+
+    parameters3                    shift and go to state 149
+
+state 125
+
+    (28) funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno . RBRACKET endFunc funcion
+
+    RBRACKET        shift and go to state 150
+
+
+state 126
+
+    (33) retorno -> RETURN . expresion quadReturn SEMICOLON
+    (63) expresion -> . nexp orQuad expresion1
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    expresion                      shift and go to state 151
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 127
+
+    (29) funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET . endFunc funcion
+    (32) endFunc -> .
+
+    FUNCTION        reduce using rule 32 (endFunc -> .)
+    MAIN            reduce using rule 32 (endFunc -> .)
+
+    endFunc                        shift and go to state 152
+
+state 128
+
+    (44) asignacion -> ID addId arr EQUAL . addOperator expresion quadEqual
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 153
+
+state 129
+
+    (45) llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs . RPARENTHESIS callQuad
+
+    RPARENTHESIS    shift and go to state 154
+
+
+state 130
+
+    (46) enviarAgrs -> expresion . quadArg enviarAgrs2
+    (51) quadArg -> .
+
+    COMMA           reduce using rule 51 (quadArg -> .)
+    RPARENTHESIS    reduce using rule 51 (quadArg -> .)
+
+    quadArg                        shift and go to state 155
+
+state 131
+
+    (47) enviarAgrs -> empty .
+
+    RPARENTHESIS    reduce using rule 47 (enviarAgrs -> empty .)
+
+
+state 132
+
+    (53) lectura -> READ readOperator LPARENTHESIS expresion . readQuad RPARENTHESIS
+    (101) readQuad -> .
+
+    RPARENTHESIS    reduce using rule 101 (readQuad -> .)
+
+    readQuad                       shift and go to state 156
+
+state 133
+
+    (54) escritura -> PRINT LPARENTHESIS escritura1 RPARENTHESIS .
+
+    SEMICOLON       reduce using rule 54 (escritura -> PRINT LPARENTHESIS escritura1 RPARENTHESIS .)
+
+
+state 134
+
+    (55) escritura1 -> printOperator expresion . printQuad escritura2
+    (99) printQuad -> .
+
+    COMMA           reduce using rule 99 (printQuad -> .)
+    RPARENTHESIS    reduce using rule 99 (printQuad -> .)
+
+    printQuad                      shift and go to state 157
+
+state 135
+
+    (58) for -> FOR forOperator asignacion COMMA . TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+
+    TO              shift and go to state 158
+
+
+state 136
+
+    (91) pexp -> LPARENTHESIS expresion . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 159
+
+
+state 137
+
+    (59) if -> IF LPARENTHESIS expresion RPARENTHESIS . ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+    (102) ifQuad -> .
+
+    THEN            reduce using rule 102 (ifQuad -> .)
+
+    ifQuad                         shift and go to state 160
+
+state 138
+
+    (63) expresion -> nexp orQuad . expresion1
+    (64) expresion1 -> . OR addOperator expresion
+    (65) expresion1 -> . empty
+    (116) empty -> .
+
+    OR              shift and go to state 162
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+    COMMA           reduce using rule 116 (empty -> .)
+    SEMICOLON       reduce using rule 116 (empty -> .)
+    LBRACKET        reduce using rule 116 (empty -> .)
+
+    expresion1                     shift and go to state 161
+    empty                          shift and go to state 163
+
+state 139
+
+    (66) nexp -> comexp andQuad . nexp1
+    (67) nexp1 -> . AND addOperator nexp
+    (68) nexp1 -> . empty
+    (116) empty -> .
+
+    AND             shift and go to state 165
+    OR              reduce using rule 116 (empty -> .)
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+    COMMA           reduce using rule 116 (empty -> .)
+    SEMICOLON       reduce using rule 116 (empty -> .)
+    LBRACKET        reduce using rule 116 (empty -> .)
+
+    nexp1                          shift and go to state 164
+    empty                          shift and go to state 166
+
+state 140
+
+    (69) comexp -> sumexp compQuad . compex1 compQuad
+    (70) compex1 -> . GTHAN addOperator sumexp
+    (71) compex1 -> . LTHAN addOperator sumexp
+    (72) compex1 -> . GTHANEQ addOperator sumexp
+    (73) compex1 -> . LTHANEQ addOperator sumexp
+    (74) compex1 -> . DIFFERENT addOperator sumexp
+    (75) compex1 -> . EQUALS addOperator sumexp
+    (76) compex1 -> . empty
+    (116) empty -> .
+
+    GTHAN           shift and go to state 168
+    LTHAN           shift and go to state 169
+    GTHANEQ         shift and go to state 170
+    LTHANEQ         shift and go to state 171
+    DIFFERENT       shift and go to state 172
+    EQUALS          shift and go to state 173
+    AND             reduce using rule 116 (empty -> .)
+    OR              reduce using rule 116 (empty -> .)
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+    COMMA           reduce using rule 116 (empty -> .)
+    SEMICOLON       reduce using rule 116 (empty -> .)
+    LBRACKET        reduce using rule 116 (empty -> .)
+
+    compex1                        shift and go to state 167
+    empty                          shift and go to state 174
+
+state 141
+
+    (77) sumexp -> mulexp plusQuad . sumexp1
+    (78) sumexp1 -> . PLUS addOperator sumexp
+    (79) sumexp1 -> . MINUS addOperator sumexp
+    (80) sumexp1 -> . empty
+    (116) empty -> .
+
+    PLUS            shift and go to state 176
+    MINUS           shift and go to state 177
+    GTHAN           reduce using rule 116 (empty -> .)
+    LTHAN           reduce using rule 116 (empty -> .)
+    GTHANEQ         reduce using rule 116 (empty -> .)
+    LTHANEQ         reduce using rule 116 (empty -> .)
+    DIFFERENT       reduce using rule 116 (empty -> .)
+    EQUALS          reduce using rule 116 (empty -> .)
+    AND             reduce using rule 116 (empty -> .)
+    OR              reduce using rule 116 (empty -> .)
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+    COMMA           reduce using rule 116 (empty -> .)
+    SEMICOLON       reduce using rule 116 (empty -> .)
+    LBRACKET        reduce using rule 116 (empty -> .)
+
+    sumexp1                        shift and go to state 175
+    empty                          shift and go to state 178
+
+state 142
+
+    (81) mulexp -> pexp multQuad . mulexp1
+    (82) mulexp1 -> . MULTIPLICATION addOperator mulexp
+    (83) mulexp1 -> . DIVISION addOperator mulexp
+    (84) mulexp1 -> . empty
+    (116) empty -> .
+
+    MULTIPLICATION  shift and go to state 180
+    DIVISION        shift and go to state 181
+    PLUS            reduce using rule 116 (empty -> .)
+    MINUS           reduce using rule 116 (empty -> .)
+    GTHAN           reduce using rule 116 (empty -> .)
+    LTHAN           reduce using rule 116 (empty -> .)
+    GTHANEQ         reduce using rule 116 (empty -> .)
+    LTHANEQ         reduce using rule 116 (empty -> .)
+    DIFFERENT       reduce using rule 116 (empty -> .)
+    EQUALS          reduce using rule 116 (empty -> .)
+    AND             reduce using rule 116 (empty -> .)
+    OR              reduce using rule 116 (empty -> .)
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+    COMMA           reduce using rule 116 (empty -> .)
+    SEMICOLON       reduce using rule 116 (empty -> .)
+    LBRACKET        reduce using rule 116 (empty -> .)
+
+    mulexp1                        shift and go to state 179
+    empty                          shift and go to state 182
+
+state 143
+
+    (85) pexp -> CTEI addOperandCte .
+
+    MULTIPLICATION  reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    DIVISION        reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    PLUS            reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    MINUS           reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    GTHAN           reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    LTHAN           reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    GTHANEQ         reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    LTHANEQ         reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    DIFFERENT       reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    EQUALS          reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    AND             reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    OR              reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    RPARENTHESIS    reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    COMMA           reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    SEMICOLON       reduce using rule 85 (pexp -> CTEI addOperandCte .)
+    LBRACKET        reduce using rule 85 (pexp -> CTEI addOperandCte .)
+
+
+state 144
+
+    (86) pexp -> CTEF addOperandCte .
+
+    MULTIPLICATION  reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    DIVISION        reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    PLUS            reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    MINUS           reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    GTHAN           reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    LTHAN           reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    GTHANEQ         reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    LTHANEQ         reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    DIFFERENT       reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    EQUALS          reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    AND             reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    OR              reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    RPARENTHESIS    reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    COMMA           reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    SEMICOLON       reduce using rule 86 (pexp -> CTEF addOperandCte .)
+    LBRACKET        reduce using rule 86 (pexp -> CTEF addOperandCte .)
+
+
+state 145
+
+    (87) pexp -> CTEC addOperandCte .
+
+    MULTIPLICATION  reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    DIVISION        reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    PLUS            reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    MINUS           reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    GTHAN           reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    LTHAN           reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    GTHANEQ         reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    LTHANEQ         reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    DIFFERENT       reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    EQUALS          reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    AND             reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    OR              reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    RPARENTHESIS    reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    COMMA           reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    SEMICOLON       reduce using rule 87 (pexp -> CTEC addOperandCte .)
+    LBRACKET        reduce using rule 87 (pexp -> CTEC addOperandCte .)
+
+
+state 146
+
+    (88) pexp -> CTESTRING addOperandCte .
+
+    MULTIPLICATION  reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    DIVISION        reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    PLUS            reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    MINUS           reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    GTHAN           reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    LTHAN           reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    GTHANEQ         reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    LTHANEQ         reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    DIFFERENT       reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    EQUALS          reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    AND             reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    OR              reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    RPARENTHESIS    reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    COMMA           reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    SEMICOLON       reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+    LBRACKET        reduce using rule 88 (pexp -> CTESTRING addOperandCte .)
+
+
+state 147
+
+    (90) pexp -> ID addOperandVar .
+
+    MULTIPLICATION  reduce using rule 90 (pexp -> ID addOperandVar .)
+    DIVISION        reduce using rule 90 (pexp -> ID addOperandVar .)
+    PLUS            reduce using rule 90 (pexp -> ID addOperandVar .)
+    MINUS           reduce using rule 90 (pexp -> ID addOperandVar .)
+    GTHAN           reduce using rule 90 (pexp -> ID addOperandVar .)
+    LTHAN           reduce using rule 90 (pexp -> ID addOperandVar .)
+    GTHANEQ         reduce using rule 90 (pexp -> ID addOperandVar .)
+    LTHANEQ         reduce using rule 90 (pexp -> ID addOperandVar .)
+    DIFFERENT       reduce using rule 90 (pexp -> ID addOperandVar .)
+    EQUALS          reduce using rule 90 (pexp -> ID addOperandVar .)
+    AND             reduce using rule 90 (pexp -> ID addOperandVar .)
+    OR              reduce using rule 90 (pexp -> ID addOperandVar .)
+    RPARENTHESIS    reduce using rule 90 (pexp -> ID addOperandVar .)
+    COMMA           reduce using rule 90 (pexp -> ID addOperandVar .)
+    SEMICOLON       reduce using rule 90 (pexp -> ID addOperandVar .)
+    LBRACKET        reduce using rule 90 (pexp -> ID addOperandVar .)
+
+
+state 148
+
+    (62) while -> WHILE whileOperator LPARENTHESIS expresion . RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+
+    RPARENTHESIS    shift and go to state 183
+
+
+state 149
+
+    (25) parameters3 -> COMMA tipo ID addVariable parameters3 .
+
+    RPARENTHESIS    reduce using rule 25 (parameters3 -> COMMA tipo ID addVariable parameters3 .)
+
+
+state 150
+
+    (28) funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET . endFunc funcion
+    (32) endFunc -> .
+
+    FUNCTION        reduce using rule 32 (endFunc -> .)
+    MAIN            reduce using rule 32 (endFunc -> .)
+
+    endFunc                        shift and go to state 184
+
+state 151
+
+    (33) retorno -> RETURN expresion . quadReturn SEMICOLON
+    (34) quadReturn -> .
+
+    SEMICOLON       reduce using rule 34 (quadReturn -> .)
+
+    quadReturn                     shift and go to state 185
+
+state 152
+
+    (29) funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc . funcion
+    (28) funcion -> . FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+    (29) funcion -> . FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
+    (30) funcion -> . empty
+    (116) empty -> .
+
+    FUNCTION        shift and go to state 12
+    MAIN            reduce using rule 116 (empty -> .)
+
+    funcion                        shift and go to state 186
+    empty                          shift and go to state 13
+
+state 153
+
+    (44) asignacion -> ID addId arr EQUAL addOperator . expresion quadEqual
+    (63) expresion -> . nexp orQuad expresion1
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    expresion                      shift and go to state 187
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 154
+
+    (45) llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS . callQuad
+    (52) callQuad -> .
+
+    SEMICOLON       reduce using rule 52 (callQuad -> .)
+    MULTIPLICATION  reduce using rule 52 (callQuad -> .)
+    DIVISION        reduce using rule 52 (callQuad -> .)
+    PLUS            reduce using rule 52 (callQuad -> .)
+    MINUS           reduce using rule 52 (callQuad -> .)
+    GTHAN           reduce using rule 52 (callQuad -> .)
+    LTHAN           reduce using rule 52 (callQuad -> .)
+    GTHANEQ         reduce using rule 52 (callQuad -> .)
+    LTHANEQ         reduce using rule 52 (callQuad -> .)
+    DIFFERENT       reduce using rule 52 (callQuad -> .)
+    EQUALS          reduce using rule 52 (callQuad -> .)
+    AND             reduce using rule 52 (callQuad -> .)
+    OR              reduce using rule 52 (callQuad -> .)
+    RPARENTHESIS    reduce using rule 52 (callQuad -> .)
+    COMMA           reduce using rule 52 (callQuad -> .)
+    LBRACKET        reduce using rule 52 (callQuad -> .)
+
+    callQuad                       shift and go to state 188
+
+state 155
+
+    (46) enviarAgrs -> expresion quadArg . enviarAgrs2
+    (48) enviarAgrs2 -> . COMMA enviarAgrs
+    (49) enviarAgrs2 -> . empty
+    (116) empty -> .
+
+    COMMA           shift and go to state 190
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+
+    enviarAgrs2                    shift and go to state 189
+    empty                          shift and go to state 191
+
+state 156
+
+    (53) lectura -> READ readOperator LPARENTHESIS expresion readQuad . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 192
+
+
+state 157
+
+    (55) escritura1 -> printOperator expresion printQuad . escritura2
+    (56) escritura2 -> . COMMA escritura1
+    (57) escritura2 -> . empty
+    (116) empty -> .
+
+    COMMA           shift and go to state 194
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+
+    escritura2                     shift and go to state 193
+    empty                          shift and go to state 195
+
+state 158
+
+    (58) for -> FOR forOperator asignacion COMMA TO . expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (63) expresion -> . nexp orQuad expresion1
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    expresion                      shift and go to state 196
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 159
+
+    (91) pexp -> LPARENTHESIS expresion RPARENTHESIS .
+
+    MULTIPLICATION  reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    DIVISION        reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    PLUS            reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    MINUS           reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    GTHAN           reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    LTHAN           reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    GTHANEQ         reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    LTHANEQ         reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    DIFFERENT       reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    EQUALS          reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    AND             reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    OR              reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    RPARENTHESIS    reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    COMMA           reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    SEMICOLON       reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+    LBRACKET        reduce using rule 91 (pexp -> LPARENTHESIS expresion RPARENTHESIS .)
+
+
+state 160
+
+    (59) if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad . THEN LBRACKET estatuto RBRACKET else endIf
+
+    THEN            shift and go to state 197
+
+
+state 161
+
+    (63) expresion -> nexp orQuad expresion1 .
+
+    RPARENTHESIS    reduce using rule 63 (expresion -> nexp orQuad expresion1 .)
+    COMMA           reduce using rule 63 (expresion -> nexp orQuad expresion1 .)
+    SEMICOLON       reduce using rule 63 (expresion -> nexp orQuad expresion1 .)
+    LBRACKET        reduce using rule 63 (expresion -> nexp orQuad expresion1 .)
+
+
+state 162
+
+    (64) expresion1 -> OR . addOperator expresion
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 198
+
+state 163
+
+    (65) expresion1 -> empty .
+
+    RPARENTHESIS    reduce using rule 65 (expresion1 -> empty .)
+    COMMA           reduce using rule 65 (expresion1 -> empty .)
+    SEMICOLON       reduce using rule 65 (expresion1 -> empty .)
+    LBRACKET        reduce using rule 65 (expresion1 -> empty .)
+
+
+state 164
+
+    (66) nexp -> comexp andQuad nexp1 .
+
+    OR              reduce using rule 66 (nexp -> comexp andQuad nexp1 .)
+    RPARENTHESIS    reduce using rule 66 (nexp -> comexp andQuad nexp1 .)
+    COMMA           reduce using rule 66 (nexp -> comexp andQuad nexp1 .)
+    SEMICOLON       reduce using rule 66 (nexp -> comexp andQuad nexp1 .)
+    LBRACKET        reduce using rule 66 (nexp -> comexp andQuad nexp1 .)
+
+
+state 165
+
+    (67) nexp1 -> AND . addOperator nexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 199
+
+state 166
+
+    (68) nexp1 -> empty .
+
+    OR              reduce using rule 68 (nexp1 -> empty .)
+    RPARENTHESIS    reduce using rule 68 (nexp1 -> empty .)
+    COMMA           reduce using rule 68 (nexp1 -> empty .)
+    SEMICOLON       reduce using rule 68 (nexp1 -> empty .)
+    LBRACKET        reduce using rule 68 (nexp1 -> empty .)
+
+
+state 167
+
+    (69) comexp -> sumexp compQuad compex1 . compQuad
+    (94) compQuad -> .
+
+    AND             reduce using rule 94 (compQuad -> .)
+    OR              reduce using rule 94 (compQuad -> .)
+    RPARENTHESIS    reduce using rule 94 (compQuad -> .)
+    COMMA           reduce using rule 94 (compQuad -> .)
+    SEMICOLON       reduce using rule 94 (compQuad -> .)
+    LBRACKET        reduce using rule 94 (compQuad -> .)
+
+    compQuad                       shift and go to state 200
+
+state 168
+
+    (70) compex1 -> GTHAN . addOperator sumexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 201
+
+state 169
+
+    (71) compex1 -> LTHAN . addOperator sumexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 202
+
+state 170
+
+    (72) compex1 -> GTHANEQ . addOperator sumexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 203
+
+state 171
+
+    (73) compex1 -> LTHANEQ . addOperator sumexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 204
+
+state 172
+
+    (74) compex1 -> DIFFERENT . addOperator sumexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 205
+
+state 173
+
+    (75) compex1 -> EQUALS . addOperator sumexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 206
+
+state 174
+
+    (76) compex1 -> empty .
+
+    AND             reduce using rule 76 (compex1 -> empty .)
+    OR              reduce using rule 76 (compex1 -> empty .)
+    RPARENTHESIS    reduce using rule 76 (compex1 -> empty .)
+    COMMA           reduce using rule 76 (compex1 -> empty .)
+    SEMICOLON       reduce using rule 76 (compex1 -> empty .)
+    LBRACKET        reduce using rule 76 (compex1 -> empty .)
+
+
+state 175
+
+    (77) sumexp -> mulexp plusQuad sumexp1 .
+
+    GTHAN           reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    LTHAN           reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    GTHANEQ         reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    LTHANEQ         reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    DIFFERENT       reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    EQUALS          reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    AND             reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    OR              reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    RPARENTHESIS    reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    COMMA           reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    SEMICOLON       reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+    LBRACKET        reduce using rule 77 (sumexp -> mulexp plusQuad sumexp1 .)
+
+
+state 176
+
+    (78) sumexp1 -> PLUS . addOperator sumexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 207
+
+state 177
+
+    (79) sumexp1 -> MINUS . addOperator sumexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 208
+
+state 178
+
+    (80) sumexp1 -> empty .
+
+    GTHAN           reduce using rule 80 (sumexp1 -> empty .)
+    LTHAN           reduce using rule 80 (sumexp1 -> empty .)
+    GTHANEQ         reduce using rule 80 (sumexp1 -> empty .)
+    LTHANEQ         reduce using rule 80 (sumexp1 -> empty .)
+    DIFFERENT       reduce using rule 80 (sumexp1 -> empty .)
+    EQUALS          reduce using rule 80 (sumexp1 -> empty .)
+    AND             reduce using rule 80 (sumexp1 -> empty .)
+    OR              reduce using rule 80 (sumexp1 -> empty .)
+    RPARENTHESIS    reduce using rule 80 (sumexp1 -> empty .)
+    COMMA           reduce using rule 80 (sumexp1 -> empty .)
+    SEMICOLON       reduce using rule 80 (sumexp1 -> empty .)
+    LBRACKET        reduce using rule 80 (sumexp1 -> empty .)
+
+
+state 179
+
+    (81) mulexp -> pexp multQuad mulexp1 .
+
+    PLUS            reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    MINUS           reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    GTHAN           reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    LTHAN           reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    GTHANEQ         reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    LTHANEQ         reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    DIFFERENT       reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    EQUALS          reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    AND             reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    OR              reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    RPARENTHESIS    reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    COMMA           reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    SEMICOLON       reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+    LBRACKET        reduce using rule 81 (mulexp -> pexp multQuad mulexp1 .)
+
+
+state 180
+
+    (82) mulexp1 -> MULTIPLICATION . addOperator mulexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 209
+
+state 181
+
+    (83) mulexp1 -> DIVISION . addOperator mulexp
+    (111) addOperator -> .
+
+    CTEI            reduce using rule 111 (addOperator -> .)
+    CTEF            reduce using rule 111 (addOperator -> .)
+    CTEC            reduce using rule 111 (addOperator -> .)
+    CTESTRING       reduce using rule 111 (addOperator -> .)
+    ID              reduce using rule 111 (addOperator -> .)
+    LPARENTHESIS    reduce using rule 111 (addOperator -> .)
+
+    addOperator                    shift and go to state 210
+
+state 182
+
+    (84) mulexp1 -> empty .
+
+    PLUS            reduce using rule 84 (mulexp1 -> empty .)
+    MINUS           reduce using rule 84 (mulexp1 -> empty .)
+    GTHAN           reduce using rule 84 (mulexp1 -> empty .)
+    LTHAN           reduce using rule 84 (mulexp1 -> empty .)
+    GTHANEQ         reduce using rule 84 (mulexp1 -> empty .)
+    LTHANEQ         reduce using rule 84 (mulexp1 -> empty .)
+    DIFFERENT       reduce using rule 84 (mulexp1 -> empty .)
+    EQUALS          reduce using rule 84 (mulexp1 -> empty .)
+    AND             reduce using rule 84 (mulexp1 -> empty .)
+    OR              reduce using rule 84 (mulexp1 -> empty .)
+    RPARENTHESIS    reduce using rule 84 (mulexp1 -> empty .)
+    COMMA           reduce using rule 84 (mulexp1 -> empty .)
+    SEMICOLON       reduce using rule 84 (mulexp1 -> empty .)
+    LBRACKET        reduce using rule 84 (mulexp1 -> empty .)
+
+
+state 183
+
+    (62) while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS . whileQuad LBRACKET estatuto RBRACKET endWhile
+    (106) whileQuad -> .
+
+    LBRACKET        reduce using rule 106 (whileQuad -> .)
+
+    whileQuad                      shift and go to state 211
+
+state 184
+
+    (28) funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc . funcion
+    (28) funcion -> . FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+    (29) funcion -> . FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
+    (30) funcion -> . empty
+    (116) empty -> .
+
+    FUNCTION        shift and go to state 12
+    MAIN            reduce using rule 116 (empty -> .)
+
+    funcion                        shift and go to state 212
+    empty                          shift and go to state 13
+
+state 185
+
+    (33) retorno -> RETURN expresion quadReturn . SEMICOLON
+
+    SEMICOLON       shift and go to state 213
+
+
+state 186
+
+    (29) funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion .
+
+    MAIN            reduce using rule 29 (funcion -> FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion .)
+
+
+state 187
+
+    (44) asignacion -> ID addId arr EQUAL addOperator expresion . quadEqual
+    (97) quadEqual -> .
+
+    SEMICOLON       reduce using rule 97 (quadEqual -> .)
+    COMMA           reduce using rule 97 (quadEqual -> .)
+
+    quadEqual                      shift and go to state 214
+
+state 188
+
+    (45) llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .
+
+    SEMICOLON       reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    MULTIPLICATION  reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    DIVISION        reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    PLUS            reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    MINUS           reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    GTHAN           reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    LTHAN           reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    GTHANEQ         reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    LTHANEQ         reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    DIFFERENT       reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    EQUALS          reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    AND             reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    OR              reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    RPARENTHESIS    reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    COMMA           reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+    LBRACKET        reduce using rule 45 (llamada -> ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad .)
+
+
+state 189
+
+    (46) enviarAgrs -> expresion quadArg enviarAgrs2 .
+
+    RPARENTHESIS    reduce using rule 46 (enviarAgrs -> expresion quadArg enviarAgrs2 .)
+
+
+state 190
+
+    (48) enviarAgrs2 -> COMMA . enviarAgrs
+    (46) enviarAgrs -> . expresion quadArg enviarAgrs2
+    (47) enviarAgrs -> . empty
+    (63) expresion -> . nexp orQuad expresion1
+    (116) empty -> .
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    RPARENTHESIS    reduce using rule 116 (empty -> .)
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    enviarAgrs                     shift and go to state 215
+    expresion                      shift and go to state 130
+    empty                          shift and go to state 131
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 191
+
+    (49) enviarAgrs2 -> empty .
+
+    RPARENTHESIS    reduce using rule 49 (enviarAgrs2 -> empty .)
+
+
+state 192
+
+    (53) lectura -> READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS .
+
+    SEMICOLON       reduce using rule 53 (lectura -> READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS .)
+
+
+state 193
+
+    (55) escritura1 -> printOperator expresion printQuad escritura2 .
+
+    RPARENTHESIS    reduce using rule 55 (escritura1 -> printOperator expresion printQuad escritura2 .)
+
+
+state 194
+
+    (56) escritura2 -> COMMA . escritura1
+    (55) escritura1 -> . printOperator expresion printQuad escritura2
+    (98) printOperator -> .
+
+    CTEI            reduce using rule 98 (printOperator -> .)
+    CTEF            reduce using rule 98 (printOperator -> .)
+    CTEC            reduce using rule 98 (printOperator -> .)
+    CTESTRING       reduce using rule 98 (printOperator -> .)
+    ID              reduce using rule 98 (printOperator -> .)
+    LPARENTHESIS    reduce using rule 98 (printOperator -> .)
+
+    escritura1                     shift and go to state 216
+    printOperator                  shift and go to state 106
+
+state 195
+
+    (57) escritura2 -> empty .
+
+    RPARENTHESIS    reduce using rule 57 (escritura2 -> empty .)
+
+
+state 196
+
+    (58) for -> FOR forOperator asignacion COMMA TO expresion . forQuad LBRACKET estatuto RBRACKET endFor
+    (109) forQuad -> .
+
+    LBRACKET        reduce using rule 109 (forQuad -> .)
+
+    forQuad                        shift and go to state 217
+
+state 197
+
+    (59) if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN . LBRACKET estatuto RBRACKET else endIf
+
+    LBRACKET        shift and go to state 218
+
+
+state 198
+
+    (64) expresion1 -> OR addOperator . expresion
+    (63) expresion -> . nexp orQuad expresion1
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    expresion                      shift and go to state 219
+    nexp                           shift and go to state 111
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 199
+
+    (67) nexp1 -> AND addOperator . nexp
+    (66) nexp -> . comexp andQuad nexp1
+    (69) comexp -> . sumexp compQuad compex1 compQuad
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    nexp                           shift and go to state 220
+    comexp                         shift and go to state 112
+    sumexp                         shift and go to state 113
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 200
+
+    (69) comexp -> sumexp compQuad compex1 compQuad .
+
+    AND             reduce using rule 69 (comexp -> sumexp compQuad compex1 compQuad .)
+    OR              reduce using rule 69 (comexp -> sumexp compQuad compex1 compQuad .)
+    RPARENTHESIS    reduce using rule 69 (comexp -> sumexp compQuad compex1 compQuad .)
+    COMMA           reduce using rule 69 (comexp -> sumexp compQuad compex1 compQuad .)
+    SEMICOLON       reduce using rule 69 (comexp -> sumexp compQuad compex1 compQuad .)
+    LBRACKET        reduce using rule 69 (comexp -> sumexp compQuad compex1 compQuad .)
+
+
+state 201
+
+    (70) compex1 -> GTHAN addOperator . sumexp
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    sumexp                         shift and go to state 221
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 202
+
+    (71) compex1 -> LTHAN addOperator . sumexp
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    sumexp                         shift and go to state 222
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 203
+
+    (72) compex1 -> GTHANEQ addOperator . sumexp
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    sumexp                         shift and go to state 223
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 204
+
+    (73) compex1 -> LTHANEQ addOperator . sumexp
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    sumexp                         shift and go to state 224
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 205
+
+    (74) compex1 -> DIFFERENT addOperator . sumexp
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    sumexp                         shift and go to state 225
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 206
+
+    (75) compex1 -> EQUALS addOperator . sumexp
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    sumexp                         shift and go to state 226
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 207
+
+    (78) sumexp1 -> PLUS addOperator . sumexp
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    sumexp                         shift and go to state 227
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 208
+
+    (79) sumexp1 -> MINUS addOperator . sumexp
+    (77) sumexp -> . mulexp plusQuad sumexp1
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    sumexp                         shift and go to state 228
+    mulexp                         shift and go to state 114
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 209
+
+    (82) mulexp1 -> MULTIPLICATION addOperator . mulexp
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    mulexp                         shift and go to state 229
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 210
+
+    (83) mulexp1 -> DIVISION addOperator . mulexp
+    (81) mulexp -> . pexp multQuad mulexp1
+    (85) pexp -> . CTEI addOperandCte
+    (86) pexp -> . CTEF addOperandCte
+    (87) pexp -> . CTEC addOperandCte
+    (88) pexp -> . CTESTRING addOperandCte
+    (89) pexp -> . llamada
+    (90) pexp -> . ID addOperandVar
+    (91) pexp -> . LPARENTHESIS expresion RPARENTHESIS
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+
+    CTEI            shift and go to state 116
+    CTEF            shift and go to state 117
+    CTEC            shift and go to state 118
+    CTESTRING       shift and go to state 119
+    ID              shift and go to state 121
+    LPARENTHESIS    shift and go to state 109
+
+    mulexp                         shift and go to state 230
+    pexp                           shift and go to state 115
+    llamada                        shift and go to state 120
+
+state 211
+
+    (62) while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad . LBRACKET estatuto RBRACKET endWhile
+
+    LBRACKET        shift and go to state 231
+
+
+state 212
+
+    (28) funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion .
+
+    MAIN            reduce using rule 28 (funcion -> FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion .)
+
+
+state 213
+
+    (33) retorno -> RETURN expresion quadReturn SEMICOLON .
+
+    RBRACKET        reduce using rule 33 (retorno -> RETURN expresion quadReturn SEMICOLON .)
+
+
+state 214
+
+    (44) asignacion -> ID addId arr EQUAL addOperator expresion quadEqual .
+
+    SEMICOLON       reduce using rule 44 (asignacion -> ID addId arr EQUAL addOperator expresion quadEqual .)
+    COMMA           reduce using rule 44 (asignacion -> ID addId arr EQUAL addOperator expresion quadEqual .)
+
+
+state 215
+
+    (48) enviarAgrs2 -> COMMA enviarAgrs .
+
+    RPARENTHESIS    reduce using rule 48 (enviarAgrs2 -> COMMA enviarAgrs .)
+
+
+state 216
+
+    (56) escritura2 -> COMMA escritura1 .
+
+    RPARENTHESIS    reduce using rule 56 (escritura2 -> COMMA escritura1 .)
+
+
+state 217
+
+    (58) for -> FOR forOperator asignacion COMMA TO expresion forQuad . LBRACKET estatuto RBRACKET endFor
+
+    LBRACKET        shift and go to state 232
+
+
+state 218
+
+    (59) if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET . estatuto RBRACKET else endIf
+    (35) estatuto -> . estatuto2 estatuto
+    (36) estatuto -> . empty
+    (37) estatuto2 -> . asignacion SEMICOLON
+    (38) estatuto2 -> . llamada SEMICOLON
+    (39) estatuto2 -> . lectura SEMICOLON
+    (40) estatuto2 -> . escritura SEMICOLON
+    (41) estatuto2 -> . for
+    (42) estatuto2 -> . if
+    (43) estatuto2 -> . while
+    (116) empty -> .
+    (44) asignacion -> . ID addId arr EQUAL addOperator expresion quadEqual
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    (53) lectura -> . READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
+    (54) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (58) for -> . FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (59) if -> . IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+    (62) while -> . WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+
+    RBRACKET        reduce using rule 116 (empty -> .)
+    ID              shift and go to state 75
+    READ            shift and go to state 76
+    PRINT           shift and go to state 77
+    FOR             shift and go to state 78
+    IF              shift and go to state 79
+    WHILE           shift and go to state 80
+
+    estatuto                       shift and go to state 233
+    estatuto2                      shift and go to state 66
+    empty                          shift and go to state 67
+    asignacion                     shift and go to state 68
+    llamada                        shift and go to state 69
+    lectura                        shift and go to state 70
+    escritura                      shift and go to state 71
+    for                            shift and go to state 72
+    if                             shift and go to state 73
+    while                          shift and go to state 74
+
+state 219
+
+    (64) expresion1 -> OR addOperator expresion .
+
+    RPARENTHESIS    reduce using rule 64 (expresion1 -> OR addOperator expresion .)
+    COMMA           reduce using rule 64 (expresion1 -> OR addOperator expresion .)
+    SEMICOLON       reduce using rule 64 (expresion1 -> OR addOperator expresion .)
+    LBRACKET        reduce using rule 64 (expresion1 -> OR addOperator expresion .)
+
+
+state 220
+
+    (67) nexp1 -> AND addOperator nexp .
+
+    OR              reduce using rule 67 (nexp1 -> AND addOperator nexp .)
+    RPARENTHESIS    reduce using rule 67 (nexp1 -> AND addOperator nexp .)
+    COMMA           reduce using rule 67 (nexp1 -> AND addOperator nexp .)
+    SEMICOLON       reduce using rule 67 (nexp1 -> AND addOperator nexp .)
+    LBRACKET        reduce using rule 67 (nexp1 -> AND addOperator nexp .)
+
+
+state 221
+
+    (70) compex1 -> GTHAN addOperator sumexp .
+
+    AND             reduce using rule 70 (compex1 -> GTHAN addOperator sumexp .)
+    OR              reduce using rule 70 (compex1 -> GTHAN addOperator sumexp .)
+    RPARENTHESIS    reduce using rule 70 (compex1 -> GTHAN addOperator sumexp .)
+    COMMA           reduce using rule 70 (compex1 -> GTHAN addOperator sumexp .)
+    SEMICOLON       reduce using rule 70 (compex1 -> GTHAN addOperator sumexp .)
+    LBRACKET        reduce using rule 70 (compex1 -> GTHAN addOperator sumexp .)
+
+
+state 222
+
+    (71) compex1 -> LTHAN addOperator sumexp .
+
+    AND             reduce using rule 71 (compex1 -> LTHAN addOperator sumexp .)
+    OR              reduce using rule 71 (compex1 -> LTHAN addOperator sumexp .)
+    RPARENTHESIS    reduce using rule 71 (compex1 -> LTHAN addOperator sumexp .)
+    COMMA           reduce using rule 71 (compex1 -> LTHAN addOperator sumexp .)
+    SEMICOLON       reduce using rule 71 (compex1 -> LTHAN addOperator sumexp .)
+    LBRACKET        reduce using rule 71 (compex1 -> LTHAN addOperator sumexp .)
+
+
+state 223
+
+    (72) compex1 -> GTHANEQ addOperator sumexp .
+
+    AND             reduce using rule 72 (compex1 -> GTHANEQ addOperator sumexp .)
+    OR              reduce using rule 72 (compex1 -> GTHANEQ addOperator sumexp .)
+    RPARENTHESIS    reduce using rule 72 (compex1 -> GTHANEQ addOperator sumexp .)
+    COMMA           reduce using rule 72 (compex1 -> GTHANEQ addOperator sumexp .)
+    SEMICOLON       reduce using rule 72 (compex1 -> GTHANEQ addOperator sumexp .)
+    LBRACKET        reduce using rule 72 (compex1 -> GTHANEQ addOperator sumexp .)
+
+
+state 224
+
+    (73) compex1 -> LTHANEQ addOperator sumexp .
+
+    AND             reduce using rule 73 (compex1 -> LTHANEQ addOperator sumexp .)
+    OR              reduce using rule 73 (compex1 -> LTHANEQ addOperator sumexp .)
+    RPARENTHESIS    reduce using rule 73 (compex1 -> LTHANEQ addOperator sumexp .)
+    COMMA           reduce using rule 73 (compex1 -> LTHANEQ addOperator sumexp .)
+    SEMICOLON       reduce using rule 73 (compex1 -> LTHANEQ addOperator sumexp .)
+    LBRACKET        reduce using rule 73 (compex1 -> LTHANEQ addOperator sumexp .)
+
+
+state 225
+
+    (74) compex1 -> DIFFERENT addOperator sumexp .
+
+    AND             reduce using rule 74 (compex1 -> DIFFERENT addOperator sumexp .)
+    OR              reduce using rule 74 (compex1 -> DIFFERENT addOperator sumexp .)
+    RPARENTHESIS    reduce using rule 74 (compex1 -> DIFFERENT addOperator sumexp .)
+    COMMA           reduce using rule 74 (compex1 -> DIFFERENT addOperator sumexp .)
+    SEMICOLON       reduce using rule 74 (compex1 -> DIFFERENT addOperator sumexp .)
+    LBRACKET        reduce using rule 74 (compex1 -> DIFFERENT addOperator sumexp .)
+
+
+state 226
+
+    (75) compex1 -> EQUALS addOperator sumexp .
+
+    AND             reduce using rule 75 (compex1 -> EQUALS addOperator sumexp .)
+    OR              reduce using rule 75 (compex1 -> EQUALS addOperator sumexp .)
+    RPARENTHESIS    reduce using rule 75 (compex1 -> EQUALS addOperator sumexp .)
+    COMMA           reduce using rule 75 (compex1 -> EQUALS addOperator sumexp .)
+    SEMICOLON       reduce using rule 75 (compex1 -> EQUALS addOperator sumexp .)
+    LBRACKET        reduce using rule 75 (compex1 -> EQUALS addOperator sumexp .)
+
+
+state 227
+
+    (78) sumexp1 -> PLUS addOperator sumexp .
+
+    GTHAN           reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    LTHAN           reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    GTHANEQ         reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    LTHANEQ         reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    DIFFERENT       reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    EQUALS          reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    AND             reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    OR              reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    RPARENTHESIS    reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    COMMA           reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    SEMICOLON       reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+    LBRACKET        reduce using rule 78 (sumexp1 -> PLUS addOperator sumexp .)
+
+
+state 228
+
+    (79) sumexp1 -> MINUS addOperator sumexp .
+
+    GTHAN           reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    LTHAN           reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    GTHANEQ         reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    LTHANEQ         reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    DIFFERENT       reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    EQUALS          reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    AND             reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    OR              reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    RPARENTHESIS    reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    COMMA           reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    SEMICOLON       reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+    LBRACKET        reduce using rule 79 (sumexp1 -> MINUS addOperator sumexp .)
+
+
+state 229
+
+    (82) mulexp1 -> MULTIPLICATION addOperator mulexp .
+
+    PLUS            reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    MINUS           reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    GTHAN           reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    LTHAN           reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    GTHANEQ         reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    LTHANEQ         reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    DIFFERENT       reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    EQUALS          reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    AND             reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    OR              reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    RPARENTHESIS    reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    COMMA           reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    SEMICOLON       reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+    LBRACKET        reduce using rule 82 (mulexp1 -> MULTIPLICATION addOperator mulexp .)
+
+
+state 230
+
+    (83) mulexp1 -> DIVISION addOperator mulexp .
+
+    PLUS            reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    MINUS           reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    GTHAN           reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    LTHAN           reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    GTHANEQ         reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    LTHANEQ         reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    DIFFERENT       reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    EQUALS          reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    AND             reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    OR              reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    RPARENTHESIS    reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    COMMA           reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    SEMICOLON       reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+    LBRACKET        reduce using rule 83 (mulexp1 -> DIVISION addOperator mulexp .)
+
+
+state 231
+
+    (62) while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET . estatuto RBRACKET endWhile
+    (35) estatuto -> . estatuto2 estatuto
+    (36) estatuto -> . empty
+    (37) estatuto2 -> . asignacion SEMICOLON
+    (38) estatuto2 -> . llamada SEMICOLON
+    (39) estatuto2 -> . lectura SEMICOLON
+    (40) estatuto2 -> . escritura SEMICOLON
+    (41) estatuto2 -> . for
+    (42) estatuto2 -> . if
+    (43) estatuto2 -> . while
+    (116) empty -> .
+    (44) asignacion -> . ID addId arr EQUAL addOperator expresion quadEqual
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    (53) lectura -> . READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
+    (54) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (58) for -> . FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (59) if -> . IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+    (62) while -> . WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+
+    RBRACKET        reduce using rule 116 (empty -> .)
+    ID              shift and go to state 75
+    READ            shift and go to state 76
+    PRINT           shift and go to state 77
+    FOR             shift and go to state 78
+    IF              shift and go to state 79
+    WHILE           shift and go to state 80
+
+    estatuto                       shift and go to state 234
+    estatuto2                      shift and go to state 66
+    empty                          shift and go to state 67
+    asignacion                     shift and go to state 68
+    llamada                        shift and go to state 69
+    lectura                        shift and go to state 70
+    escritura                      shift and go to state 71
+    for                            shift and go to state 72
+    if                             shift and go to state 73
+    while                          shift and go to state 74
+
+state 232
+
+    (58) for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET . estatuto RBRACKET endFor
+    (35) estatuto -> . estatuto2 estatuto
+    (36) estatuto -> . empty
+    (37) estatuto2 -> . asignacion SEMICOLON
+    (38) estatuto2 -> . llamada SEMICOLON
+    (39) estatuto2 -> . lectura SEMICOLON
+    (40) estatuto2 -> . escritura SEMICOLON
+    (41) estatuto2 -> . for
+    (42) estatuto2 -> . if
+    (43) estatuto2 -> . while
+    (116) empty -> .
+    (44) asignacion -> . ID addId arr EQUAL addOperator expresion quadEqual
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    (53) lectura -> . READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
+    (54) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (58) for -> . FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (59) if -> . IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+    (62) while -> . WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+
+    RBRACKET        reduce using rule 116 (empty -> .)
+    ID              shift and go to state 75
+    READ            shift and go to state 76
+    PRINT           shift and go to state 77
+    FOR             shift and go to state 78
+    IF              shift and go to state 79
+    WHILE           shift and go to state 80
+
+    asignacion                     shift and go to state 68
+    estatuto                       shift and go to state 235
+    estatuto2                      shift and go to state 66
+    empty                          shift and go to state 67
+    llamada                        shift and go to state 69
+    lectura                        shift and go to state 70
+    escritura                      shift and go to state 71
+    for                            shift and go to state 72
+    if                             shift and go to state 73
+    while                          shift and go to state 74
+
+state 233
+
+    (59) if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto . RBRACKET else endIf
+
+    RBRACKET        shift and go to state 236
+
+
+state 234
+
+    (62) while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto . RBRACKET endWhile
+
+    RBRACKET        shift and go to state 237
+
+
+state 235
+
+    (58) for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto . RBRACKET endFor
+
+    RBRACKET        shift and go to state 238
+
+
+state 236
+
+    (59) if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET . else endIf
+    (60) else -> . ELSE elseQuad LBRACKET estatuto RBRACKET
+    (61) else -> . empty
+    (116) empty -> .
+
+    ELSE            shift and go to state 240
+    ID              reduce using rule 116 (empty -> .)
+    READ            reduce using rule 116 (empty -> .)
+    PRINT           reduce using rule 116 (empty -> .)
+    FOR             reduce using rule 116 (empty -> .)
+    IF              reduce using rule 116 (empty -> .)
+    WHILE           reduce using rule 116 (empty -> .)
+    RBRACKET        reduce using rule 116 (empty -> .)
+    RETURN          reduce using rule 116 (empty -> .)
+
+    else                           shift and go to state 239
+    empty                          shift and go to state 241
+
+state 237
+
+    (62) while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET . endWhile
+    (107) endWhile -> .
+
+    ID              reduce using rule 107 (endWhile -> .)
+    READ            reduce using rule 107 (endWhile -> .)
+    PRINT           reduce using rule 107 (endWhile -> .)
+    FOR             reduce using rule 107 (endWhile -> .)
+    IF              reduce using rule 107 (endWhile -> .)
+    WHILE           reduce using rule 107 (endWhile -> .)
+    RBRACKET        reduce using rule 107 (endWhile -> .)
+    RETURN          reduce using rule 107 (endWhile -> .)
+
+    endWhile                       shift and go to state 242
+
+state 238
+
+    (58) for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET . endFor
+    (110) endFor -> .
+
+    ID              reduce using rule 110 (endFor -> .)
+    READ            reduce using rule 110 (endFor -> .)
+    PRINT           reduce using rule 110 (endFor -> .)
+    FOR             reduce using rule 110 (endFor -> .)
+    IF              reduce using rule 110 (endFor -> .)
+    WHILE           reduce using rule 110 (endFor -> .)
+    RBRACKET        reduce using rule 110 (endFor -> .)
+    RETURN          reduce using rule 110 (endFor -> .)
+
+    endFor                         shift and go to state 243
+
+state 239
+
+    (59) if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else . endIf
+    (104) endIf -> .
+
+    ID              reduce using rule 104 (endIf -> .)
+    READ            reduce using rule 104 (endIf -> .)
+    PRINT           reduce using rule 104 (endIf -> .)
+    FOR             reduce using rule 104 (endIf -> .)
+    IF              reduce using rule 104 (endIf -> .)
+    WHILE           reduce using rule 104 (endIf -> .)
+    RBRACKET        reduce using rule 104 (endIf -> .)
+    RETURN          reduce using rule 104 (endIf -> .)
+
+    endIf                          shift and go to state 244
+
+state 240
+
+    (60) else -> ELSE . elseQuad LBRACKET estatuto RBRACKET
+    (103) elseQuad -> .
+
+    LBRACKET        reduce using rule 103 (elseQuad -> .)
+
+    elseQuad                       shift and go to state 245
+
+state 241
+
+    (61) else -> empty .
+
+    ID              reduce using rule 61 (else -> empty .)
+    READ            reduce using rule 61 (else -> empty .)
+    PRINT           reduce using rule 61 (else -> empty .)
+    FOR             reduce using rule 61 (else -> empty .)
+    IF              reduce using rule 61 (else -> empty .)
+    WHILE           reduce using rule 61 (else -> empty .)
+    RBRACKET        reduce using rule 61 (else -> empty .)
+    RETURN          reduce using rule 61 (else -> empty .)
+
+
+state 242
+
+    (62) while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile .
+
+    ID              reduce using rule 62 (while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile .)
+    READ            reduce using rule 62 (while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile .)
+    PRINT           reduce using rule 62 (while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile .)
+    FOR             reduce using rule 62 (while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile .)
+    IF              reduce using rule 62 (while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile .)
+    WHILE           reduce using rule 62 (while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile .)
+    RBRACKET        reduce using rule 62 (while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile .)
+    RETURN          reduce using rule 62 (while -> WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile .)
+
+
+state 243
+
+    (58) for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor .
+
+    ID              reduce using rule 58 (for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor .)
+    READ            reduce using rule 58 (for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor .)
+    PRINT           reduce using rule 58 (for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor .)
+    FOR             reduce using rule 58 (for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor .)
+    IF              reduce using rule 58 (for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor .)
+    WHILE           reduce using rule 58 (for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor .)
+    RBRACKET        reduce using rule 58 (for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor .)
+    RETURN          reduce using rule 58 (for -> FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor .)
+
+
+state 244
+
+    (59) if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf .
+
+    ID              reduce using rule 59 (if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf .)
+    READ            reduce using rule 59 (if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf .)
+    PRINT           reduce using rule 59 (if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf .)
+    FOR             reduce using rule 59 (if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf .)
+    IF              reduce using rule 59 (if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf .)
+    WHILE           reduce using rule 59 (if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf .)
+    RBRACKET        reduce using rule 59 (if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf .)
+    RETURN          reduce using rule 59 (if -> IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf .)
+
+
+state 245
+
+    (60) else -> ELSE elseQuad . LBRACKET estatuto RBRACKET
+
+    LBRACKET        shift and go to state 246
+
+
+state 246
+
+    (60) else -> ELSE elseQuad LBRACKET . estatuto RBRACKET
+    (35) estatuto -> . estatuto2 estatuto
+    (36) estatuto -> . empty
+    (37) estatuto2 -> . asignacion SEMICOLON
+    (38) estatuto2 -> . llamada SEMICOLON
+    (39) estatuto2 -> . lectura SEMICOLON
+    (40) estatuto2 -> . escritura SEMICOLON
+    (41) estatuto2 -> . for
+    (42) estatuto2 -> . if
+    (43) estatuto2 -> . while
+    (116) empty -> .
+    (44) asignacion -> . ID addId arr EQUAL addOperator expresion quadEqual
+    (45) llamada -> . ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    (53) lectura -> . READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
+    (54) escritura -> . PRINT LPARENTHESIS escritura1 RPARENTHESIS
+    (58) for -> . FOR forOperator asignacion COMMA TO expresion forQuad LBRACKET estatuto RBRACKET endFor
+    (59) if -> . IF LPARENTHESIS expresion RPARENTHESIS ifQuad THEN LBRACKET estatuto RBRACKET else endIf
+    (62) while -> . WHILE whileOperator LPARENTHESIS expresion RPARENTHESIS whileQuad LBRACKET estatuto RBRACKET endWhile
+
+    RBRACKET        reduce using rule 116 (empty -> .)
+    ID              shift and go to state 75
+    READ            shift and go to state 76
+    PRINT           shift and go to state 77
+    FOR             shift and go to state 78
+    IF              shift and go to state 79
+    WHILE           shift and go to state 80
+
+    estatuto                       shift and go to state 247
+    estatuto2                      shift and go to state 66
+    empty                          shift and go to state 67
+    asignacion                     shift and go to state 68
+    llamada                        shift and go to state 69
+    lectura                        shift and go to state 70
+    escritura                      shift and go to state 71
+    for                            shift and go to state 72
+    if                             shift and go to state 73
+    while                          shift and go to state 74
+
+state 247
+
+    (60) else -> ELSE elseQuad LBRACKET estatuto . RBRACKET
+
+    RBRACKET        shift and go to state 248
+
+
+state 248
+
+    (60) else -> ELSE elseQuad LBRACKET estatuto RBRACKET .
+
+    ID              reduce using rule 60 (else -> ELSE elseQuad LBRACKET estatuto RBRACKET .)
+    READ            reduce using rule 60 (else -> ELSE elseQuad LBRACKET estatuto RBRACKET .)
+    PRINT           reduce using rule 60 (else -> ELSE elseQuad LBRACKET estatuto RBRACKET .)
+    FOR             reduce using rule 60 (else -> ELSE elseQuad LBRACKET estatuto RBRACKET .)
+    IF              reduce using rule 60 (else -> ELSE elseQuad LBRACKET estatuto RBRACKET .)
+    WHILE           reduce using rule 60 (else -> ELSE elseQuad LBRACKET estatuto RBRACKET .)
+    RBRACKET        reduce using rule 60 (else -> ELSE elseQuad LBRACKET estatuto RBRACKET .)
+    RETURN          reduce using rule 60 (else -> ELSE elseQuad LBRACKET estatuto RBRACKET .)
 

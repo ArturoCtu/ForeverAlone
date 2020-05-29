@@ -187,6 +187,11 @@ def p_addProgram(p):
 	currentFunId = 'global'
 	currentFunType = 'global'
 	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0)
+	quad = ('Goto', None, None, 'main')
+	quadruples.append(quad)
+	operator = operators['Goto']
+	quad = (operator, None, None, 'main')
+	quadruplesMem.append(quad)
 def p_programa1(p):
     '''
     programa1 : vars funcion principal 
@@ -263,8 +268,8 @@ def p_parameters3(p):
 #Funciones
 def p_funcion(p):
 	'''
-	funcion : FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET funcion
-		| FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET funcion
+	funcion : FUNCTION tipo ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto retorno RBRACKET endFunc funcion
+		| FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
         | empty
 	'''
 def p_addFunction(p):
@@ -272,13 +277,35 @@ def p_addFunction(p):
 	global currentFunId
 	currentFunId = p[-1]
 	global currentFunType
-	if p[-2] == 'void':
+	if p[-2] != 'void':
+		funTable.addVartoFun('global', currentFunType, currentFunId)
+	else:
 		currentFunType = 'void'
 	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0)
+
+def p_endFunc(p):
+	''' endFunc : '''
+	quad = ('endproc', None, None, None)
+	quadruples.append(quad)
+	operator = operators['endproc']
+	quad = (operator, None, None, None)
+	quadruplesMem.append(quad)
+
 def p_retorno(p):
 	'''
-	retorno : RETURN ID SEMICOLON
+	retorno : RETURN expresion quadReturn SEMICOLON
 	'''
+def p_quadReturn(p):
+	''' quadReturn : '''
+	value = operandStack.pop()
+	valueType = typeStack.pop()
+	quad = ('return', None, None, value)
+	quadruples.append(quad)
+	operator = operators['return']
+	value = funTable.getVarAddress(currentFunId, value)
+	quad = (operator, None, None, value)
+	quadruplesMem.append(quad)
+
 #Estatutos
 def p_estatuto(p):
     '''
@@ -301,8 +328,46 @@ def p_asignacion(p):
     '''
 def p_llamada(p):
     '''
-    llamada : ID LPARENTHESIS expresion RPARENTHESIS 
+    llamada : ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
     '''
+def p_enviarAgrs(p):
+	'''
+	enviarAgrs : expresion quadArg enviarAgrs2
+		| empty
+	'''
+def p_enviarAgrs2(p):
+	'''
+	enviarAgrs2 : COMMA enviarAgrs
+		| empty
+	'''
+def p_requestCallMemory(p):
+	''' requestCallMemory : '''
+	quad = ('ERA', None, None, p[-1])
+	quadruples.append(quad)
+	operator = operators['ERA']
+	quad = (operator, None, None, p[-1])
+	quadruplesMem.append(quad)
+
+def p_quadArg(p):
+	''' quadArg : '''
+	value = operandStack.pop()
+	valueType = typeStack.pop()
+	quad = ('param', value, None, -1)
+	quadruples.append(quad)
+	operator = operators['param']
+	value = funTable.getVarAddress(currentFunId, value)
+	quad = (operator, value, None, -1)
+	quadruplesMem.append(quad)
+
+def p_callQuad(p):
+	''' callQuad : '''
+	quad = ('Gosub', None, None, p[-5])
+	quadruples.append(quad)
+	operator = operators['Gosub']
+
+	quad = (operator, None, None, p[-5])
+	quadruplesMem.append(quad)
+
 def p_lectura(p):
     '''
     lectura : READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
@@ -620,6 +685,12 @@ def p_endFor(p):
 	quadruples.append(quad)
 	fillQuad(end, -1)
 
+############################################
+#   	  CUADRUPLOS DE FUNCIONES		   #
+############################################
+
+
+
 
 #FUNCIONES GENERALES
 def genQuad(): 
@@ -735,6 +806,7 @@ def p_error(t):
     if t is not None:
         print ("Illegal token at %s, unexpected %s" % (lexer.lineno, t.value))
         parser.errok()
+        sys.exit()
     else:
         print('Unexpected end of file')
 

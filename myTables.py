@@ -43,7 +43,12 @@ operators = {
 	'Goto' : 16,
 	'GotoF' : 17,
 	'GotoV' : 18,
-	'return' : 19
+	#Para Funciones
+	'ERA' : 19,
+	'param' : 20,
+	'Gosub' : 21,
+	'return' : 22,
+	'endproc' : 23
 }
 
 #Definimos lo que tendran nuestras tablas de Variables y Funciones 
@@ -103,7 +108,9 @@ class funTable(object):
 				'nVars' : nVars,
 				'vars' : varTable()
 			}
-			#print("Funcion agregada", type, id)
+
+
+			
 
 	def searchFun(self, id):
 		return id in self.funlst
