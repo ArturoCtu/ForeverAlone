@@ -1,37 +1,38 @@
 program alone;
 var int a, b, c; 
-	float d, e, f;
-	char g;
 
-function float fact(int i, j, k)
-var int ia;
-	float dj;
-{
-	ia = 10;
-	k = 10;
-	return i;
-}
-function void suma(int aj, int bj)
+function int add(int op1, op2)
 var int res;
 {
-	res = aj + bj * c / a;
+	res = op1 + op2;
+	return res;
 }
-main(int baboso, float alv)
-var int j, k, l, iterator, it;
-	float x[10], y[8];
+
+function void subs(int op1, op2)
+var int res;
 {
-	read(a);
+	res = op1 - op2;
+	print(res);
+}
+
+main()
+var int j, k, l, iterator;
+{
+	k = 25;
+	l = 12;
+	read(j);
+	subs(k, l);
+	add(10, 1);
 	if(j > k || k < l) then{
-		print("lol", 'c');
+		print("True");
 	} else {
-		print("burro lol");
+		print("False");
 		j = l + k;
 	}
 		
 	while(iterator < 10){
 		iterator = iterator + 1;
 	}
-
 	print("thanks");
 }
 end

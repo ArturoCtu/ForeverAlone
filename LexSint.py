@@ -1,10 +1,11 @@
 import ply.lex as lex
 import ply.yacc as yacc
 import sys
-import queue
 from myTables import *
 from semanticCube import *
 from avail import *
+import json
+from virtualMachine import *
 #Lexer
 # Lista de Tokens para ForeverAlone
 tokens = [
@@ -162,7 +163,8 @@ currentVarType = ''
 currentVarId = ''
 currentFunType = ''
 currentFunId = ''
-
+paramCont = 0
+currentCall = ""
 #Pilas para los quads
 operandStack = []
 typeStack = []
@@ -174,6 +176,7 @@ quadruplesMem = []
 funTable = funTable()
 varTable = varTable()
 avail = avail()
+
 #PARSER
 #Estrucura del Programa
 def p_programa(p):
@@ -181,12 +184,13 @@ def p_programa(p):
     programa : PROGRAM ID addProgram SEMICOLON programa1 END
     '''
     p[0] = 'PROGRAM COMPILED'
+#Agrega el programa a la tabla de funciones y el cuadruplo goto al main sin conocer su localizacíon
 def p_addProgram(p):
 	''' addProgram : '''
 	global currentFunId, currentFunType
 	currentFunId = 'global'
 	currentFunType = 'global'
-	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0)
+	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0, 0)
 	quad = ('Goto', None, None, 'main')
 	quadruples.append(quad)
 	operator = operators['Goto']
@@ -200,12 +204,19 @@ def p_principal(p):
     '''
     principal : MAIN addMain LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET
     '''
+#Se agrega la funcion main a la tabla de funciones y se modifica el goto del primer quad
 def p_addMain(p):
 	''' addMain : '''
 	global currentFunId, currentFunType
 	currentFunId = 'main'
 	currentFunType = 'void'
-	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0)	
+	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0, len(quadruples))	
+	t = list(quadruples[0])
+	t[3] = len(quadruples)
+	quadruples[0] = tuple(t)
+	t = list(quadruplesMem[0])
+	t[3] = len(quadruplesMem)
+	quadruplesMem[0] = tuple(t)
 #Variables
 def p_vars(p):
     '''
@@ -255,16 +266,28 @@ def p_parameters(p):
     '''
 def p_parameters2(p):
 	'''
-	parameters2 : tipo ID addVariable
-		| tipo ID addVariable parameters3 
+	parameters2 : tipo ID addParameter
+		| tipo ID addParameter parameters3 
 	'''
 def p_parameters3(p):
 	'''
-	parameters3 : COMMA ID addVariable parameters3
-		| COMMA tipo ID addVariable parameters3
-		| COMMA ID addVariable
-		| COMMA tipo ID addVariable
+	parameters3 : COMMA ID addParameter parameters3
+		| COMMA tipo ID addParameter parameters3
+		| COMMA ID addParameter
+		| COMMA tipo ID addParameter
 	'''
+#Aqui actualizo la cantidad de parametros que una funcion puede recibir
+def p_addParameter(p):
+	'''addParameter : '''
+	global currentVarId
+	currentVarId = p[-1]
+	if(funTable.searchFun(currentFunId)==True):
+		funTable.addVartoFun(currentFunId, currentVarType, currentVarId)
+		funTable.registerParam(currentFunId, currentVarType, currentVarId)
+	else:
+		print("Funcion no encontrada")
+		sys.exit()
+
 #Funciones
 def p_funcion(p):
 	'''
@@ -272,40 +295,10 @@ def p_funcion(p):
 		| FUNCTION VOID ID addFunction LPARENTHESIS parameters RPARENTHESIS vars LBRACKET estatuto RBRACKET endFunc funcion
         | empty
 	'''
-def p_addFunction(p):
-	'''addFunction : '''
-	global currentFunId
-	currentFunId = p[-1]
-	global currentFunType
-	if p[-2] != 'void':
-		funTable.addVartoFun('global', currentFunType, currentFunId)
-	else:
-		currentFunType = 'void'
-	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0)
-
-def p_endFunc(p):
-	''' endFunc : '''
-	quad = ('endproc', None, None, None)
-	quadruples.append(quad)
-	operator = operators['endproc']
-	quad = (operator, None, None, None)
-	quadruplesMem.append(quad)
-
 def p_retorno(p):
 	'''
 	retorno : RETURN expresion quadReturn SEMICOLON
 	'''
-def p_quadReturn(p):
-	''' quadReturn : '''
-	value = operandStack.pop()
-	valueType = typeStack.pop()
-	quad = ('return', None, None, value)
-	quadruples.append(quad)
-	operator = operators['return']
-	value = funTable.getVarAddress(currentFunId, value)
-	quad = (operator, None, None, value)
-	quadruplesMem.append(quad)
-
 #Estatutos
 def p_estatuto(p):
     '''
@@ -340,34 +333,6 @@ def p_enviarAgrs2(p):
 	enviarAgrs2 : COMMA enviarAgrs
 		| empty
 	'''
-def p_requestCallMemory(p):
-	''' requestCallMemory : '''
-	quad = ('ERA', None, None, p[-1])
-	quadruples.append(quad)
-	operator = operators['ERA']
-	quad = (operator, None, None, p[-1])
-	quadruplesMem.append(quad)
-
-def p_quadArg(p):
-	''' quadArg : '''
-	value = operandStack.pop()
-	valueType = typeStack.pop()
-	quad = ('param', value, None, -1)
-	quadruples.append(quad)
-	operator = operators['param']
-	value = funTable.getVarAddress(currentFunId, value)
-	quad = (operator, value, None, -1)
-	quadruplesMem.append(quad)
-
-def p_callQuad(p):
-	''' callQuad : '''
-	quad = ('Gosub', None, None, p[-5])
-	quadruples.append(quad)
-	operator = operators['Gosub']
-
-	quad = (operator, None, None, p[-5])
-	quadruplesMem.append(quad)
-
 def p_lectura(p):
     '''
     lectura : READ readOperator LPARENTHESIS expresion readQuad RPARENTHESIS
@@ -472,6 +437,8 @@ def p_pexp(p):
 ############################################
 # GENERACION DE CUADRUPLOS CON PRECEDENCIA #
 ############################################
+#Para mantener la precedencia de operaciones se manda a generar el cuadruplo por separado
+#Para insertar el operador a la pila y generar el quad
 #AND Y OR
 def p_orQuad(p):
 	''' orQuad : '''
@@ -521,6 +488,7 @@ def p_quadEqual(p):
 			rightType = typeStack.pop()
 			leftVal = operandStack.pop()
 			leftType = typeStack.pop()
+			#Tengo dos listas de cuadrplos con información y direcciones por si hay que debuggear
 			resType = getType(leftType,rightType,operator)
 			if resType != 'error':
 				quad = (operator, leftVal, None, rightVal)
@@ -672,6 +640,10 @@ def p_forQuad(p):
 		value = operandStack.pop()
 		quad = ('GotoF', value, None, -1)
 		quadruples.append(quad)
+		value = funTable.getVarAddress(currentFunId, value)
+		operator = operators['GotoF']
+		quad = (operator, value, None, -1)
+		quadruplesMem.append(quad)
 		jumpStack.append(len(quadruples)-1)
 	else: 
 		print("type mismatch")
@@ -681,18 +653,93 @@ def p_endFor(p):
 	''' endFor : '''
 	end = jumpStack.pop()
 	ret = jumpStack.pop()
-	quad = ('Goto', None, None, -1)
+	quad = ('Goto', None, None, ret+1)
 	quadruples.append(quad)
+	operator = operators['Goto']
+	quad = (operator, None, None, ret+1)
+	quadruplesMem.append(quad)
 	fillQuad(end, -1)
-
 ############################################
 #   	  CUADRUPLOS DE FUNCIONES		   #
 ############################################
+def p_requestCallMemory(p):
+	''' requestCallMemory : '''
+	global paramCont, currentCall
+	currentCall = p[-1]
+	paramCont = 0
+	quad = ('ERA', None, None, p[-1])
+	quadruples.append(quad)
+	operator = operators['ERA']
+	quad = (operator, None, None, p[-1])
+	quadruplesMem.append(quad)
+
+def p_quadArg(p):
+	''' quadArg : '''
+	global paramCont, currentCall
+	value = operandStack.pop()
+	valueType = typeStack.pop()
+	paramCont += 1
+	if(paramCont <= funTable.getParamNumber(currentCall)):
+		if(valueType == funTable.getParamType(currentCall, paramCont-1)):
+			quad = ('param', value, None, paramCont)
+			quadruples.append(quad)
+			operator = operators['param']
+			value = funTable.getVarAddress(currentFunId, value)
+			quad = (operator, value, None, paramCont)
+			quadruplesMem.append(quad)
+		else:
+			print("Parameter type missmatch at", value)
+			sys.exit()
+	else:
+		print("Too may arguments in call to ", currentCall)
+		sys.exit()
+#Agrega una función a la tabla de funciones
+def p_addFunction(p):
+	'''addFunction : '''
+	global currentFunId
+	currentFunId = p[-1]
+	global currentFunType
+	if p[-2] != 'void':
+		funTable.addVartoFun('global', currentFunType, currentFunId)
+	else:
+		currentFunType = 'void'
+	funTable.addFun(currentFunType, currentFunId, 0, [], [], 0, len(quadruples))
+
+def p_endFunc(p):
+	''' endFunc : '''
+	quad = ('endproc', None, None, None)
+	quadruples.append(quad)
+	operator = operators['endproc']
+	quad = (operator, None, None, None)
+	quadruplesMem.append(quad)
+	funTable.resetVarAdresses()
+
+def p_callQuad(p):
+	''' callQuad : '''
+	if(paramCont == funTable.getParamNumber(currentCall)):
+		destination = funTable.getStartQuad(p[-5])
+		quad = ('Gosub', None, None, destination)
+		quadruples.append(quad)
+		operator = operators['Gosub']
+		quad = (operator, None, None, destination)
+		quadruplesMem.append(quad)
+	else:
+		print("Not enough arguments in call to ", p[-5])
+		sys.exit()
+
+def p_quadReturn(p):
+	''' quadReturn : '''
+	value = operandStack.pop()
+	valueType = typeStack.pop()
+	quad = ('return', None, None, value)
+	quadruples.append(quad)
+	operator = operators['return']
+	value = funTable.getVarAddress(currentFunId, value)
+	quad = (operator, None, None, value)
+	quadruplesMem.append(quad)
 
 
-
-
-#FUNCIONES GENERALES
+#FUNCIONES GENERALES Y REUSABLES
 def genQuad(): 
 	global operatorsStack, operandStack, typeStack, quadruples, funTable
 	if(len(operatorsStack) > 0):
@@ -736,7 +783,7 @@ def p_addOperator(p):
 	''' addOperator : '''
 	global operatorsStack
 	operatorsStack.append(p[-1])
-
+#Agrega variables a una funcion especifica
 def p_addVariable(p):
 	'''addVariable : '''
 	global currentVarId
@@ -745,7 +792,7 @@ def p_addVariable(p):
 		funTable.addVartoFun(currentFunId, currentVarType, currentVarId)
 	else:
 		print("Funcion no encontrada")
-
+#Agregar variables a la pila de operadores
 def p_addOperandVar(p):
 	''' addOperandVar : '''
 	global operandStack, operatorsStack ,currentFunId
@@ -755,7 +802,7 @@ def p_addOperandVar(p):
 		operandStack.append(p[-1])
 	else:
 		sys.exit()
-
+#Agregar constantes a la fila de operadores verificando su tipo antes
 def p_addOperandCte(p):
 	''' addOperandCte : '''
 	global operandStack, operatorsStack, funTable
@@ -775,7 +822,7 @@ def p_addOperandCte(p):
 			funTable.addCtetoFun(currentFunId, 'char', p[-1])
 	operandStack.append(p[-1])
 
-
+#Agrega un id a la pila de operadores para hacer el quad de asignacion luego
 def p_addId(p):
 	''' addId : '''
 	global currentVarId, funTable
@@ -786,6 +833,7 @@ def p_addId(p):
 	else:
 		sys.exit()
 
+#Cuando asigna la posicion a donde debe ir el goto en estatutos no lineales
 def fillQuad(end, cont):
 	global quadruples, quadruplesMem
 	t = list(quadruples[end])
@@ -825,7 +873,7 @@ parser = yacc.yacc()
 def main():
 	try:
 		#Usare .c para que mi editor lo despliegue mejor
-		filename = 'NoFunctions.c'
+		filename = sys.argv[1]
 		file = open(filename, 'r')
 		print("Compilando: " + filename)
 		content = file.read()
@@ -838,6 +886,15 @@ def main():
             #print(tok)
 
 		if (parser.parse(content, tracking = True) == 'PROGRAM COMPILED'):
+			outfile = open('compiled.out',"w")
+			i = 0
+			#json.dump(funTable.getAllCtes(), outfile, indent=4)
+			outfile.write('\n')
+			data = funTable.compileEverything(quadruplesMem)
+			json.dump(data, outfile, indent=4)
+			outfile.close()
+
+
 			print ("Compiled")
 
 
@@ -845,16 +902,18 @@ def main():
 		print(EOFError)
 
 	#print(funTable.getVarType('suma', 'res'))
-	print("CUADRUPLOS")
-	print(*quadruplesMem, sep = "\n") 
+	#print("CUADRUPLOS")
+	#print(*quadruplesMem, sep = "\n") 
 
-	print(*typeStack, sep = ", ") 
-	print(*operandStack, sep = ", ") 
-	print(*operatorsStack, sep = ", ")
+	#print(*typeStack, sep = ", ") 
+	#print(*operandStack, sep = ", ") 
+	#print(*operatorsStack, sep = ", ")
 
-	print(*quadruples, sep = "\n")
-
-	print(funTable.getVarAddress('global', 'f'))
+	#print(*quadruples, sep = "\n")
+	excecute(quadruplesMem)
+	#print(funTable.getParamNumber('add'))
+	#print(funTable.getStartQuad('res'))
+	#print(funTable.getVarAddress('global', 'f'))
     #Llamando a Cubo semantico de 2 maneras 
     #print(semanticCube['float']['float']['=='])
     #print(getType('float','int','>'))

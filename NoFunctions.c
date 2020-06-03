@@ -1,30 +1,31 @@
-program alone;
+program nolineales;
 var int a, b, c; 
-	float d, e, f;
-	char g;
+	float d;
 
-function int add(int op1, op2)
-var int res;
+main()
+var int j, k, l, it;
 {
-	res = op1 + op2;
-	return res;
-}
-main(int baboso, float alv)
-var int j, k, l, iterator, it;
-	float x[10], y[8];
-{
-	add(10 + 11, 20 * 2);
-	read(a);
-	if(j > k || k < l) then{
-		print("lol", 'z');
+	a = 10;
+	print("De un valor para b");
+	read(b);
+
+	if(b > a || b == 5) then {
+		d = a - b / 2;
 	} else {
-		print("burro lol");
-		j = l + k;
+		d = a + b * 2;
 	}
-		
-	while(iterator < 10){
-		iterator = iterator + 1;
+	
+	l = 0;
+	while(l<4){
+		l  = l + 1;
+		print(l);
 	}
-	print("thanks");
+
+	for it = 1, to it<10 {
+		print(it);
+		it = it + 1;
+	}
+
+	print("d es igual a ", d);
 }
 end

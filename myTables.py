@@ -1,4 +1,5 @@
 import sys
+import json
 #Segmentación de Memoria
 typeName = ['int', 'float', 'char', 'string', 'bool']
 
@@ -23,7 +24,7 @@ LocTempCounter =	[0,		0,		0,		0,		0]
 ConstantLowerLim = 	[41000, 43000, 45000, 47000, 49000]
 ConstantUpperLim = 	[42999, 44999, 46999, 48999, 50999]
 ConstantCounter =	[0,		0,		0,		0,		0]
-
+#Para convertir operadores a numeros para hacerlos más fácil de manejar en ifs
 operators = {
 	'+' : 1,
 	'-' : 2,
@@ -62,15 +63,15 @@ class varTable(object):
 			'type': type,
 			'address' : address
 		}
-		print("Variable agregada " + type + " " + id + " " + str(address))
+		#print("Variable agregada " + type + " " + id + " " + str(address))
 
 	def addCte(self, type, value, address):
 		self.ctelst[value] = {
 			'type': type,
 			'address' : address
 		}
-		print("Constante agregada " + type + " " + str(value) + " " + str(address))
-
+		#print("Constante agregada " + type + " " + str(value) + " " + str(address))
+	#Funciones getters
 	def getType(self, id):
 		return self.varlst[id]['type']
 
@@ -82,7 +83,7 @@ class varTable(object):
 
 	def getCteAddress(self, value):
 		return self.ctelst[value]['address']
-
+	#Verifica que existan
 	def searchVar(self, id):
 		return id in self.varlst
 
@@ -91,12 +92,29 @@ class varTable(object):
 
 	def printVar(self):
 		print(self.varlst.items())
-
+	#Retorna todas las variables de una funcion
+	def getAll(self):
+		data = {}
+		for key in list(self.varlst.keys()):
+			data[key] = {
+				'type': self.varlst[key]['type'],
+				'address': self.varlst[key]['address']
+			}
+		return data
+	#Retorna todas las Constantes
+	def getCtes(self):
+		data = {}
+		for key in list(self.ctelst.keys()):
+			data[key] = {
+				'type': self.ctelst[key]['type'],
+				'address': self.ctelst[key]['address']
+			}
+		return data
 class funTable(object):
 	def __init__(self):
 		self.funlst = {}
-
-	def addFun(self, type, id, nParams, typeParams, idParams, nVars):
+	#Definimos el constructor y que va a contener
+	def addFun(self, type, id, nParams, typeParams, idParams, nVars, startQuad):
 		if id in self.funlst.keys():
 			print("Error: la funcion " + id + " ya existe")
 		else: 
@@ -106,15 +124,62 @@ class funTable(object):
 				'typeParams' : typeParams,
 				'idParams' : idParams,
 				'nVars' : nVars,
+				'startQuad' : startQuad,
 				'vars' : varTable()
 			}
+	#Va por toda la informacion que vamos a neceistar en máquina virtual
+	def compileEverything(self, quads):
+		data = {}
+		dataaux = {}
+		for key in list(self.funlst.keys()):
+			data[key] = {
+				'type': self.funlst[key]['type'],
+				'nParams': self.funlst[key]['nParams'],
+				'typeParams': self.funlst[key]['typeParams'],
+				'idParams': self.funlst[key]['idParams'],
+				'nVars': self.funlst[key]['nVars'],
+				'startQuad': self.funlst[key]['startQuad'],
+				'vars': self.funlst[key]['vars'].getAll()
+			}
+		data['ctes'] = {
+		'values': self.funlst['global']['vars'].getCtes()
+		}
+		i=0
+		data['excecution'] = {
+			'quads' : str(quads)	
+			}
+		return data
 
+	def getAllCtes(self):
+		data = {}
+		data['ctes']  = self.funlst['global']['vars'].getCtes()
+		return data
+	#Cada que una funcion se cierre reseteamos la memoria
+	def resetVarAdresses(self):
+		global LocalCounter, LocTempCounter, ConstantCounter
+		LocalCounter=[0,0,0,0,0]
+		LocTempCounter=[0,0,0,0,0]
+	#Registra un parametro como propio de una funcion
+	def registerParam(self, funId, type, id):
+		self.funlst[funId]['nParams'] +=1
+		self.funlst[funId]['typeParams'].append(type)
+		self.funlst[funId]['idParams'].append(id)
+	#Funciones Getters
+	def getParamNumber(self, funId):
+		return self.funlst[funId]['nParams']
 
-			
+	def getParamType(self, funId, n):
+		return self.funlst[funId]['typeParams'][n]
+
+	def getParamId(self, funId, n):
+		return self.funlst[funId]['idParams'][n]
+
+	def getParamAddress(self, funId, id):
+		return self.funlst[funId]['vars'].getVarAddress(id)
 
 	def searchFun(self, id):
 		return id in self.funlst
-
+	#Agregamos variables a funciones
 	def addVartoFun(self, funId, type, id):
 		if(self.funlst[funId]['vars'].searchVar(id) or self.funlst['global']['vars'].searchVar(id)):
 			print("Error: la variable " + id + " ya existe")
@@ -152,28 +217,28 @@ class funTable(object):
 				self.funlst[funId]['vars'].addVar(type, id, LocalLowerLim[4]+LocalCounter[4])
 				LocalCounter[4] += 1
 		#print("Variable agregada " + type + " " + str(id) + " to " + funId)
-	
+	#Agregamos Constantes al global
 	def addCtetoFun(self, funId, type, value):
-		if(self.funlst[funId]['vars'].searchCte(value)):
-			print("La constante " + str(value) + " ya existe, se usara la direccion existente")
+		if(self.funlst['global']['vars'].searchCte(value)):
+			pass
+			#print("La constante " + str(value) + " ya existe, se usara la direccion existente")
 		else:
 			if(type == 'int'):
-				self.funlst[funId]['vars'].addCte(type, value, ConstantLowerLim[0]+ConstantCounter[0])
+				self.funlst['global']['vars'].addCte(type, value, ConstantLowerLim[0]+ConstantCounter[0])
 				ConstantCounter[0] += 1
 			if(type == 'float'):
-				self.funlst[funId]['vars'].addCte(type, value, ConstantLowerLim[1]+ConstantCounter[1])
+				self.funlst['global']['vars'].addCte(type, value, ConstantLowerLim[1]+ConstantCounter[1])
 				ConstantCounter[1] += 1
 			if(type == 'char'):
-				self.funlst[funId]['vars'].addCte(type, value, ConstantLowerLim[2]+ConstantCounter[2])
+				self.funlst['global']['vars'].addCte(type, value, ConstantLowerLim[2]+ConstantCounter[2])
 				ConstantCounter[2] += 1
 			if(type == 'string'):
-				self.funlst[funId]['vars'].addCte(type, value, ConstantLowerLim[3]+ConstantCounter[3])
+				self.funlst['global']['vars'].addCte(type, value, ConstantLowerLim[3]+ConstantCounter[3])
 				ConstantCounter[3] += 1
 			if(type == 'bool'):
-				self.funlst[funId]['vars'].addCte(type, value, ConstantLowerLim[4]+ConstantCounter[4])
+				self.funlst['global']['vars'].addCte(type, value, ConstantLowerLim[4]+ConstantCounter[4])
 				ConstantCounter[4] += 1
-			print("Constante agregada " + type + " " + str(value) + " to " + funId)
-	
+	#Agregamos Variables temporales a una funcion	
 	def addTempVar(self, funId, type, id):
 		if(self.funlst[funId]['vars'].searchVar(id) or self.funlst['global']['vars'].searchVar(id)):
 			print("Error: la variable " + id + " ya existe")
@@ -210,16 +275,17 @@ class funTable(object):
 				self.funlst[funId]['vars'].addVar(type, id, LocTempLowerLim[4]+LocTempCounter[4])
 				LocTempCounter[4] += 1
 
-
+	#Mas getters para retornar informacion
 	def getVarType(self, funId, id):
 		if(self.funlst[funId]['vars'].searchVar(id)):
 			return self.funlst[funId]['vars'].getType(id)
 		elif(self.funlst['global']['vars'].searchVar(id)):
 			return self.funlst['global']['vars'].getType(id)
-		elif(self.funlst[funId]['vars'].searchCte(id)):
-			return self.funlst[funId]['vars'].getCteType(id)
+		elif(self.funlst['global']['vars'].searchCte(id)):
+			return self.funlst['global']['vars'].getCteType(id)
 		else:
 			print("Var "+ str(id) + " Not Found")
+			sys.exit()
 
 
 	def getVarAddress(self, funId, id):
@@ -227,13 +293,13 @@ class funTable(object):
 			return self.funlst[funId]['vars'].getAddress(id)
 		elif(self.funlst['global']['vars'].searchVar(id)):
 			return self.funlst['global']['vars'].getAddress(id)
-		elif(self.funlst[funId]['vars'].searchCte(id)):
-			return self.funlst[funId]['vars'].getCteAddress(id)
+		elif(self.funlst['global']['vars'].searchCte(id)):
+			return self.funlst['global']['vars'].getCteAddress(id)
 		else:
 			print("Var "+ str(id) + " Not Found ss")
+			sys.exit()
 
-
-
+	#busca una variable en una funcion
 	def searchVarinFun(self, funId, id):
 		if(self.funlst[funId]['vars'].searchVar(id)):
 			return True
@@ -246,4 +312,7 @@ class funTable(object):
 	def printFunVars(self, funId):
 		if id in self.funlst:
 				self.funlst[funId]['vars'].printVar()
+	#Regresa donde empeiza una funcion en quads
+	def getStartQuad(self, funId):
+		return self.funlst[funId]['startQuad']
 
