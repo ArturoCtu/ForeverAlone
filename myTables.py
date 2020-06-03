@@ -18,7 +18,7 @@ LocalUppperLim = 	[22999, 24999, 26999, 28999, 30999]
 LocalCounter =		[0,		0,		0,		0,		0]
 #Locales Temporales
 LocTempLowerLim =	[31000, 33000, 35000, 37000, 39000]
-LocTempUppperLim = 	[32999, 34999, 36999, 38999, 10999]
+LocTempUppperLim = 	[32999, 34999, 36999, 38999, 40999]
 LocTempCounter =	[0,		0,		0,		0,		0]
 #Constantes
 ConstantLowerLim = 	[41000, 43000, 45000, 47000, 49000]

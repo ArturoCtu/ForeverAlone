@@ -909,7 +909,7 @@ def main():
 	#print(*operandStack, sep = ", ") 
 	#print(*operatorsStack, sep = ", ")
 
-	#print(*quadruples, sep = "\n")
+	print(*quadruples, sep = "\n")
 	excecute(quadruplesMem)
 	#print(funTable.getParamNumber('add'))
 	#print(funTable.getStartQuad('res'))

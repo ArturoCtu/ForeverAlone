@@ -20,9 +20,73 @@
                 "type": "int",
                 "address": 1002
             },
-            "d": {
-                "type": "float",
-                "address": 3000
+            "add": {
+                "type": "int",
+                "address": 1003
+            }
+        }
+    },
+    "add": {
+        "type": "int",
+        "nParams": 2,
+        "typeParams": [
+            "int",
+            "int"
+        ],
+        "idParams": [
+            "op1",
+            "op2"
+        ],
+        "nVars": 0,
+        "startQuad": 1,
+        "vars": {
+            "op1": {
+                "type": "int",
+                "address": 21000
+            },
+            "op2": {
+                "type": "int",
+                "address": 21001
+            },
+            "res": {
+                "type": "int",
+                "address": 21002
+            },
+            "t1": {
+                "type": "int",
+                "address": 31000
+            }
+        }
+    },
+    "subs": {
+        "type": "void",
+        "nParams": 2,
+        "typeParams": [
+            "int",
+            "int"
+        ],
+        "idParams": [
+            "op1",
+            "op2"
+        ],
+        "nVars": 0,
+        "startQuad": 5,
+        "vars": {
+            "op1": {
+                "type": "int",
+                "address": 21000
+            },
+            "op2": {
+                "type": "int",
+                "address": 21001
+            },
+            "res": {
+                "type": "int",
+                "address": 21002
+            },
+            "t2": {
+                "type": "int",
+                "address": 31000
             }
         }
     },
@@ -32,7 +96,7 @@
         "typeParams": [],
         "idParams": [],
         "nVars": 0,
-        "startQuad": 1,
+        "startQuad": 9,
         "vars": {
             "j": {
                 "type": "int",
@@ -46,81 +110,37 @@
                 "type": "int",
                 "address": 21002
             },
-            "it": {
+            "iterator": {
                 "type": "int",
                 "address": 21003
-            },
-            "t1": {
-                "type": "bool",
-                "address": 39000
-            },
-            "t2": {
-                "type": "int",
-                "address": 31000
-            },
-            "t3": {
-                "type": "int",
-                "address": 31001
-            },
-            "t4": {
-                "type": "float",
-                "address": 33000
-            },
-            "t5": {
-                "type": "float",
-                "address": 33001
-            },
-            "t6": {
-                "type": "bool",
-                "address": 39001
-            },
-            "t7": {
-                "type": "int",
-                "address": 31002
-            },
-            "t8": {
-                "type": "bool",
-                "address": 39002
-            },
-            "t9": {
-                "type": "int",
-                "address": 31003
             }
         }
     },
     "ctes": {
         "values": {
-            "10": {
+            "25": {
                 "type": "int",
                 "address": 41000
             },
-            "\"dame un valor para b\"": {
-                "type": "string",
-                "address": 47000
-            },
-            "2": {
+            "12": {
                 "type": "int",
                 "address": 41001
             },
-            "0": {
+            "10": {
                 "type": "int",
                 "address": 41002
             },
-            "4": {
+            "1": {
                 "type": "int",
                 "address": 41003
             },
-            "1": {
-                "type": "int",
-                "address": 41004
-            },
-            "\"Termina while empieza for\"": {
+            "\"thanks\"": {
                 "type": "string",
-                "address": 47001
+                "address": 47000
             }
         }
     },
     "excecution": {
-        "quads": "[(16, None, None, 1), (13, 1000, None, 41000), (14, None, None, 47000), (15, None, None, 1001), (7, 1001, 1000, 39000), (17, 39000, None, 10), (3, 1001, 41001, 31000), (2, 1000, 31000, 31001), (13, 3000, None, 31001), (16, None, None, 13), (4, 1001, 41001, 33000), (1, 1000, 33000, 33001), (13, 3000, None, 33001), (14, None, None, 3000), (13, 21002, None, 41002), (8, 21002, 41003, 39001), (17, 39001, None, 21), (14, None, None, 21002), (1, 21002, 41004, 31002), (13, 21002, None, 31002), (16, None, None, 15), (14, None, None, 47001), (13, 21003, None, 41004), (8, 21003, 41000, 39002), (17, 39002, None, 29), (14, None, None, 21003), (1, 21003, 41004, 31003), (13, 21003, None, 31003), (16, None, None, 23)]"
+        "quads": "[(16, None, None, 9), (1, 21000, 21001, 31000), (13, 21002, None, 31000), (22, None, None, 21002), (23, None, None, None), (2, 21000, 21001, 31000), (13, 21002, None, 31000), (14, None, None, 21002), (23, None, None, None), (13, 21001, None, 41000), (13, 21002, None, 41001), (19, None, None, 'add'), (20, 41002, None, 1), (20, 41003, None, 2), (21, None, None, 1), (19, None, None, 'subs'), (20, 21001, None, 1), (20, 21002, None, 2), (21, None, None, 5), (14, None, None, 47000)]"
     }
 }
