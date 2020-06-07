@@ -24,6 +24,9 @@ LocTempCounter =	[0,		0,		0,		0,		0]
 ConstantLowerLim = 	[41000, 43000, 45000, 47000, 49000]
 ConstantUpperLim = 	[42999, 44999, 46999, 48999, 50999]
 ConstantCounter =	[0,		0,		0,		0,		0]
+#Pointers
+PointerLowerLim = 	[51000, 53000, 55000, 57000, 59000]
+PointerCounter =	[0,		0,		0,		0,		0]
 #Para convertir operadores a numeros para hacerlos más fácil de manejar en ifs
 operators = {
 	'+' : 1,
@@ -49,7 +52,9 @@ operators = {
 	'param' : 20,
 	'Gosub' : 21,
 	'return' : 22,
-	'endproc' : 23
+	'endproc' : 23,
+	'ver' : 24,
+	'+dir' : 25
 }
 
 #Definimos lo que tendran nuestras tablas de Variables y Funciones 
@@ -61,7 +66,9 @@ class varTable(object):
 	def addVar(self, type, id, address):
 		self.varlst[id] = {
 			'type': type,
-			'address' : address
+			'address' : address,
+			'isArray' : False,
+			'size' : 0
 		}
 		#print("Variable agregada " + type + " " + id + " " + str(address))
 
@@ -71,6 +78,23 @@ class varTable(object):
 			'address' : address
 		}
 		#print("Constante agregada " + type + " " + str(value) + " " + str(address))
+	def toggleArray(self, id, size, funId):
+		self.varlst[id]['isArray'] = True
+		self.varlst[id]['size'] = size
+		if(funId == 'global'):
+			if(self.varlst[id]['type'] == 'int'):
+				globalCounter[0] += size-1
+			if(self.varlst[id]['type'] == 'float'):
+				globalCounter[1] += size-1
+			if(self.varlst[id]['type'] == 'char'):
+				globalCounter[2] += size-1
+		else:
+			if(self.varlst[id]['type'] == 'int'):
+				LocalCounter[0] += size-1
+			if(self.varlst[id]['type'] == 'float'):
+				LocalCounter[1] += size-1
+			if(self.varlst[id]['type'] == 'char'):
+				LocalCounter[2] += size-1
 	#Funciones getters
 	def getType(self, id):
 		return self.varlst[id]['type']
@@ -98,7 +122,9 @@ class varTable(object):
 		for key in list(self.varlst.keys()):
 			data[key] = {
 				'type': self.varlst[key]['type'],
-				'address': self.varlst[key]['address']
+				'address': self.varlst[key]['address'],
+				'isArray': self.varlst[key]['isArray'],
+				'size': self.varlst[key]['size']
 			}
 		return data
 	#Retorna todas las Constantes
@@ -107,7 +133,7 @@ class varTable(object):
 		for key in list(self.ctelst.keys()):
 			data[key] = {
 				'type': self.ctelst[key]['type'],
-				'address': self.ctelst[key]['address']
+				'address': self.ctelst[key]['address'],
 			}
 		return data
 class funTable(object):
@@ -127,6 +153,12 @@ class funTable(object):
 				'startQuad' : startQuad,
 				'vars' : varTable()
 			}
+	def setArray(self, funId, id, size):
+		self.funlst[funId]['vars'].toggleArray(id, size, funId)
+
+	def getArrSize(self, funId, id):
+		return self.funlst[funId]['vars'].varlst[id]['size']
+
 	#Va por toda la informacion que vamos a neceistar en máquina virtual
 	def compileEverything(self, quads):
 		data = {}
@@ -159,6 +191,7 @@ class funTable(object):
 		global LocalCounter, LocTempCounter, ConstantCounter
 		LocalCounter=[0,0,0,0,0]
 		LocTempCounter=[0,0,0,0,0]
+		PointerCounter=[0,0,0,0,0]
 	#Registra un parametro como propio de una funcion
 	def registerParam(self, funId, type, id):
 		self.funlst[funId]['nParams'] +=1
@@ -183,23 +216,23 @@ class funTable(object):
 	def addVartoFun(self, funId, type, id):
 		if(self.funlst[funId]['vars'].searchVar(id) or self.funlst['global']['vars'].searchVar(id)):
 			print("Error: la variable " + id + " ya existe")
-			sys.exit()  
+			sys.exit()
 		elif(funId	== 'global'):
-				if(type == 'int'):
-					self.funlst[funId]['vars'].addVar(type, id, globalLowerLim[0]+globalCounter[0])
-					globalCounter[0] += 1
-				if(type == 'float'):
-					self.funlst[funId]['vars'].addVar(type, id, globalLowerLim[1]+globalCounter[1])
-					globalCounter[1] += 1
-				if(type == 'char'):
-					self.funlst[funId]['vars'].addVar(type, id, globalLowerLim[2]+globalCounter[2])
-					globalCounter[2] += 1
-				if(type == 'string'):
-					self.funlst[funId]['vars'].addVar(type, id, globalLowerLim[3]+globalCounter[3])
-					globalCounter[3] += 1
-				if(type == 'bool'):
-					self.funlst[funId]['vars'].addVar(type, id, globalLowerLim[4]+globalCounter[4])
-					globalCounter[4] += 1
+			if(type == 'int'):
+				self.funlst[funId]['vars'].addVar(type, id, globalLowerLim[0]+globalCounter[0])
+				globalCounter[0] += 1
+			if(type == 'float'):
+				self.funlst[funId]['vars'].addVar(type, id, globalLowerLim[1]+globalCounter[1])
+				globalCounter[1] += 1
+			if(type == 'char'):
+				self.funlst[funId]['vars'].addVar(type, id, globalLowerLim[2]+globalCounter[2])
+				globalCounter[2] += 1
+			if(type == 'string'):
+				self.funlst[funId]['vars'].addVar(type, id, globalLowerLim[3]+globalCounter[3])
+				globalCounter[3] += 1
+			if(type == 'bool'):
+				self.funlst[funId]['vars'].addVar(type, id, globalLowerLim[4]+globalCounter[4])
+				globalCounter[4] += 1
 		else:
 			if(type == 'int'):
 				self.funlst[funId]['vars'].addVar(type, id, LocalLowerLim[0]+LocalCounter[0])
@@ -216,6 +249,7 @@ class funTable(object):
 			if(type == 'bool'):
 				self.funlst[funId]['vars'].addVar(type, id, LocalLowerLim[4]+LocalCounter[4])
 				LocalCounter[4] += 1
+
 		#print("Variable agregada " + type + " " + str(id) + " to " + funId)
 	#Agregamos Constantes al global
 	def addCtetoFun(self, funId, type, value):
@@ -242,22 +276,38 @@ class funTable(object):
 	def addTempVar(self, funId, type, id):
 		if(self.funlst[funId]['vars'].searchVar(id) or self.funlst['global']['vars'].searchVar(id)):
 			print("Error: la variable " + id + " ya existe")
+		if(id[0] == '*'):
+			if(type == 'int'):
+				self.funlst[funId]['vars'].addVar(type, id, PointerLowerLim[0]+PointerCounter[0])
+				PointerCounter[0] += 1
+			if(type == 'float'):
+				self.funlst[funId]['vars'].addVar(type, id, PointerLowerLim[1]+PointerCounter[1])
+				PointerCounter[1] += 1
+			if(type == 'char'):
+				self.funlst[funId]['vars'].addVar(type, id, PointerLowerLim[2]+PointerCounter[2])
+				PointerCounter[2] += 1
+			if(type == 'string'):
+				self.funlst[funId]['vars'].addVar(type, id, PointerLowerLim[3]+PointerCounter[3])
+				PointerCounter[3] += 1
+			if(type == 'bool'):
+				self.funlst[funId]['vars'].addVar(type, id, PointerLowerLim[4]+PointerCounter[4])
+				PointerCounter[4] += 1
 		elif(funId	== 'global'):
-				if(type == 'int'):
-					self.funlst[funId]['vars'].addVar(type, id, glTempLowerLim[0]+glTempCounter[0])
-					glTempCounter[0] += 1
-				if(type == 'float'):
-					self.funlst[funId]['vars'].addVar(type, id, glTempLowerLim[1]+glTempCounter[1])
-					glTempCounter[1] += 1
-				if(type == 'char'):
-					self.funlst[funId]['vars'].addVar(type, id, glTempLowerLim[2]+glTempCounter[2])
-					glTempCounter[2] += 1
-				if(type == 'string'):
-					self.funlst[funId]['vars'].addVar(type, id, glTempLowerLim[3]+glTempCounter[3])
-					glTempCounter[3] += 1
-				if(type == 'bool'):
-					self.funlst[funId]['vars'].addVar(type, id, glTempLowerLim[4]+glTempCounter[4])
-					glTempCounter[4] += 1
+			if(type == 'int'):
+				self.funlst[funId]['vars'].addVar(type, id, glTempLowerLim[0]+glTempCounter[0])
+				glTempCounter[0] += 1
+			if(type == 'float'):
+				self.funlst[funId]['vars'].addVar(type, id, glTempLowerLim[1]+glTempCounter[1])
+				glTempCounter[1] += 1
+			if(type == 'char'):
+				self.funlst[funId]['vars'].addVar(type, id, glTempLowerLim[2]+glTempCounter[2])
+				glTempCounter[2] += 1
+			if(type == 'string'):
+				self.funlst[funId]['vars'].addVar(type, id, glTempLowerLim[3]+glTempCounter[3])
+				glTempCounter[3] += 1
+			if(type == 'bool'):
+				self.funlst[funId]['vars'].addVar(type, id, glTempLowerLim[4]+glTempCounter[4])
+				glTempCounter[4] += 1
 		else:
 			if(type == 'int'):
 				self.funlst[funId]['vars'].addVar(type, id, LocTempLowerLim[0]+LocTempCounter[0])

@@ -1,4 +1,5 @@
 import json
+import sys
 #Memoria Virtual segmentada
 class memory(object):
 	def __init__(self):
@@ -23,6 +24,8 @@ class memory(object):
 		self.cchar = {}
 		self.cbool = {}
 		self.cstring = {}
+		#Pointers
+		self.pointers = {}
 
 #Limites 2000 Espacios a todo por simplicidad
 #If para saber que tipo de variable es y donde meterla
@@ -82,6 +85,10 @@ class memory(object):
 			self.cstring[address] = value
 		if(address >= 49000 and address <= 50999):
 			self.cbool[address] = value
+		#Pointers
+		if(address >= 51000 and address <= 52999):
+			self.pointers[address] = value
+
 	#Mismo if pero ahora para regresar el valor
 	def getValue(self, address):
 		#Global
@@ -139,7 +146,9 @@ class memory(object):
 			return self.cstring[address]
 		if(address >= 49000 and address <= 50999):
 			return self.cbool[address]
-
+		#Pointers
+		if(address >= 51000 and address <= 52999):
+			return self.pointers[address]
 				
 memory = memory()
 #Reconstruye la memoria global que tenemos en un archivo
@@ -160,13 +169,18 @@ def rebuildFunctionMemory(funId):
 		vars = data[funId]['vars']
 		#Si no tiene valor le asigna su mismo address como un lenguaje normal
 		for var in vars:
-			memory.indexVar(vars[var]['address'],vars[var]['address'])
+			memory.indexVar(vars[var]['address'],vars[var]['address'])			
+def era(funId):
+	with open('compiled.out') as infile:
+		data = json.load(infile)
+		nParams = data[funId]['nParams']
 
+	
 #Ejecuta el codigo de cuadruplos
 def excecute(quads):
 	rebuildCtes()
 	rebuildFunctionMemory('main')
-	#print(*quads, sep = "\n")
+	print(*quads, sep = "\n")
 	#Vamos al main
 	i = quads[0][3] 
 	#i -> quad pointer
@@ -235,12 +249,20 @@ def excecute(quads):
 			memory.indexVar(quads[i][3], res)
 		#Asignacion
 		if quads[i][0] == 13:
-			res = memory.getValue(quads[i][3])
-			memory.indexVar(quads[i][1], res)
+			if quads[i][1] < 51000:
+				res = memory.getValue(quads[i][3])
+				memory.indexVar(quads[i][1], res)
+			else:
+				#print(memory.getValue(quads[i][1]),'=',quads[i][3])
+				memory.indexVar(memory.getValue(quads[i][1]), memory.getValue(quads[i][3]))
 		#Print
 		if quads[i][0] == 14:
-			res = memory.getValue(quads[i][3])
-			print(res)
+			if quads[i][3] < 51000:
+				res = memory.getValue(quads[i][3])
+				print(res)
+			else:
+				res = memory.getValue(memory.getValue(quads[i][3]))
+				print(res)
 		#Read
 		if quads[i][0] == 15:
 			res = input()
@@ -255,7 +277,7 @@ def excecute(quads):
 			pass
 		#Funciones
 		if quads[i][0] == 19:
-			pass
+			era(quads[i][3])
 		if quads[i][0] == 20:
 			pass
 		if quads[i][0] == 21:
@@ -264,30 +286,13 @@ def excecute(quads):
 			pass
 		if quads[i][0] == 23:
 			pass
-
+		#Ver
+		if quads[i][0] == 24:
+			if memory.getValue(quads[i][1]) > quads[i][3]:
+				print("Arreglo Fuera de rango")
+				sys.exit()
+		if quads[i][0] == 25:
+			res = quads[i][1] + memory.getValue(quads[i][2])
+			memory.indexVar(quads[i][3], res)
 		i+=1
-		
-
-
-
-
-
-
-		
-
-
-
-
-
-
-
-
-		
-				
-
-
-
-
-
-
 

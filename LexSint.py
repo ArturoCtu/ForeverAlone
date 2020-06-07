@@ -255,9 +255,12 @@ def p_tipo(p):
 
 def p_arr(p):
 	'''
-	arr : LSQRBRACKET CTEI RSQRBRACKET
+	arr : LSQRBRACKET CTEI setArr RSQRBRACKET
         | empty
 	'''
+def p_setArr(p):
+	''' setArr : '''
+	funTable.setArray(currentFunId, currentVarId, p[-1])
 #Parametros
 def p_parameters(p):
     '''
@@ -317,8 +320,49 @@ def p_estatuto2(p):
     ''' 
 def p_asignacion(p):
     '''
-    asignacion : ID addId arr EQUAL addOperator expresion quadEqual
+    asignacion : ID addId arreglo EQUAL addOperator expresion quadEqual
     '''
+def p_arreglo(p):
+	''' arreglo : LSQRBRACKET expresion arrQuad RSQRBRACKET 
+		| empty
+	'''
+def p_arrQuad(p):
+	''' arrQuad : '''
+	global operandStack
+	lim = funTable.getArrSize(currentFunId, currentVarId) -1
+	value = operandStack[-1]
+	quad = ('ver', value, 0, lim)
+	quadruples.append(quad)
+	quad = (operators['ver'], funTable.getVarAddress(currentFunId, value) , 0, lim)
+	quadruplesMem.append(quad)
+	aux = '*'+avail.next()
+
+	funTable.addTempVar(currentFunId, 'int', aux)
+	base = operandStack.pop()
+	typeStack.pop()
+	offset = operandStack.pop()
+	typeStack.pop()
+	quad = ('+dir', funTable.getVarAddress(currentFunId, offset), base, aux)
+	quadruples.append(quad)
+	funTable.addCtetoFun(currentFunId, 'int', funTable.getVarAddress(currentFunId, offset))
+	quad = (operators['+dir'], funTable.getVarAddress(currentFunId, offset), funTable.getVarAddress(currentFunId, base), funTable.getVarAddress(currentFunId, aux))
+	quadruplesMem.append(quad)
+	operandStack.append(aux)
+	typeStack.append(currentVarType)
+	#quad = (operator['+'], funTable.getVarAddress(currentFunId, operandStack.pop()), operandStack.pop(), aux)
+
+def p_leearr(p):
+	''' leearr : LSQRBRACKET expresion RSQRBRACKET 
+	'''
+	aux = '*'+avail.next()
+	funTable.addTempVar(currentFunId, 'int', aux)
+	base = operandStack.pop()
+	offset = operandStack.pop()
+	typeStack.pop()
+	quad = (operators['+dir'], funTable.getVarAddress(currentFunId, offset), funTable.getVarAddress(currentFunId, base), funTable.getVarAddress(currentFunId, aux))
+	quadruplesMem.append(quad)
+	operandStack.append(aux)
+
 def p_llamada(p):
     '''
     llamada : ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
@@ -428,6 +472,7 @@ def p_pexp(p):
 		| CTESTRING addOperandCte
 		| llamada
 		| ID addOperandVar
+		| ID addOperandVar leearr 
 		| LPARENTHESIS expresion RPARENTHESIS
 	'''
 #########################################################################
@@ -500,7 +545,7 @@ def p_quadEqual(p):
 				quad = (operator, leftVal, None, rightVal)
 				quadruplesMem.append(quad)
 			else:
-				print("Type missmatch")
+				print("Type missmatch ")
 				sys.exit()     
 
 ############################################
@@ -905,11 +950,11 @@ def main():
 	#print("CUADRUPLOS")
 	#print(*quadruplesMem, sep = "\n") 
 
-	#print(*typeStack, sep = ", ") 
-	#print(*operandStack, sep = ", ") 
-	#print(*operatorsStack, sep = ", ")
+	print(*typeStack, sep = ", ") 
+	print(*operandStack, sep = ", ") 
+	print(*operatorsStack, sep = ", ")
 
-	#print(*quadruples, sep = "\n")
+	print(*quadruples, sep = "\n")
 	excecute(quadruplesMem)
 	#print(funTable.getParamNumber('add'))
 	#print(funTable.getStartQuad('res'))

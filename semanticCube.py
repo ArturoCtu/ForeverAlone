@@ -39,6 +39,7 @@ semanticCube['float']['char']['/'] = semanticCube['char']['float']['/'] = 'Error
 
 #Asignaciones
 semanticCube['int']['int']['='] = 'int'
+semanticCube['float']['int']['='] = 'int'
 semanticCube['float']['float']['='] = 'float'
 semanticCube['char']['char']['='] = 'char' 
 #Errores
