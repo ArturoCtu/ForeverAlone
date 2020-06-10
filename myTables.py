@@ -201,6 +201,9 @@ class funTable(object):
 	def getParamNumber(self, funId):
 		return self.funlst[funId]['nParams']
 
+	def getfunType(self, funId):
+		return self.funlst[funId]['type']
+
 	def getParamType(self, funId, n):
 		return self.funlst[funId]['typeParams'][n]
 
@@ -337,7 +340,6 @@ class funTable(object):
 			print("Var "+ str(id) + " Not Found")
 			sys.exit()
 
-
 	def getVarAddress(self, funId, id):
 		if(self.funlst[funId]['vars'].searchVar(id)):
 			return self.funlst[funId]['vars'].getAddress(id)
@@ -346,7 +348,7 @@ class funTable(object):
 		elif(self.funlst['global']['vars'].searchCte(id)):
 			return self.funlst['global']['vars'].getCteAddress(id)
 		else:
-			print("Var "+ str(id) + " Not Found ss")
+			print("Var "+ str(id) + " Not Found")
 			sys.exit()
 
 	#busca una variable en una funcion

@@ -7,32 +7,7 @@
         "idParams": [],
         "nVars": 0,
         "startQuad": 0,
-        "vars": {
-            "a": {
-                "type": "int",
-                "address": 1000,
-                "isArray": false,
-                "size": 0
-            },
-            "b": {
-                "type": "int",
-                "address": 1001,
-                "isArray": false,
-                "size": 0
-            },
-            "c": {
-                "type": "int",
-                "address": 1002,
-                "isArray": false,
-                "size": 0
-            },
-            "d": {
-                "type": "float",
-                "address": 3000,
-                "isArray": false,
-                "size": 0
-            }
-        }
+        "vars": {}
     },
     "main": {
         "type": "void",
@@ -42,93 +17,51 @@
         "nVars": 0,
         "startQuad": 1,
         "vars": {
-            "j": {
+            "n": {
                 "type": "int",
                 "address": 21000,
                 "isArray": false,
                 "size": 0
             },
-            "k": {
+            "n1": {
                 "type": "int",
                 "address": 21001,
                 "isArray": false,
                 "size": 0
             },
-            "l": {
+            "n2": {
                 "type": "int",
                 "address": 21002,
                 "isArray": false,
                 "size": 0
             },
-            "it": {
+            "n3": {
                 "type": "int",
                 "address": 21003,
                 "isArray": false,
                 "size": 0
             },
-            "arreglo": {
+            "it": {
                 "type": "int",
                 "address": 21004,
-                "isArray": true,
-                "size": 3
-            },
-            "arr": {
-                "type": "float",
-                "address": 23000,
-                "isArray": true,
-                "size": 10
-            },
-            "not": {
-                "type": "float",
-                "address": 23010,
                 "isArray": false,
                 "size": 0
             },
-            "iniciales": {
-                "type": "char",
-                "address": 25000,
-                "isArray": true,
-                "size": 3
-            },
-            "*t1": {
-                "type": "int",
-                "address": 51000,
+            "t1": {
+                "type": "bool",
+                "address": 39000,
                 "isArray": false,
                 "size": 0
             },
-            "*t2": {
-                "type": "int",
-                "address": 51001,
-                "isArray": false,
-                "size": 0
-            },
-            "*t3": {
-                "type": "int",
-                "address": 51002,
-                "isArray": false,
-                "size": 0
-            },
-            "*t4": {
-                "type": "int",
-                "address": 51003,
-                "isArray": false,
-                "size": 0
-            },
-            "t5": {
+            "t2": {
                 "type": "int",
                 "address": 31000,
                 "isArray": false,
                 "size": 0
             },
-            "t6": {
-                "type": "float",
-                "address": 33000,
-                "isArray": false,
-                "size": 0
-            },
-            "t7": {
-                "type": "float",
-                "address": 33001,
+            "t3": {
+                "type": "int",
+                "address": 31001,
                 "isArray": false,
                 "size": 0
             }
@@ -136,33 +69,21 @@
     },
     "ctes": {
         "values": {
+            "\"Ingresa un valor para n\"": {
+                "type": "string",
+                "address": 47000
+            },
             "1": {
                 "type": "int",
                 "address": 41000
             },
-            "23000": {
+            "0": {
                 "type": "int",
                 "address": 41001
-            },
-            "10": {
-                "type": "int",
-                "address": 41002
-            },
-            "2": {
-                "type": "int",
-                "address": 41003
-            },
-            "20": {
-                "type": "int",
-                "address": 41004
-            },
-            "3": {
-                "type": "int",
-                "address": 41005
             }
         }
     },
     "excecution": {
-        "quads": "[(16, None, None, 1), (24, 41000, 0, 9), (25, 23000, 41000, 51000), (13, 51000, None, 41002), (24, 41003, 0, 9), (25, 23000, 41003, 51001), (13, 51001, None, 41004), (25, 23000, 41000, 51002), (13, 1000, None, 51002), (25, 23000, 41003, 51003), (3, 1000, 41003, 31000), (1, 51003, 31000, 33000), (1, 33000, 41005, 33001), (13, 1000, None, 33001), (14, None, None, 1000)]"
+        "quads": "[(16, None, None, 1), (14, None, None, 47000), (15, None, None, 21000), (13, 21001, None, 41000), (13, 21002, None, 41000), (13, 21004, None, 41001), (14, None, None, 21001), (14, None, None, 21002), (7, 21000, 21004, 39000), (17, 39000, None, 18), (1, 21001, 21002, 31000), (13, 21003, None, 31000), (14, None, None, 21003), (13, 21001, None, 21002), (13, 21002, None, 21003), (1, 21004, 41000, 31001), (13, 21004, None, 31001), (16, None, None, 8)]"
     }
 }

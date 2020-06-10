@@ -365,7 +365,7 @@ def p_leearr(p):
 
 def p_llamada(p):
     '''
-    llamada : ID requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
+    llamada : ID addOperandFunc requestCallMemory LPARENTHESIS enviarAgrs RPARENTHESIS callQuad
     '''
 def p_enviarAgrs(p):
 	'''
@@ -710,12 +710,12 @@ def p_endFor(p):
 def p_requestCallMemory(p):
 	''' requestCallMemory : '''
 	global paramCont, currentCall
-	currentCall = p[-1]
+	currentCall = p[-2]
 	paramCont = 0
-	quad = ('ERA', None, None, p[-1])
+	quad = ('ERA', None, None, p[-2])
 	quadruples.append(quad)
 	operator = operators['ERA']
-	quad = (operator, None, None, p[-1])
+	quad = (operator, None, None, p[-2])
 	quadruplesMem.append(quad)
 
 def p_quadArg(p):
@@ -762,25 +762,26 @@ def p_endFunc(p):
 def p_callQuad(p):
 	''' callQuad : '''
 	if(paramCont == funTable.getParamNumber(currentCall)):
-		destination = funTable.getStartQuad(p[-5])
+		destination = funTable.getStartQuad(p[-6])
 		quad = ('Gosub', None, None, destination)
 		quadruples.append(quad)
 		operator = operators['Gosub']
 		quad = (operator, None, None, destination)
 		quadruplesMem.append(quad)
 	else:
-		print("Not enough arguments in call to ", p[-5])
+		print("Not enough arguments in call to ", p[-6])
 		sys.exit()
 
 def p_quadReturn(p):
 	''' quadReturn : '''
 	value = operandStack.pop()
 	valueType = typeStack.pop()
-	quad = ('return', None, None, value)
+	fun = funTable.getVarAddress('global',currentFunId)
+	quad = ('return', None, currentFunId, value)
 	quadruples.append(quad)
 	operator = operators['return']
 	value = funTable.getVarAddress(currentFunId, value)
-	quad = (operator, None, None, value)
+	quad = (operator, None, fun, value)
 	quadruplesMem.append(quad)
 
 
@@ -847,6 +848,15 @@ def p_addOperandVar(p):
 		operandStack.append(p[-1])
 	else:
 		sys.exit()
+
+def p_addOperandFunc(p):
+	''' addOperandFunc : '''
+	global operandStack, operatorsStack ,currentFunId
+	if funTable.getfunType(p[-1]) != 'void':
+		res = funTable.getVarType(currentFunId, p[-1])
+		typeStack.append(res)
+		operandStack.append(p[-1])
+	
 #Agregar constantes a la fila de operadores verificando su tipo antes
 def p_addOperandCte(p):
 	''' addOperandCte : '''
@@ -940,7 +950,7 @@ def main():
 			outfile.close()
 
 
-			print ("Compiled")
+			#print ("Compiled")
 
 
 	except EOFError:
@@ -950,9 +960,9 @@ def main():
 	#print("CUADRUPLOS")
 	#print(*quadruplesMem, sep = "\n") 
 
-	print(*typeStack, sep = ", ") 
-	print(*operandStack, sep = ", ") 
-	print(*operatorsStack, sep = ", ")
+	#print(*typeStack, sep = ", ") 
+	#print(*operandStack, sep = ", ") 
+	#print(*operatorsStack, sep = ", ")
 
 	print(*quadruples, sep = "\n")
 	excecute(quadruplesMem)
@@ -962,5 +972,4 @@ def main():
     #Llamando a Cubo semantico de 2 maneras 
     #print(semanticCube['float']['float']['=='])
     #print(getType('float','int','>'))
-
 main()

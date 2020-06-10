@@ -8,7 +8,9 @@ class memory(object):
 		self.int = {}
 		self.float = {}
 		self.char = {}
+		self.string = {}
 		self.bool = {}
+		self.pointers = {}
 
 	def addInstance(self, id):
 		if id in self.instancelst.keys():
@@ -18,7 +20,9 @@ class memory(object):
 				'int' : self.int,
 				'float' : self.float,
 				'char' : self.char,
-				'bool' : self.bool
+				'string' : self.string,
+				'bool' : self.bool,
+				'pointers' : self.pointers
 			}
 
 	def addVar(self, address, type, value, instance):
@@ -119,7 +123,7 @@ class memory(object):
 			if(address >= 1000 and address <= 2999):
 				return self.returnValue(address, 'int', 'global')
 			elif(address >= 3000 and address <= 4999):
-				return self.returnValue(address, 'float', value, 'global')
+				return self.returnValue(address, 'float', 'global')
 			elif(address >= 5000 and address <= 6999):
 				return self.returnValue(address, 'char', 'global')
 			elif(address >= 7000 and address <= 8999):
@@ -195,12 +199,14 @@ def rebuildGlobal():
 			memory.indexVar(vars[var]['address'],vars[var]['address'],'global')
 #Reconstruye la memoria de una funcion que tenemos en un archivo
 def rebuildFunctionMemory(funId):
+	if(funId != 'main'):
+		memory.addInstance(funId)
 	with open('compiled.out') as infile:
 		data = json.load(infile)
 		vars = data[funId]['vars']
 		#Si no tiene valor le asigna su mismo address como un lenguaje normal
 		for var in vars:
-			memory.indexVar(vars[var]['address'],vars[var]['address'], 'main')			
+			memory.indexVar(vars[var]['address'],vars[var]['address'], funId)			
 def era(funId):
 	with open('compiled.out') as infile:
 		data = json.load(infile)
@@ -210,11 +216,13 @@ def era(funId):
 #Ejecuta el codigo de cuadruplos
 def excecute(quads):
 	currentContext = 'main'
-
+	jumps = []
+	contextStack = []
 	memory.addInstance('global')
 	memory.addInstance('const')
 	memory.addInstance('main')
 	memory.addInstance('pointers')
+	
 	rebuildGlobal()
 
 	rebuildFunctionMemory('main')
@@ -228,7 +236,7 @@ def excecute(quads):
 		pos2 = quads[i][2]
 		pos3 = quads[i][3]
 
-		if pos3 != None:
+		if pos3 != None and type(pos3) != str:
 			if pos3 >= 51000:
 				pos3 = memory.getValue(pos3, currentContext)
 		if pos2 != None:
@@ -324,16 +332,26 @@ def excecute(quads):
 		elif operator == 18:
 			pass
 		#Funciones
+		#Era
 		elif operator == 19:
-			era(pos3)
+			contextStack.append(pos3)
+			rebuildFunctionMemory(pos3)
+		#Param
 		elif operator == 20:
 			pass
+		#Gosub
 		elif operator == 21:
-			pass
+			jumps.append(i)
+			i = pos3-1
+			currentContext = contextStack.pop()
+		#Return
 		elif operator == 22:
-			pass
+			res = memory.getValue(pos3, currentContext)
+			memory.indexVar(pos2, res, currentContext)
+		#EndProc
 		elif operator == 23:
-			pass
+			currentContext = 'main'
+			i = jumps.pop()
 		#Ver
 		elif operator == 24:
 			if memory.getValue(quads[i][1], currentContext) > quads[i][3]:
