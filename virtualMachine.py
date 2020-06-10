@@ -161,7 +161,55 @@ class memory(object):
 		if(address >= 51000 and address <= 60999):
 			if(address >= 51000 and address <= 52999):
 				return self.pointers[address]
-				
+
+
+class instances(object):
+	def __init__(self):
+		self.instancelst = {}
+		self.int = {}
+		self.float = {}
+		self.char = {}
+		self.bool = {}
+
+	def addInstance(self, id):
+		if id in self.instancelst.keys():
+			print("Error: la instacia " + id + " ya existe")
+		else: 
+			self.instancelst[id] = {
+				'int' : self.int,
+				'float' : self.float,
+				'char' : self.char,
+				'bool' : self.bool
+			}
+
+	def indexVar(self, address, value, instance):
+		if(address >= 1000 and address <= 10999):
+			if(address >= 1000 and address <= 2999):
+				self.instancelst[instance]['int'][address] = value
+			if(address >= 3000 and address <= 4999):
+				self.float[address] = value
+			if(address >= 5000 and address <= 6999):
+				self.char[address] = value
+			if(address >= 7000 and address <= 8999):
+				pass#self.gstring[address] = value
+			if(address >= 9000 and address <= 10999):
+				self.bool[address] = value
+
+	def getValue(self, address, instance):
+		if(address >= 1000 and address <= 10999):
+			if(address >= 1000 and address <= 2999):
+				return int(self.instancelst[instance]['int'][address])
+			if(address >= 3000 and address <= 4999):
+				return float(self.float[address])
+			if(address >= 5000 and address <= 6999):
+				return self.char[address]
+			if(address >= 7000 and address <= 8999):
+				pass#return self.gstring[address]
+			if(address >= 9000 and address <= 10999):
+				return self.bool[address]
+
+
+
 memory = memory()
 #Reconstruye la memoria global que tenemos en un archivo
 def rebuildCtes():
@@ -190,6 +238,12 @@ def era(funId):
 
 #Ejecuta el codigo de cuadruplos
 def excecute(quads):
+	instace = instances()
+	instace.addInstance('global')
+	instace.indexVar(1000, 25, 'global')
+
+	print(instace.getValue(1000, 'global'))
+
 	rebuildCtes()
 	rebuildFunctionMemory('main')
 	#print(*quads, sep = "\n")
